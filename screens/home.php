@@ -4,12 +4,12 @@ require_once("./components/navbar.php");
 <div class="container-home">
     <div class="esquerda">
         <div class="placa-container">
-            <img src="./images/placa-esquerda.svg" class="image-placa icon" alt="Placa escrita Denuncie Anonimamente">
-            <img src="./images/mao-esquerda.svg" class="mao-esquerda"
-                alt="Icone de uma Mao apontando para a Esquerda">
+            <img src="./images/placa-esquerda.svg" class="image-placa placa-esquerda icon"
+                alt="Placa escrita Denuncie Anonimamente">
+            <img src="./images/mao-esquerda.svg" class="mao-esquerda" alt="Icone de uma Mao apontando para a Esquerda">
             <div class="conteudo-placa">
                 <p>
-                <h3 class="text-responsive">Denuncie anônimamente</h3>
+                <h3 class="text-responsive text-esquerda">Denuncie anônimamente</h3>
                 </p>
             </div>
         </div>
@@ -37,16 +37,44 @@ require_once("./components/navbar.php");
 
         </div>
         <div class="placa-container">
-            <img src="./images/placa-direita.svg" class="icon" alt="Icone placa escrito Denuncie Abertamente">
+            <img src="./images/placa-direita.svg" class="icon placa-direita"
+                alt="Icone placa escrito Denuncie Abertamente">
             <img src="./images/mao-direita.svg" class="mao-direita" alt="Icone de uma Mão Apontada para Direita">
             <div class="conteudo-placa">
                 <p>
-                <h3 class="text-responsive">Denuncie abertamente</h3>
+                <h3 class="text-responsive text-direita">Denuncie abertamente</h3>
                 </p>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const textEsquerda = document.querySelector(".text-esquerda");
+    const placaEsquerda = document.querySelector(".placa-esquerda");
+
+    const textDireita = document.querySelector(".text-direita");
+    const placaDireita = document.querySelector(".placa-direita");
+
+    textEsquerda.addEventListener("mouseenter", () => {
+        placaEsquerda.src = "./images/placa-esquerda-hover.svg";
+        // placaEsquerda.classList.add("brightness");
+    });
+    textEsquerda.addEventListener("mouseout", () => {
+        placaEsquerda.src = "./images/placa-esquerda.svg";
+        // placaEsquerda.classList.remove("brightness");
+    });
+
+    textDireita.addEventListener("mouseenter", () => {
+        placaDireita.src = "./images/placa-direita-hover.svg";
+        // placaDireita.classList.add("brightness");
+        // console.log(placaDireita.className)
+    });
+    textDireita.addEventListener("mouseout", () => {
+        placaDireita.src = "./images/placa-direita.svg";
+        // placaDireita.classList.remove("brightness");
+        // console.log(placaDireita.className);
+    });
+</script>
 <?php
 require("./components/footer.php");
 ?>

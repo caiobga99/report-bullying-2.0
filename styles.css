@@ -76,7 +76,7 @@ h4,
 h3,
 .custom-button,
 .text-responsive {
-  font-size: calc(1rem + .4vw);
+  font-size: calc(1rem + 0.4vw);
   font-family: var(--josefine);
   font-weight: bold;
 }
@@ -93,10 +93,13 @@ h3,
 .image-placa {
   position: static;
 }
-
-.image-placa:hover {
+.brightness {
   filter: brightness(15%);
 }
+
+/* .image-placa:hover {
+  filter: brightness(15%);
+} */
 .conteudo-placa {
   padding-top: 2%;
   text-align: center;
@@ -115,7 +118,8 @@ h3,
   left: calc(25% - 2vw);
   top: calc(27% - 2vw);
 }
-.mao-direita, .mao-esquerda {
+.mao-direita,
+.mao-esquerda {
   height: calc(fit-content - 1rem);
 }
 h3 {
@@ -126,7 +130,6 @@ h3 {
   max-width: 100%;
   height: auto;
 }
-
 
 @media screen and (max-width: 1110px) {
   .mao-esquerda {
