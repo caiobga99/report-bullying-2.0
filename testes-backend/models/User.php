@@ -1,6 +1,7 @@
 <?php
 require_once('Database.php');
-class User{
+class User
+{
     private string $id;
 
     private string $email;
@@ -9,9 +10,10 @@ class User{
 
     private string $RA;
 
-    private int $isAdmin;
+    private bool $isAdmin;
 
-    function __construct(string $id, string $email, string $senha, string $RA, $isAdmin = 0){
+    function __construct(string $id, string $email, string $senha, string $RA, $isAdmin = false)
+    {
 
         $this->id = $id;
 
@@ -30,28 +32,33 @@ class User{
     public function setId($newId)
     {
         $this->id = $newId;
+        return;
     }
 
     public function setEmail($newEmail)
     {
         $this->email = $newEmail;
+        return;
     }
 
     public function setSenha($newSenha)
     {
         $this->senha = $newSenha;
+        return;
     }
 
     public function setRA($newRA)
     {
         $this->RA = $newRA;
+        return;
     }
 
     public function setIsAdmin($newIsAdmin)
     {
         $this->isAdmin = $newIsAdmin;
+        return;
     }
-    
+
 
 
     public function getId()
@@ -78,6 +85,4 @@ class User{
     {
         return $this->isAdmin;
     }
-
 }
-?>

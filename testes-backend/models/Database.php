@@ -73,6 +73,7 @@ class Database
     *
     */ 
     public function dumpUser(User $userToDump){
+
         $id = $userToDump->getId();
         $email = $userToDump->getEmail();
         $senha = $userToDump->getSenha();
@@ -144,13 +145,104 @@ class Database
     *
     */ 
     public function deleteUserById(string $idToDelete){
+        $prepare = $this->conexao->prepare("DELETE FROM denuncia WHERE fk_Usuario_id = :id");
+
+        $prepare->bindParam(':id', $idToDelete);
+
+        $prepare->execute();
+
         $prepare = $this->conexao->prepare("DELETE FROM usuario WHERE id = :id");
 
         $prepare->bindParam(':id', $idToDelete);
 
         $prepare->execute();
 
-        if($prepare->rowCount() == 0){
+        if(!$prepare->rowCount()){
+            return false;
+        }
+
+        return true;
+    }
+
+    ######################################################################################
+    # QUERYS DA DENUNCIA:
+    ######################################################################################
+
+
+    /**
+    * CADASTRA UMA DENUNCIA NO BANCO DE DADOS.
+    *
+    * @author Gabriel Emerenciano
+    * @param Denuncia $denunciaToDump Recebe uma Denuncia para ser cadastrado no banco de dados do tipo Denuncia;
+    * @return bool True se executou sem problemas e False se ocorreu um erro.
+    * EXEMPLO: dumpDenuncia(Denuncia $denunciaAtual);    
+    *
+    */ 
+    public function dumpDenuncia(Denuncia $denunciaToDump){
+        $id = $denunciaToDump->getId();
+        $titulo = $denunciaToDump->getTitulo();
+        $mensagem = $denunciaToDump->getMensagem();
+        $isAnon = $denunciaToDump->getIsAnon();
+        $email = $denunciaToDump->getEmail();
+        $RA = $denunciaToDump->getRA();
+        $fk_Usuario_id = $denunciaToDump->getFk_Usuario_id();
+
+
+        $prepare = $this->conexao->prepare("INSERT INTO denuncia(id, titulo, mensagem, isAnon, email, RA, fk_Usuario_id) VALUES(:id, :titulo, :mensagem, :isAnon, :email, :RA, :fk_Usuario_id)");
+
+        $prepare->bindParam(':id', $id);
+        $prepare->bindParam(':titulo', $titulo);
+        $prepare->bindParam(':mensagem', $mensagem);
+        $prepare->bindParam(':isAnon', $isAnon);
+        $prepare->bindParam(':email', $email);
+        $prepare->bindParam(':RA', $RA);
+        $prepare->bindParam(':fk_Usuario_id', $fk_Usuario_id);
+
+        return $prepare->execute();
+
+    }
+    /**
+    * RETORNA A DENUNCIA DO BANCO DE DADOS PELO ID.
+    *
+    * @author Gabriel Emerenciano
+    * @return Denuncia|bool Retorna os dados em uma nova Denuncia do tipo Denuncia, se não encontrar retorna falso.
+    * EXEMPLO: $newDenuncia = getDenunciaById($uuid); $newDenuncia->getId();
+    *
+    */ 
+    public function getDenunciaById($uuid){
+        // Pega os dados do usuario em formato de array associativo ex: array['senha'] : 'exemplo@gmail.com'
+        $prepare = $this->conexao->prepare("SELECT * FROM denuncia WHERE id = :id");
+
+        $prepare->bindParam(':id', $uuid);
+
+        $prepare->execute();
+
+        $denunciaArray = $prepare->fetch(PDO::FETCH_ASSOC);
+
+        if($denunciaArray == null){
+            return false;
+        }
+
+        // Transforma os dados do usuario de array para um novo objeto Denuncia e o retorna.
+        $id = $denunciaArray['id'];
+        $titulo = $denunciaArray['titulo'];
+        $mensagem = $denunciaArray['mensagem'];
+        $isAnon = $denunciaArray['isAnon'];
+        $email = $denunciaArray['email'];
+        $RA = $denunciaArray['RA'];
+        $fk_Usuario_id = $denunciaArray['fk_Usuario_id'];
+
+        return new Denuncia($id, $titulo, $mensagem, $isAnon, $email, $RA, $fk_Usuario_id);
+    }
+
+    public function deleteDenunciaById(string $idToDelete){
+        $prepare = $this->conexao->prepare("DELETE FROM denuncia WHERE id = :id");
+
+        $prepare->bindParam(':id', $idToDelete);
+
+        $prepare->execute();
+
+        if(!$prepare->rowCount()){
             return false;
         }
         return true;
