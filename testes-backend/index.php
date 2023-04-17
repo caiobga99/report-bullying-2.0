@@ -96,9 +96,10 @@ $database->dumpDenuncia($denunciaCadastro);
     echo "<br></h3>";
 
 
-    echo "<h1>OBJETO USUARIO PELO FK_USUARIO_ID DA DENUNCIA</h1>";
+    echo "<h2>OBJETO USUARIO PELO FK_USUARIO_ID DA DENUNCIA: </h2>";
+    echo"<h3>";
     print_r($database->getUserById($newDenuncia->getfk_Usuario_id()));
-
+    echo "</h3>";
     $database->deleteUserById($userCadastro->getId());
 
     ?>
