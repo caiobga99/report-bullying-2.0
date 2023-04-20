@@ -1,3 +1,3 @@
 <?php
-require_once("./screens/home.php");
+header("location: ./screens/Home/index.php");
 ?>

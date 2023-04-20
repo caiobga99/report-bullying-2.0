@@ -1,7 +1,7 @@
 <?php
-require_once("./partials/header.php");
+require_once("../../partials/header.php");
 ?>
-<header>
+<header class="header">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -16,14 +16,14 @@ require_once("./partials/header.php");
                         <a class="nav-link" href="#">Denuncie</a>
                     </div>
                     <div class="d-flex row-nav">
-                        <a class="nav-link" href="#">
-                            <img src="./images/whatsapp-icon.svg" alt="Icone do WhatsApp">
+                        <a class="nav-link" href="../../screens/FaleConosco/index.php">
+                            <img src="../../images/whatsapp-icon.svg" alt="Icone do WhatsApp">
                         </a>
-                        <a class="nav-link" href="#">
-                            <img src="./images/tel-icon.svg" alt="Icone do WhatsApp">
+                        <a class="nav-link" href="../../screens/FaleConosco/index.php">
+                            <img src="../../images/tel-icon.svg" alt="Icone do Telefone">
                         </a>
-                        <a class="nav-link" href="#">
-                            <img src="./images/email-icon.svg" alt="Icone do WhatsApp">
+                        <a class="nav-link" href="../../screens/FaleConosco/index.php">
+                            <img src="../../images/email-icon.svg" alt="Icone do Email">
                         </a>
                     </div>
 
@@ -33,5 +33,5 @@ require_once("./partials/header.php");
     </nav>
 </header>
 <?php
-require_once("./partials/footer.php");
+require_once("../../partials/footer.php");
 ?>
