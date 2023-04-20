@@ -1,0 +1,152 @@
+
+
+.container-home {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: var(--main-background);
+  color: #fff;
+}
+
+.meio {
+  height: 100%;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.esquerda,
+.direita {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+.custom-button {
+  font-weight: bold;
+  font-size: large;
+  color: #fff;
+  background-color: var(--button-background);
+  border-radius: 0.7rem;
+  border: 1px solid #000;
+  width: 60%;
+  min-height: 8.8%;
+  padding: 1%;
+}
+
+h4,
+h3,
+.custom-button,
+.text-responsive {
+  font-size: calc(1rem + 0.4vw);
+  font-family: var(--josefine);
+  font-weight: bold;
+}
+
+.placa-container {
+  position: static;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.image-placa {
+  position: static;
+}
+.brightness {
+  filter: brightness(15%);
+}
+
+/* .image-placa:hover {
+  filter: brightness(15%);
+} */
+.conteudo-placa {
+  padding-top: 2%;
+  text-align: center;
+  word-break: keep-all;
+  position: absolute;
+  width: min-content;
+}
+
+.mao-direita {
+  right: calc(25% - 0.6vw);
+  bottom: calc(13% - 0.6vw);
+  position: absolute;
+}
+.mao-esquerda {
+  position: absolute;
+  left: calc(25% - 2vw);
+  top: calc(27% - 2vw);
+}
+.mao-direita,
+.mao-esquerda {
+  height: calc(fit-content - 1rem);
+}
+h3 {
+  cursor: pointer;
+}
+
+.icon {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 1110px) {
+  .mao-esquerda {
+    position: absolute;
+    left: calc(27% - 6vw);
+    top: calc(29% - 6vw);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .row-nav {
+    flex-direction: column;
+  }
+
+  h4,
+  h3,
+  .text-responsive {
+    font-size: calc(0.7rem + 1vw);
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .mao-esquerda {
+    position: absolute;
+    left: calc(27% - 6vw);
+    top: calc(29% - 6vw);
+  }
+}
+@media screen and (max-width: 874px) {
+  .mao-esquerda {
+    position: absolute;
+    left: calc(25% - 6vw);
+    top: calc(26% - 6vw);
+  }
+}
+
+@media screen and (max-width: 785px) {
+  .mao-esquerda {
+    position: absolute;
+    left: calc(23% - 6vw);
+    top: calc(24% - 6vw);
+  }
+}
+
+@media screen and (max-width: 647px) {
+  h4,
+  h3,
+  .text-responsive {
+    font-size: calc(0.5rem + 1vw);
+  }
+}
