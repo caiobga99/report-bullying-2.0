@@ -1,0 +1,12 @@
+:root {
+  --background-claro: #758594;
+  --background-escuro: #1b2a41;
+  --color-white: #d9d9d9;
+  --color-link: #45bff3;
+  --navbar-fundo: #1b3447;
+  --main-background: linear-gradient(to left, #e8e8e8, #0d2051);
+  --footer-background: #e2e2e2;
+  --button-background: #140f2d;
+  --background-danger-button: #d97676;
+  --background-input: #a6b3be;
+}
