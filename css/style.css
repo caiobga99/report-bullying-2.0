@@ -5,13 +5,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-:root {
-  --navbar-fundo: #1b3447;
-  --main-background: linear-gradient(to left, #e8e8e8, #0d2051);
-  --footer-background: #e2e2e2;
-  --button-background: #140f2d;
-  --josefine: "Josefin Sans", sans-serif;
-}
+
 body {
   height: 100vh;
 }

@@ -2,7 +2,7 @@
 require("../../components/Navbar/index.php");
 ?>
 <div class="container-login">
-    <img src="../../images/pato-anonimo.svg" class="pato" alt="Pato com Chapéu">
+    <img src="../../images/pato-normal.svg" class="pato" alt="Pato com Chapéu">
     <form action="" method="post">
         <div class="form-group-login">
             <label for="">
@@ -15,15 +15,16 @@ require("../../components/Navbar/index.php");
                 Senha
             </label>
             <input type="password" />
-        </div>
-        <div class="form-group-login">
-            <label for="">
-                RA
-            </label>
-            <input type="text" />
+            <p><a href="#">Esqueceu a senha? </a></p>
         </div>
         <div class="form-group-login">
             <div class="button-group"><button type="submit">Entrar</button></div>
+        </div>
+        <div class="form-group-login">
+            <div class="login-foot">
+                <p>Não tem uma conta ?</p>
+                <p>Cadastre-se</p>
+            </div>
         </div>
     </form>
     <div class="circle-container">
