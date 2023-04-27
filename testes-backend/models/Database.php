@@ -129,7 +129,7 @@ class Database
             $cookieId = genUuid4();
 
 
-            setcookie('loginCookie', $cookieId, 0, '/');
+            setcookie('loginCookie', $cookieId, time() + (86400 * 30), '/'); // 86400 == 1 day
 
 
             $prepareCookie = $this->conexao->prepare("INSERT INTO cookies VALUES(:cookieId, :userId)");
@@ -156,6 +156,7 @@ class Database
 
             $userId = $prepare->fetchColumn();
             
+            session_destroy();
             session_start();
 
             $prepareUser = $this->conexao->prepare("SELECT * from usuario WHERE :id = id");

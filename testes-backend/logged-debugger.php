@@ -18,6 +18,7 @@ require_once('./models/Database.php');
     <?php
     session_start();
     $database = new Database();
+    $database->checkCookie();
     if(isset($_SESSION['user'])){
         $loggedUser = $_SESSION['user'];
         echo 'session encontrado';
