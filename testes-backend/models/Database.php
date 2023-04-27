@@ -9,7 +9,8 @@ class Database
     private $conexao;
 
 
-    function __construct(){
+    function __construct()
+    {
         $this->porta = "localhost";
         $this->nomeDoBanco = "report_bullying";
         $this->usuarioBanco = "root";
@@ -32,26 +33,26 @@ class Database
     ######################################################################################
 
     /**
-    * ENVIA UMA QUERY AO BANCO DE DADOS.
-    * 
-    * @param string $query QUERY QUE DESEJA ENVIAR AO BANCO DE DADOS.
-    * @author Gabriel Emerenciano
-    * @return PDOStatement|bool Retorna o objeto PDOStatement ou false se ocorrer um erro.
-    *
-    */ 
+     * ENVIA UMA QUERY AO BANCO DE DADOS.
+     * 
+     * @param string $query QUERY QUE DESEJA ENVIAR AO BANCO DE DADOS.
+     * @author Gabriel Emerenciano
+     * @return PDOStatement|bool Retorna o objeto PDOStatement ou false se ocorrer um erro.
+     *
+     */
     public function query(string $query)
     {
         return $this->conexao->query($query);
     }
 
-     /**
-    * ENVIA UMA QUERY AO BANCO DE DADOS.
-    * 
-    * @param string $query QUERY QUE DESEJA ENVIAR AO BANCO DE DADOS.
-    * @author Gabriel Emerenciano
-    * @return PDO Retorna conexao.
-    *
-    */ 
+    /**
+     * ENVIA UMA QUERY AO BANCO DE DADOS.
+     * 
+     * @param string $query QUERY QUE DESEJA ENVIAR AO BANCO DE DADOS.
+     * @author Gabriel Emerenciano
+     * @return PDO Retorna conexao.
+     *
+     */
     public function getConexao()
     {
         return $this->conexao;
@@ -64,15 +65,16 @@ class Database
 
 
     /**
-    * CADASTRA UM USUARIO NO BANCO DE DADOS.
-    *
-    * @author Gabriel Emerenciano
-    * @param User $userToDump Recebe um Usuario para ser cadastrado no banco de dados do tipo User;
-    * @return bool True se executou sem problemas e False se ocorreu um erro.
-    * EXEMPLO: dumpUser(User $usuarioAtual);    
-    *
-    */ 
-    public function dumpUser(User $userToDump){
+     * CADASTRA UM USUARIO NO BANCO DE DADOS.
+     *
+     * @author Gabriel Emerenciano
+     * @param User $userToDump Recebe um Usuario para ser cadastrado no banco de dados do tipo User;
+     * @return bool True se executou sem problemas e False se ocorreu um erro.
+     * EXEMPLO: dumpUser(User $usuarioAtual);    
+     *
+     */
+    public function dumpUser(User $userToDump): bool
+    {
 
         $id = $userToDump->getId();
         $email = $userToDump->getEmail();
@@ -91,27 +93,52 @@ class Database
         return $prepare->execute();
     }
 
-    /**
-    * RETORNA TODOS OS USUARIOS DO BANCO DE DADOS.
-    *
-    * @author Gabriel Emerenciano
-    * @return array Retorna um array associativo, com outros arrays que seriam as rows, cada row é associado pela column e o valor
-    *
-    */ 
-    public function getAllUsers()
+
+    private function createUserByUserArray(array $userArray)
     {
-        return $this->query("SELECT * FROM usuario")->fetchAll(PDO::FETCH_ASSOC);
+        $id = $userArray['id'];
+        $email = $userArray['email'];
+        $senha = $userArray['senha'];
+        $RA = $userArray['RA'];
+        $isAdmin = $userArray['isAdmin'];
+
+
+        return new User($id, $email, $senha, $RA, $isAdmin);
     }
 
+
     /**
-    * RETORNA O USUARIO DO BANCO DE DADOS PELO ID.
-    *
-    * @author Gabriel Emerenciano
-    * @return User|bool Retorna os dados em um novo usuario do tipo User, se não encontrar retorna falso.
-    * EXEMPLO: $newUser = getUserById($uuid); $newUser->getId();
-    *
-    */ 
-    public function getUserById($uuid){
+     * RETORNA UM OBJETO USER PELO EMAIL E SENHA
+     *
+     * @author Gabriel Emerenciano
+     * @param string $emailToLogin email do usuario que sera retornado.
+     * @param string $senhaToLogin senha do usuario que sera retornado.
+     * @return User o User do Email e Senha.
+     *
+     */
+    public function loginUser(string $emailToLogin, string $passwordToLogin): User
+    {
+        $prepare = $this->conexao->prepare("SELECT * FROM usuario WHERE email = :email AND senha = :senha");
+        $prepare->bindParam(':email', $emailToLogin);
+        $prepare->bindParam(':senha', $passwordToLogin);
+        $prepare->execute();
+
+        $userArray = $prepare->fetch(PDO::FETCH_ASSOC);
+
+        return $this->createUserByUserArray($userArray);
+    }
+
+
+    /**
+     * RETORNA O USUARIO DO BANCO DE DADOS PELO ID.
+     *
+     * @author Gabriel Emerenciano
+     * @return User|bool Retorna os dados em um novo usuario do tipo User, se não encontrar retorna falso.
+     * EXEMPLO: $newUser = getUserById($uuid); $newUser->getId();
+     *
+     */
+    public function getUserById($uuid): User|bool
+    {
         // Pega os dados do usuario em formato de array associativo ex: array['senha'] : 'exemplo@gmail.com'
         $prepare = $this->conexao->prepare("SELECT * FROM usuario WHERE id = :id");
 
@@ -121,30 +148,24 @@ class Database
 
         $userArray = $prepare->fetch(PDO::FETCH_ASSOC);
 
-        if($userArray == null){
+        if ($userArray == null) {
             return false;
         }
 
 
-        // Transforma os dados do usuario de array para um novo objeto User e o retorna.
-        $id = $userArray['id'];
-        $email = $userArray['email'];
-        $senha = $userArray['senha'];
-        $RA = $userArray['RA'];
-        $isAdmin = $userArray['isAdmin'];
-
-        return new User($id, $email, $senha, $RA, $isAdmin);
+        return $this->createUserByUserArray($userArray);
     }
 
     /**
-    * DELETA O USUARIO PELO ID
-    *
-    * @author Gabriel Emerenciano
-    * @param string $idToDelete ID do usuario que será deletado.
-    * @return bool True se executou sem problemas e False se ocorreu um erro.
-    *
-    */ 
-    public function deleteUserById(string $idToDelete){
+     * DELETA O USUARIO PELO ID
+     *
+     * @author Gabriel Emerenciano
+     * @param string $idToDelete ID do usuario que será deletado.
+     * @return bool True se executou sem problemas e False se ocorreu um erro.
+     *
+     */
+    public function deleteUserById(string $idToDelete): bool
+    {
         $prepare = $this->conexao->prepare("DELETE FROM denuncia WHERE fk_Usuario_id = :id");
 
         $prepare->bindParam(':id', $idToDelete);
@@ -157,10 +178,9 @@ class Database
 
         $prepare->execute();
 
-        if(!$prepare->rowCount()){
+        if (!$prepare->rowCount()) {
             return false;
         }
-
         return true;
     }
 
@@ -170,15 +190,16 @@ class Database
 
 
     /**
-    * CADASTRA UMA DENUNCIA NO BANCO DE DADOS.
-    *
-    * @author Gabriel Emerenciano
-    * @param Denuncia $denunciaToDump Recebe uma Denuncia para ser cadastrado no banco de dados do tipo Denuncia;
-    * @return bool True se executou sem problemas e False se ocorreu um erro.
-    * EXEMPLO: dumpDenuncia(Denuncia $denunciaAtual);    
-    *
-    */ 
-    public function dumpDenuncia(Denuncia $denunciaToDump){
+     * CADASTRA UMA DENUNCIA NO BANCO DE DADOS.
+     *
+     * @author Gabriel Emerenciano
+     * @param Denuncia $denunciaToDump Recebe uma Denuncia para ser cadastrado no banco de dados do tipo Denuncia;
+     * @return bool True se executou sem problemas e False se ocorreu um erro.
+     * EXEMPLO: dumpDenuncia(Denuncia $denunciaAtual);    
+     *
+     */
+    public function dumpDenuncia(Denuncia $denunciaToDump): bool
+    {
         $id = $denunciaToDump->getId();
         $titulo = $denunciaToDump->getTitulo();
         $mensagem = $denunciaToDump->getMensagem();
@@ -199,31 +220,21 @@ class Database
         $prepare->bindParam(':fk_Usuario_id', $fk_Usuario_id);
 
         return $prepare->execute();
-
     }
+
+
     /**
-    * RETORNA A DENUNCIA DO BANCO DE DADOS PELO ID.
-    *
-    * @author Gabriel Emerenciano
-    * @return Denuncia|bool Retorna os dados em uma nova Denuncia do tipo Denuncia, se não encontrar retorna falso.
-    * EXEMPLO: $newDenuncia = getDenunciaById($uuid); $newDenuncia->getId();
-    *
-    */ 
-    public function getDenunciaById($uuid){
-        // Pega os dados do usuario em formato de array associativo ex: array['senha'] : 'exemplo@gmail.com'
-        $prepare = $this->conexao->prepare("SELECT * FROM denuncia WHERE id = :id");
+     * TRANSFORMA UM ARRAY DO PDO EM UM OBJETO DENUNCIA
+     *
+     * @author Gabriel Emerenciano
+     * @param array $denunciaArray
+     * @return Denuncia Retorna um objeto Denuncia.
+     * EXEMPLO: $this->createDenunciaByDenunciaArray($arrayDenuncia);
+     *
+     */
+    private function createDenunciaByDenunciaArray(array $denunciaArray): Denuncia
+    {
 
-        $prepare->bindParam(':id', $uuid);
-
-        $prepare->execute();
-
-        $denunciaArray = $prepare->fetch(PDO::FETCH_ASSOC);
-
-        if($denunciaArray == null){
-            return false;
-        }
-
-        // Transforma os dados do usuario de array para um novo objeto Denuncia e o retorna.
         $id = $denunciaArray['id'];
         $titulo = $denunciaArray['titulo'];
         $mensagem = $denunciaArray['mensagem'];
@@ -235,17 +246,52 @@ class Database
         return new Denuncia($id, $titulo, $mensagem, $isAnon, $email, $RA, $fk_Usuario_id);
     }
 
-    public function deleteDenunciaById(string $idToDelete){
+
+    /**
+     * RETORNA A DENUNCIA DO BANCO DE DADOS PELO ID.
+     *
+     * @author Gabriel Emerenciano
+     * @return Denuncia|bool Retorna os dados em uma nova Denuncia do tipo Denuncia, se não encontrar retorna falso.
+     * EXEMPLO: $newDenuncia = getDenunciaById($uuid); $newDenuncia->getId();
+     *
+     */
+    public function getDenunciaById($uuid): Denuncia|bool
+    {
+        // Pega os dados do usuario em formato de array associativo ex: array['senha'] : 'exemplo@gmail.com'
+        $prepare = $this->conexao->prepare("SELECT * FROM denuncia WHERE id = :id");
+
+        $prepare->bindParam(':id', $uuid);
+
+        $prepare->execute();
+
+        $denunciaArray = $prepare->fetch(PDO::FETCH_ASSOC);
+
+        if ($denunciaArray == null) {
+            return false;
+        }
+
+        return $this->createDenunciaByDenunciaArray($denunciaArray);
+    }
+
+    /**
+     * DELETA UMA DENUNCIA PELO ID
+     *
+     * @author Gabriel Emerenciano
+     * @return bool
+     *
+     */
+    public function deleteDenunciaById(string $idToDelete): bool
+    {
+
         $prepare = $this->conexao->prepare("DELETE FROM denuncia WHERE id = :id");
 
         $prepare->bindParam(':id', $idToDelete);
 
         $prepare->execute();
 
-        if(!$prepare->rowCount()){
+        if (!$prepare->rowCount()) {
             return false;
         }
         return true;
     }
-
 }
