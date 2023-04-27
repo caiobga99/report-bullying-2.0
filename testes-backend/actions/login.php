@@ -11,10 +11,17 @@ $emailToLogin = $_POST['email'];
 
 $passwordToLogin = $_POST['senha'];
 
+$rememberMe = false;
+
+
+if(isset($_POST['rememberMe'])){
+    $rememberMe = true;
+}
+
 
 session_start();
 
-$_SESSION['userId'] = $database->loginUser($emailToLogin, $passwordToLogin)->getId();
+$_SESSION['userId'] = $database->loginUser($emailToLogin, $passwordToLogin, $rememberMe)->getId();
 
 header('location: ../logged-debugger.php');
 

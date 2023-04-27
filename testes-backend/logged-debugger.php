@@ -2,6 +2,8 @@
 require_once('./models/User.php');
 require_once('./models/Denuncia.php');
 require_once('./functions/uuid4.php');
+require_once('./models/Database.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -15,14 +17,18 @@ require_once('./functions/uuid4.php');
 <body>
     <?php
     session_start();
-    
+    $database = new Database();
     if(isset($_SESSION['user'])){
         $loggedUser = $_SESSION['user'];
-        echo $loggedUser->getId();
+        echo 'session encontrado';
+        print_r($loggedUser);
     }
     else{
-        echo 'NAO ESTA LOGADO.';
+        echo 'session nao encontrado';
     }
+
+
+
     ?>
 </body>
 </html>

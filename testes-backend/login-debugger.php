@@ -1,7 +1,16 @@
 
+<?php
+require_once('./models/Database.php');
+require_once('./models/User.php');
 
+$database = new Database();
 
+if($database->checkCookie()){
+    echo '$database->checkCookie()';
+    header('location: ./logged-debugger.php');
+}
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +36,9 @@
     <input type="password" name="senha" id="senha" />
     <br><br>
     <button type="submit">LOGAR</button>
+    <br>
+    <p>remember me?</p>
+    <input type="checkbox" name="rememberMe" id="rememberMe" />
 </form>
 
 <h1>

@@ -116,7 +116,7 @@ class Database
      * @return User o User do Email e Senha.
      *
      */
-    public function loginUser(string $emailToLogin, string $passwordToLogin): User
+    public function loginUser(string $emailToLogin, string $passwordToLogin, bool $rememberMe): User
     {
         $prepare = $this->conexao->prepare("SELECT * FROM usuario WHERE email = :email AND senha = :senha");
         $prepare->bindParam(':email', $emailToLogin);
@@ -125,9 +125,61 @@ class Database
 
         $userArray = $prepare->fetch(PDO::FETCH_ASSOC);
 
-        return $this->createUserByUserArray($userArray);
-    }
+        if($rememberMe){
+            $cookieId = genUuid4();
 
+
+            setcookie('loginCookie', $cookieId, 0, '/');
+
+
+            $prepareCookie = $this->conexao->prepare("INSERT INTO cookies VALUES(:cookieId, :userId)");
+            $prepareCookie->bindParam(':cookieId', $cookieId);
+            $prepareCookie->bindParam(':userId', $userArray['id']);
+            $prepareCookie->execute();
+
+        }
+
+        $User = $this->createUserByUserArray($userArray);
+
+        session_start();
+
+        $_SESSION['user'] = $User;
+
+
+        return $User;
+    }
+    public function checkCookie(){
+        if(isset($_COOKIE['loginCookie'])){
+            $prepare = $this->conexao->prepare("SELECT fk_userId FROM cookies WHERE :cookieId = id");
+            $prepare->bindParam(':cookieId', $_COOKIE['loginCookie']);
+            $prepare->execute();
+
+            $userId = $prepare->fetchColumn();
+            
+            session_start();
+
+            $prepareUser = $this->conexao->prepare("SELECT * from usuario WHERE :id = id");
+
+            $prepareUser->bindParam(':id', $userId);
+
+            $prepareUser->execute();
+
+            $userArray = $prepareUser->fetch(PDO::FETCH_ASSOC);
+
+            if(!$prepareUser->rowCount()){
+                echo 'erro';
+                return false;
+            }
+
+            $User = $this->createUserByUserArray($userArray);
+
+            $_SESSION['user'] = $User;
+            
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * RETORNA O USUARIO DO BANCO DE DADOS PELO ID.
