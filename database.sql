@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `denuncia` (
-  `id` int(11) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `titulo` varchar(255) DEFAULT NULL,
   `mensagem` varchar(255) DEFAULT NULL,
   `isAnon` varchar(255) DEFAULT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `usuario` (
   `isAdmin` tinyint(1) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   `id` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `email` varchar(255) UNIQUE DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `RA` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -76,8 +76,6 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT de tabela `denuncia`
 --
-ALTER TABLE `denuncia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para despejos de tabelas
