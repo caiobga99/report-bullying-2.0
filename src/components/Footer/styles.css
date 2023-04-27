@@ -1,0 +1,11 @@
+@import url("../../assets/colors/colors.css");
+@import url("../../assets/fonts/fonts.css");
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 10%;
+  background-color: var(--footer-background);
+}
