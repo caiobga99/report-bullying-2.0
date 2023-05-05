@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import "./styles.css";
 
 import patoAnonima from "../../assets/images/pato-anonimo.svg";
@@ -6,7 +5,6 @@ import patoAnonima from "../../assets/images/pato-anonimo.svg";
 const Cadastro = () => {
   return (
     <>
-      <Navbar />
       <div class="container-cadastro">
         <img src={patoAnonima} class="pato" alt="Pato com Chapéu" />
         <form action="" method="post">

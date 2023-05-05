@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import "./styles.css";
 import setaDireita from "../../assets/images/seta-direita-submit.svg";
 import iconePessoaBarraNavegacao from "../../assets/images/icone-pessoa-barra-navegacao.svg";
@@ -8,7 +7,6 @@ import iconeCartaNavegacao from "../../assets/images/icone-carta-navegacao.svg";
 const FaleConosco = () => {
   return (
     <>
-      <Navbar />
       <div class="container-fale-conosco">
         <div class="title-fale-conosco">
           <h1>Fale Conosco,</h1>

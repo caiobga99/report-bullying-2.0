@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import iconePessoaBarraNavegacao from "../../assets/images/icone-pessoa-barra-navegacao.svg";
 import iconePessoaSorrindo from "../../assets/images/icone-pessoa-sorrindo-navegacao.svg";
 import iconeCartaNavegacao from "../../assets/images/icone-carta-navegacao.svg";
@@ -9,7 +8,6 @@ import "./styles.css";
 const Login = () => {
   return (
     <>
-      <Navbar />
       <div class="container-login">
         <img src={patoNormal} class="pato" alt="Pato com Chapéu" />
         <form action="" method="post">

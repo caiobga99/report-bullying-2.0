@@ -22,6 +22,10 @@ const Navbar = () => {
       route: "/cadastrar",
       title: "Cadastrar",
     },
+    {
+      route: "/painel",
+      title: "Painel",
+    },
   ];
   return (
     <header className="header">

@@ -8,13 +8,11 @@ import patoAnonimo from "../../assets/images/pato-anonimo.svg";
 import iconePessoa from "../../assets/images/icone-pessoa.svg";
 import patoNormal from "../../assets/images/pato-normal.svg";
 
-import Navbar from "../../components/Navbar/index";
 import Footer from "../../components/Footer/index";
 
 const Home = () => {
   return (
     <>
-      <Navbar />
       <div className="container-home">
         <div className="esquerda">
           <div className="placa-container">
