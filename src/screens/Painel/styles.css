@@ -74,11 +74,14 @@
 .seta-painel {
   height: 13%;
   cursor: pointer;
-  width: 13%;
+}
+
+.seta-esquerda {
+  transform: scaleX(-1);
 }
 
 .seta-painel:hover {
-  filter: contrast(50%);
+  filter: contrast(50%);  
 }
 
 @media only screen and (max-width: 900px) {

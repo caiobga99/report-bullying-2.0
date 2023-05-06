@@ -8,7 +8,7 @@ const Painel = () => {
         <h1 className="title-painel">Painel de Denúncias</h1>
       </div>
       <div className="box">
-        <img alt="seta esquerda" src={setaDireita} className="seta-painel" />
+        <img alt="seta esquerda" src={setaDireita} className="seta-painel seta-esquerda" />
         <div className="content-painel">
           <div className="title-box">
             <h4>texto exemplo</h4>
