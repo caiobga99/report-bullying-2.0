@@ -1,0 +1,24 @@
+.container-about {
+  position: relative;
+  min-height: 93.7%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/images/escola.jpg");
+}
+
+.seta-abaixo {
+  bottom: 3.8%;
+  cursor: pointer;
+  position: absolute;
+  height: 9.3%;
+  transform: rotate(90deg);
+}
+
+.seta-abaixo:hover {
+  filter: contrast(50%);
+}
