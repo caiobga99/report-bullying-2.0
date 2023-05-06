@@ -23,8 +23,16 @@ const Navbar = () => {
       title: "Cadastrar",
     },
     {
+      route: "/faq",
+      title: "FAQ",
+    },
+    {
       route: "/painel",
       title: "Painel",
+    },
+    {
+      route: "/sobre-nos",
+      title: "Sobre Nós",
     },
   ];
   return (
