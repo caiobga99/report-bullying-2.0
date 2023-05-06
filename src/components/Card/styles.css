@@ -1,6 +1,21 @@
 @import url("../../assets/fonts/fonts.css");
 @import url("../../assets/colors/colors.css");
 
+.card-container-about {
+  font-family: var(--josefin);
+  background-color: #a6b3be;
+  display: flex;
+  flex-direction: column;
+  font-weight: 900;
+  opacity: 0.84;
+  min-width: 31%;
+  min-height: 195px;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 2%;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.3);
+}
+
 .card-container {
   font-family: var(--josefin);
   background-color: var(--color-white);
@@ -11,12 +26,12 @@
   border-radius: 10px;
   padding: 1%;
   box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.3);
+  color: #000;
 }
 
 .title-card {
-  color: #000;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 27px;
   word-break: break-all;
 }
 
