@@ -9,6 +9,7 @@ import Painel from "./screens/Painel/index";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SobreNos from "./screens/SobreNos";
+import Footer from "./components/Footer";
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/sobre-nos" element={<SobreNos />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
