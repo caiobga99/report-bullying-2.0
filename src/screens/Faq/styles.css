@@ -2,7 +2,7 @@
 @import url("../../assets/fonts/fonts.css");
 
 .container-faq {
-  min-height: 100%;
+  min-height: 84.4%;
   width: 100%;
   background-color: var(--background-claro);
 }

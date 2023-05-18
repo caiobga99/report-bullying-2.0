@@ -2,7 +2,7 @@
 @import url("../../assets/fonts/fonts.css");
 
 .container-login {
-  min-height: 90%;
+  min-height: 84.4%;
   background-color: var(--background-claro);
   display: flex;
   align-items: center;

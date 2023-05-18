@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 93.7%;
+  height: 84.4%;
   background-color: #758594;
   font-family: var(--josefin);
 }
@@ -81,7 +81,7 @@
 }
 
 .seta-painel:hover {
-  filter: contrast(50%);  
+  filter: contrast(50%);
 }
 
 @media only screen and (max-width: 900px) {
