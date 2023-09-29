@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Poppins_400Regular, useFonts } from "@expo-google-fonts/poppins";
-export default function CustomButton({ title, onPress }) {
+export default function CustomButton({ title, onPress, size }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
@@ -9,7 +9,10 @@ export default function CustomButton({ title, onPress }) {
     return null;
   }
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, { width: size ? size : 100 }]}
+      onPress={onPress}
+    >
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "Poppins_400Regular",
     textAlign: "center",
   },
