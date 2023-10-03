@@ -9,7 +9,7 @@ import {
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
 import validator from "validator";
-export default function Cadastro() {
+export default function Cadastro({ navigation }) {
   const {
     handleSubmit,
     control,

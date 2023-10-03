@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { Poppins_400Regular, useFonts } from "@expo-google-fonts/poppins";
 export default function CustomButton({ title, onPress, size }) {
