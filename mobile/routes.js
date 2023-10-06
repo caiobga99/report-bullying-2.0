@@ -9,6 +9,7 @@ import {
   useFonts,
   FredokaOne_400Regular,
 } from "@expo-google-fonts/fredoka-one";
+import FAQ from "./screens/FAQ";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
@@ -36,7 +37,7 @@ const MyRoutes = () => {
       //     fontFamily: "FredokaOne_400Regular",
       //   },
       // }}
-      initialRouteName="Denuncias"
+      initialRouteName="FAQ"
     >
       <Stack.Screen
         name="Denuncie"
@@ -48,6 +49,7 @@ const MyRoutes = () => {
       <Stack.Screen name="Denuncias" component={Denuncias} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
+      <Stack.Screen name="FAQ" component={FAQ} />
     </Stack.Navigator>
   );
 };
