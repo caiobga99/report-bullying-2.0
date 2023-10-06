@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import React from "react";
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
@@ -26,12 +26,13 @@ const Denuncie = () => {
     return null;
   }
   const onSubmit = async (data) => {
-    const { email, password } = data;
+    const { email, password, mensagem } = data;
     console.log(data);
     setTimeout(() => {
       reset({
         email: "",
         password: "",
+        mensagem: "",
       });
     }, 2000);
   };
@@ -43,7 +44,6 @@ const Denuncie = () => {
           <Text style={styles.title}>Denuncia</Text>
           <View style={styles.formGroup}>
             <View style={{ flex: 1 }}>
-              <Text style={styles.label}>Nome</Text>
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -52,6 +52,8 @@ const Denuncie = () => {
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
+                    placeholder="Nome"
+                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                   />
                 )}
                 name="name"
@@ -65,7 +67,6 @@ const Denuncie = () => {
                 </Text>
               )}
             </View>
-            <Text style={styles.label}>R.A</Text>
             <View style={{ flex: 1 }}>
               <Controller
                 control={control}
@@ -75,6 +76,8 @@ const Denuncie = () => {
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
+                    placeholder="R.A"
+                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                   />
                 )}
                 name="ra"
@@ -99,31 +102,35 @@ const Denuncie = () => {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={[styles.input, errors?.ra && styles.inputError]}
+                    style={[
+                      styles.textArea,
+                      errors?.mensagem && styles.inputError,
+                    ]}
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
+                    placeholder="Mensagem"
+                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+                    multiline={true}
                   />
                 )}
-                name="ra"
+                name="mensagem"
                 rules={{
                   required: true,
-                  minLength: 7,
                 }}
               />
-              {errors?.ra?.type === "required" && (
+              {errors?.mensagem?.type === "required" && (
                 <Text style={styles.errorMessage}>
-                  R.A não pode estar vazia!
-                </Text>
-              )}
-              {errors?.ra?.type === "minLength" && (
-                <Text style={styles.errorMessage}>
-                  R.A não pode ter menos de 9 caracteres!
+                  Mensagem não pode estar vazia!
                 </Text>
               )}
             </View>
             <View style={{ flex: 1, alignItems: "center" }}>
-              <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
+              <CustomButton
+                title={"Enviar Denuncia"}
+                onPress={handleSubmit(onSubmit)}
+                size={250}
+              />
             </View>
           </View>
         </View>
@@ -151,10 +158,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: "#C2C2C2",
     alignItems: "center",
-    padding: 22,
+    padding: 25,
   },
   title: {
-    fontSize: 33,
+    fontSize: 26,
     textAlign: "center",
     fontFamily: "Poppins_600SemiBold",
   },
@@ -164,21 +171,34 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   input: {
-    height: 60,
+    height: 59,
     width: "100%",
     borderWidth: 1,
     backgroundColor: "#495F7E",
     padding: 3,
-    borderRadius: 30,
+    borderRadius: 10,
     color: "#fff",
     borderColor: "#495F7E",
     fontSize: 18,
     fontFamily: "Poppins_400Regular",
   },
+  textArea: {
+    height: 180,
+    width: "100%",
+    borderWidth: 1,
+    backgroundColor: "#495F7E",
+    padding: 5,
+    borderRadius: 10,
+    color: "#fff",
+    borderColor: "#495F7E",
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    flexWrap: "wrap",
+    textAlignVertical: "top",
+  },
   label: {
     marginTop: 5,
     fontSize: 27,
-    fontFamily: "Poppins_400Regular",
   },
   inputError: {
     borderWidth: 1.6,
@@ -187,7 +207,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: "red",
     fontFamily: "Poppins_300Light",
-    fontSize: 19,
+    fontSize: 17,
   },
   textFooter: {
     fontSize: 19,

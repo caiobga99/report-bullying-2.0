@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
       Math.round(
         Dimensions.get("window").width + Dimensions.get("window").height
       ) / 2,
-    width: Dimensions.get("window").width * 0.25,
-    height: Dimensions.get("window").width * 0.25,
+    width: Dimensions.get("window").width * 0.21,
+    height: Dimensions.get("window").width * 0.21,
     backgroundColor: "#495F7E",
     justifyContent: "center",
     alignItems: "center",
