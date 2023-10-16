@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -32,12 +33,12 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        // $data=$request->except("password");
-        // $password=$request->input("password");
-        // $password=Hash::make($senha);
-        // $data["password"]=$password;
+        $data = $request->except("password");
+        $password = $request->input("password");
+        $passwordHash = Hash::make($password);
+        $data["password"] = $passwordHash;
 
-        Usuario::create($request->all());
+        Usuario::create($data);
         return "Usuario Criado com sucesso!";
     }
 
@@ -64,7 +65,7 @@ class UsuarioController extends Controller
     {
         $usuario->fill($request->all());
         $usuario->save();
-        return "Usuario Atualizada com Sucesso!";
+        return "Usuario Atualizado com Sucesso!";
     }
 
     /**
@@ -78,22 +79,27 @@ class UsuarioController extends Controller
     public function login(Request $request)
     {
         $dados = $request->only("email", "password");
+        echo $dados["email"] . "\n";
+        echo $dados["password"] . "\n";
 
-        if (\Auth::attempt($dados)) {
+        if (Auth::attempt($dados)) {
             return "Usuario Logado com Sucesso!";
         } else {
             return "Usuario ou senha incorretos!";
         }
     }
-    public function logOut(Request $request)
+    public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect("/");
+        return "Usuario Deslogado!";
+        // return redirect("/");
     }
     public function telaLogin()
     {
+        $token = csrf_token();
+        echo $token . "\n";
         return "Tela Login!";
     }
 }

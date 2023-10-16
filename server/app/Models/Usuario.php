@@ -14,7 +14,7 @@ class Usuario extends Model
     protected $primaryKey = "id_usuario";
     protected $fillable = [
         'email',
-        'senha',
+        'password',
         'RA',
         'isAdmin',
         "id_usuario",
