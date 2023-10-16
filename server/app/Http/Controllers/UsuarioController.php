@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -31,6 +32,11 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        // $data=$request->except("password");
+        // $password=$request->input("password");
+        // $password=Hash::make($senha);
+        // $data["password"]=$password;
+
         Usuario::create($request->all());
         return "Usuario Criado com sucesso!";
     }
@@ -68,5 +74,26 @@ class UsuarioController extends Controller
     {
         Usuario::destroy($id);
         return "Usuario Deletada com Sucesso!";
+    }
+    public function login(Request $request)
+    {
+        $dados = $request->only("email", "password");
+
+        if (\Auth::attempt($dados)) {
+            return "Usuario Logado com Sucesso!";
+        } else {
+            return "Usuario ou senha incorretos!";
+        }
+    }
+    public function logOut(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect("/");
+    }
+    public function telaLogin()
+    {
+        return "Tela Login!";
     }
 }
