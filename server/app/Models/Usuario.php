@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Usuario extends Model
 {
     use HasUuids;
+    use HasFactory;
+    protected $table = "usuarios";
+    protected $primaryKey = "id_usuario";
     protected $fillable = [
         'email',
         'senha',
         'RA',
         'isAdmin',
-
+        "id_usuario",
     ];
-    protected $table = "usuarios";
-    protected $primaryKey = "id";
-
     public function denuncias()
     {
-        return $this->hasMany(Denuncia::class);
+        return $this->hasMany(Denuncia::class, "id_usuario");
     }
 }
