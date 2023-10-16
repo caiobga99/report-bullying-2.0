@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Usuario extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'email',
         'senha',
@@ -15,5 +16,10 @@ class Usuario extends Model
         'isAdmin',
 
     ];
+    protected $table = "usuarios";
+    public function denuncias()
+    {
+        return $this->hasMany(Denuncia::class);
+    }
     use HasUuids;
 }
