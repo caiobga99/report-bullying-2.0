@@ -12,7 +12,10 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $token = csrf_token();
+        $usuario = Usuario::all();
+        echo $token . "\n";
+        return $usuario;
     }
 
     /**
@@ -51,9 +54,11 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Usuario $usuario)
     {
-        //
+        $usuario->fill($request->all());
+        $usuario->save();
+        return "Usuario Atualizada com Sucesso!";
     }
 
     /**
@@ -61,6 +66,7 @@ class UsuarioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Usuario::destroy($id);
+        return "Usuario Deletada com Sucesso!";
     }
 }
