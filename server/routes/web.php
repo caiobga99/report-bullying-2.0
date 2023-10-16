@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Denuncia;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +26,4 @@ Route::get('/token', function () {
 });
 
 Route::resource('/usuarios', UsuarioController::class);
+Route::resource("/denuncias", DenunciaController::class);
