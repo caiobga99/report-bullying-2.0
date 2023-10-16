@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\UsuarioController;
-use App\Models\Denuncia;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,11 +18,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/token', function () {
-    $token = csrf_token();
 
-    return $token;
-});
 
 Route::resource('/usuarios', UsuarioController::class);
+Route::get("/login", [UsuarioController::class, "telaLogin"])->name("login");
+Route::post("/login", [UsuarioController::class, "login"]);
+Route::get("/logout", [UsuarioController::class, "logout"])->name("logout");
+
+
 Route::resource("/denuncias", DenunciaController::class);
+
+
+Route::get('/token', function () {
+    $token = csrf_token();
+    return $token;
+});
