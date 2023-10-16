@@ -3,6 +3,7 @@
 use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Autenticador;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +21,20 @@ Route::get('/', function () {
 });
 
 
+
 Route::resource('/usuarios', UsuarioController::class);
 Route::get("/login", [UsuarioController::class, "telaLogin"])->name("login");
 Route::post("/login", [UsuarioController::class, "login"]);
 Route::get("/logout", [UsuarioController::class, "logout"])->name("logout");
 
 
-Route::resource("/denuncias", DenunciaController::class);
-
-
-Route::get('/token', function () {
-    $token = csrf_token();
-    return $token;
+Route::middleware(['autenticador'])->group(function () {
+    Route::get('/', function () {
+        return "ola";
+    });
+    Route::resource("/denuncias", DenunciaController::class);
+    Route::get('/token', function () {
+        $token = csrf_token();
+        return $token;
+    });
 });
