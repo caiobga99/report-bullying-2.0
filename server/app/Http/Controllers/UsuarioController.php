@@ -78,14 +78,14 @@ class UsuarioController extends Controller
     }
     public function login(Request $request)
     {
-        // $dados = $request->only("email", "password");
+        $dados = $request->only("email", "password");
         $credentials = $request->validate([
             'email' => ['required'],
             'password' => ['required'],
         ]);
         echo $credentials["email"] . "\n";
         echo $credentials["password"] . "\n";
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], true)) {
+        if (Auth::attempt($dados)) {
             $tipoUsuario = Auth::user()->tipo;
             echo $tipoUsuario;
             if ($tipoUsuario === 1) {
