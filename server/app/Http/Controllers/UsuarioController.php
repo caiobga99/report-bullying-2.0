@@ -104,7 +104,7 @@ class UsuarioController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return "Usuario Deslogado!";
-        // return redirect("/");
+        // return redirect("/login");
     }
     public function telaLogin()
     {
