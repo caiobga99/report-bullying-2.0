@@ -30,7 +30,7 @@ Route::resource("/denuncias", DenunciaController::class);
 
 
 Route::middleware(['autenticador'])->group(function () {
-    Route::get('/', function () {
+    Route::get('/teste', function () {
         return "ola";
     });
 

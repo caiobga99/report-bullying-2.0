@@ -87,12 +87,12 @@ class UsuarioController extends Controller
         echo $credentials["password"] . "\n";
         if (Auth::attempt($dados)) {
             $tipoUsuario = Auth::user()->tipo;
-            echo $tipoUsuario;
             if ($tipoUsuario === 1) {
                 session(["tipo" => "comum"]);
             } elseif ($tipoUsuario === 2) {
                 session(["tipo" => "administrador"]);
             }
+            echo $tipoUsuario;
             return "Usuario Logado com Sucesso!";
         } else {
             return "Usuario ou senha incorretos!";
