@@ -33,6 +33,8 @@ Route::middleware(['autenticador'])->group(function () {
         return "ola";
     });
     Route::resource("/denuncias", DenunciaController::class);
+
+    
     Route::get('/token', function () {
         $token = csrf_token();
         return $token;

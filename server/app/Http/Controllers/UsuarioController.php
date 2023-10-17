@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $token = csrf_token();
-        $usuario = Usuario::all();
+        $usuario = User::all();
         echo $token . "\n";
         return $usuario;
     }
@@ -38,7 +38,7 @@ class UsuarioController extends Controller
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
 
-        Usuario::create($data);
+        User::create($data);
         return "Usuario Criado com sucesso!";
     }
 
@@ -61,7 +61,7 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, User $usuario)
     {
         $usuario->fill($request->all());
         $usuario->save();
@@ -73,16 +73,21 @@ class UsuarioController extends Controller
      */
     public function destroy(string $id)
     {
-        Usuario::destroy($id);
+        User::destroy($id);
         return "Usuario Deletada com Sucesso!";
     }
     public function login(Request $request)
     {
-        $dados = $request->only("email", "password");
-        echo $dados["email"] . "\n";
-        echo $dados["password"] . "\n";
-        if (Auth::attempt($dados)) {
+        // $dados = $request->only("email", "password");
+        $credentials = $request->validate([
+            'email' => ['required'],
+            'password' => ['required'],
+        ]);
+        echo $credentials["email"] . "\n";
+        echo $credentials["password"] . "\n";
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], true)) {
             $tipoUsuario = Auth::user()->tipo;
+            echo $tipoUsuario;
             if ($tipoUsuario === 1) {
                 session(["tipo" => "comum"]);
             } elseif ($tipoUsuario === 2) {
