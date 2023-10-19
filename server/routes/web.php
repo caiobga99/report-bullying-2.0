@@ -22,15 +22,11 @@ Route::get("/", function () {
     return view("welcome");
 });
 
-
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
-// Route::resource("/denuncias", DenunciaController::class);
 Route::post("/denuncias", [DenunciaController::class, "store"]);
 
-// Route::resource("/denuncias", DenunciaController::class)->middleware("auth:administrador");
-// user comum so pode ver as denuncias realizadas 
 Route::get("/naoadm", function () {
     return "nao é administrador!";
 });
@@ -39,15 +35,20 @@ Route::get("/naoadm", function () {
 
 
 Route::middleware(["autenticador"])->group(function () {
-    Route::get("/usuarios", [UsuarioController::class, "show"]);    
+
     Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
-    Route::post("/denuncias", [DenunciaController::class, "store"]);
-    
+
+    Route::resource("/usuarios", UsuarioController::class);
+    Route::get("/usuario", [UsuarioController::class, "show"]);
+    Route::get("/usuarios", [UsuarioController::class, "index"])->block();
+
+    Route::get("/denuncia", [DenunciaController::class, "show"]);
+    Route::resource("denuncias", DenunciaController::class);
+
     Route::middleware(["admin"])->group(function () {
-        Route::resource("/usuarios", UsuarioController::class);
-        Route::resource("/denuncias", DenunciaController::class);
-        // Route::get("/denuncias", [DenunciaController::class, "index"]);
-        // Route::patch("/denuncias", [DenunciaController::class, "update"]);
-        // Route::delete("/denuncias", [DenunciaController::class, "destroy"]);
+        Route::get("/usuarios", [UsuarioController::class, "index"]);
+        Route::post("/usuarios", [UsuarioController::class, "store"]);
+
+        Route::resource("denuncias", DenunciaController::class);
     });
 });
