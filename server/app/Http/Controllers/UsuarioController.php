@@ -15,10 +15,11 @@ class UsuarioController extends Controller
     public function index()
     {
         $token = csrf_token();
-        $usuario = User::all();
+        $usuarios = User::all();
         echo $token . "\n";
-        return $usuario;
+        return $usuarios;
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +40,7 @@ class UsuarioController extends Controller
         $data["password"] = $passwordHash;
 
         User::create($data);
-        $this->login($request);
+        // $this->login($request);
         return "Usuario Criado com sucesso!";
         // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
         // ->withSuccess('You have successfully registered & logged in!');
@@ -50,7 +51,8 @@ class UsuarioController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $usuario = User::all()->where('id_usuario', $id);
+        return $usuario;
     }
 
     /**
