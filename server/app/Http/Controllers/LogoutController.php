@@ -8,17 +8,14 @@ use Illuminate\Support\Facades\Session;
 
 class LogoutController extends Controller
 {
-    /**
-     * Log out account user.
-     *
-     * @return \Illuminate\Routing\Redirector
-     */
-    public function perform()
+
+    public function logout(Request $request)
     {
-        Session::flush();
-
         Auth::logout();
-
-        return redirect('login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        // Session::flush();
+        return "Usuario Deslogado!";
+        // return redirect('login');
     }
 }
