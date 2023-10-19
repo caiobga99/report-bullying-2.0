@@ -42,6 +42,6 @@ class LoginController extends Controller
     {
         $token = csrf_token();
         echo $token . "\n";
-        return "Tela Login!";
+        return "Não esta logado!";
     }
 }

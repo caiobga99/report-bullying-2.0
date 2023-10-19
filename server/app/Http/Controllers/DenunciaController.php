@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Denuncia;
+use Auth;
 use Illuminate\Http\Request;
 
 class DenunciaController extends Controller
@@ -15,6 +16,8 @@ class DenunciaController extends Controller
         $token = csrf_token();
         $denuncia = Denuncia::all();
         echo $token . "\n";
+
+        //arrumar foreign key
         return $denuncia;
     }
 
@@ -38,9 +41,11 @@ class DenunciaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $id = Auth::id();
+        $denuncia = Denuncia::all()->where('id_usuario', $id);
+        return $denuncia;
     }
 
     /**

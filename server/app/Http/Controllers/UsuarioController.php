@@ -12,8 +12,10 @@ class UsuarioController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
+
         $token = csrf_token();
         $usuarios = User::all();
         echo $token . "\n";
@@ -49,8 +51,11 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
+        $token = csrf_token();
+        echo $token . "\n";
+        $id = Auth::id();
         $usuario = User::all()->where('id_usuario', $id);
         return $usuario;
     }
