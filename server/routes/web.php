@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DenunciaController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Autenticador;
@@ -16,26 +18,28 @@ use App\Http\Middleware\Autenticador;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get("/", function () {
+    return view("welcome");
 });
 
+Route::resource("/usuarios", UsuarioController::class);
 
+Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
+Route::post("/login", [LoginController::class, "authenticate"]);
 
-Route::resource('/usuarios', UsuarioController::class);
-Route::get("/login", [UsuarioController::class, "telaLogin"])->name("login");
-Route::post("/login", [UsuarioController::class, "login"]);
-Route::get("/logout", [UsuarioController::class, "logout"])->name("logout");
 Route::resource("/denuncias", DenunciaController::class);
+// Route::resource("/denuncias", DenunciaController::class)->middleware("auth:administrador");
+// user comum so pode ver as denuncias realizadas 
 
 
-Route::middleware(['autenticador'])->group(function () {
-    Route::get('/teste', function () {
+
+Route::middleware(["autenticador"])->group(function () {
+    Route::get("/teste", function () {
         return "ola";
     });
+    Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
 
-
-    Route::get('/token', function () {
+    Route::get("/token", function () {
         $token = csrf_token();
         return $token;
     });
