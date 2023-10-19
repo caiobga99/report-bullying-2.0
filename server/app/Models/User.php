@@ -18,11 +18,13 @@ class User extends Authenticatable
     protected $primaryKey = "id_usuario";
     protected $fillable = [
         "email",
-        "password",
         "RA",
-        "isAdmin",
+        "tipo_usuario",
         "id_usuario",
+        "password",
     ];
+
+  
     public function denuncias()
     {
         return $this->hasMany(Denuncia::class, "id_usuario");

@@ -13,8 +13,8 @@ class Denuncia extends Model
     use HasFactory;
 
     protected $table = "denuncias";
-    protected $primaryKey = "id";
-    protected $fillable = ["id", "titulo", "mensagem", "isAnon", "email", "RA", "id_usuario"];
+    protected $primaryKey = "id_denuncia";
+    protected $fillable = ["id_denuncia", "titulo", "mensagem", "tipo_denuncia", "email", "RA", "id_usuario"];
     public function usuario()
     {
         return $this->hasMany(User::class, "id_usuario");

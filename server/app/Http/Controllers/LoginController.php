@@ -3,54 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     /**
-     * Display login page.
-     * 
-     * @return Renderable
+     * Handle an authentication attempt.
      */
-    public function show()
+    public function authenticate(Request $request)
+    // public function authenticate(Request $request): RedirectResponse
     {
-        return view('auth.login');
+        $credentials = $request->validate([
+            "email" => ["required", "email"],
+            "password" => ["required"],
+        ]);
+        // echo $credentials["email"] . "\n";
+        // echo $credentials["password"] . "\n";
+        if (Auth::attempt($credentials)) {
+            $typeUser = Auth::user()->tipo_usuario;
+            if ($typeUser == 0) {
+                session(["tipo" => "comum"]);
+            } elseif ($typeUser == 1) {
+                session(["tipo" => "administrador"]);
+            }
+            echo $typeUser . "\n";
+            return "Usuario Logado com Sucesso!";
+        } else {
+            return "Usuario ou senha incorretos!";
+        }
+
+        // return back()->withErrors([
+        //     "email" => "The provided credentials do not match our records.",
+        // ])->onlyInput("email");
     }
 
-    /**
-     * Handle account login request
-     * 
-     * @param LoginRequest $request
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function login(LoginRequest $request)
+    public function displayLogin()
     {
-        $credentials = $request->getCredentials();
-
-        if (!Auth::validate($credentials)):
-            return redirect()->to('login')
-                ->withErrors(trans('auth.failed'));
-        endif;
-
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-
-        Auth::login($user);
-
-        return $this->authenticated($request, $user);
-    }
-
-    /**
-     * Handle response after user authenticated
-     * 
-     * @param Request $request
-     * @param Auth $user
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    protected function authenticated(Request $request, $user)
-    {
-        return redirect()->intended();
+        $token = csrf_token();
+        echo $token . "\n";
+        return "Tela Login!";
     }
 }
