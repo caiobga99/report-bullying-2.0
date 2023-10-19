@@ -22,25 +22,32 @@ Route::get("/", function () {
     return view("welcome");
 });
 
-Route::resource("/usuarios", UsuarioController::class);
 
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
-Route::resource("/denuncias", DenunciaController::class);
+// Route::resource("/denuncias", DenunciaController::class);
+Route::post("/denuncias", [DenunciaController::class, "store"]);
+
 // Route::resource("/denuncias", DenunciaController::class)->middleware("auth:administrador");
 // user comum so pode ver as denuncias realizadas 
+Route::get("/naoadm", function () {
+    return "nao é administrador!";
+});
+
 
 
 
 Route::middleware(["autenticador"])->group(function () {
-    Route::get("/teste", function () {
-        return "ola";
-    });
+    Route::get("/usuarios", [UsuarioController::class, "show"]);    
     Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
-
-    Route::get("/token", function () {
-        $token = csrf_token();
-        return $token;
+    Route::post("/denuncias", [DenunciaController::class, "store"]);
+    
+    Route::middleware(["admin"])->group(function () {
+        Route::resource("/usuarios", UsuarioController::class);
+        Route::resource("/denuncias", DenunciaController::class);
+        // Route::get("/denuncias", [DenunciaController::class, "index"]);
+        // Route::patch("/denuncias", [DenunciaController::class, "update"]);
+        // Route::delete("/denuncias", [DenunciaController::class, "destroy"]);
     });
 });
