@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->uuid('id_usuario');
-            $table->string("email")->unique();
+        Schema::create("usuarios", function (Blueprint $table) {
+            $table->uuid("id_usuario")->primary();
+            $table->string("email", 100)->unique();
             $table->string("password");
             $table->string("RA");
-            $table->boolean("isAdmin");
+            $table->boolean("tipo_usuario");
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists("usuarios");
     }
 };
