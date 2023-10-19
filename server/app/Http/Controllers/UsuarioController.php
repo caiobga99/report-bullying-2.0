@@ -39,7 +39,10 @@ class UsuarioController extends Controller
         $data["password"] = $passwordHash;
 
         User::create($data);
+        $this->login($request);
         return "Usuario Criado com sucesso!";
+        // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
+        // ->withSuccess('You have successfully registered & logged in!');
     }
 
     /**
@@ -74,42 +77,42 @@ class UsuarioController extends Controller
     public function destroy(string $id)
     {
         User::destroy($id);
-        return "Usuario Deletada com Sucesso!";
+        return "Usuario Deletado com Sucesso!";
     }
-    public function login(Request $request)
-    {
-        $dados = $request->only("email", "password");
-        $credentials = $request->validate([
-            'email' => ['required'],
-            'password' => ['required'],
-        ]);
-        echo $credentials["email"] . "\n";
-        echo $credentials["password"] . "\n";
-        if (Auth::attempt($dados)) {
-            $tipoUsuario = Auth::user()->tipo;
-            if ($tipoUsuario === 1) {
-                session(["tipo" => "comum"]);
-            } elseif ($tipoUsuario === 2) {
-                session(["tipo" => "administrador"]);
-            }
-            echo $tipoUsuario;
-            return "Usuario Logado com Sucesso!";
-        } else {
-            return "Usuario ou senha incorretos!";
-        }
-    }
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return "Usuario Deslogado!";
-        // return redirect("/login");
-    }
-    public function telaLogin()
-    {
-        $token = csrf_token();
-        echo $token . "\n";
-        return "Tela Login!";
-    }
+    // public function login(Request $request)
+    // {
+    //     $dados = $request->only("email", "password");
+    //     $credentials = $request->validate([
+    //         "email" => ["required"],
+    //         "password" => ["required"],
+    //     ]);
+    //     // echo $credentials["email"] . "\n";
+    //     // echo $credentials["password"] . "\n";
+    //     if (Auth::attempt($dados)) {
+    //         $tipoUsuario = Auth::user()->tipo_usuario;
+    //         if ($tipoUsuario === 0) {
+    //             session(["tipo" => "comum"]);
+    //         } elseif ($tipoUsuario === 1) {
+    //             session(["tipo" => "administrador"]);
+    //         }
+    //         echo $tipoUsuario . "\n";
+    //         return "Usuario Logado com Sucesso!";
+    //     } else {
+    //         return "Usuario ou senha incorretos!";
+    //     }
+    // }
+    // public function logout(Request $request)
+    // {
+    //     Auth::logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return "Usuario Deslogado!";
+    //     // return redirect("/login");
+    // }
+    // public function telaLogin()
+    // {
+    //     $token = csrf_token();
+    //     echo $token . "\n token telaLogin usuario conjtroller";
+    //     return "Tela Login!";
+    // }
 }
