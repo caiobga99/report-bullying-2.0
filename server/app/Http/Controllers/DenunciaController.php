@@ -34,6 +34,10 @@ class DenunciaController extends Controller
      */
     public function store(Request $request)
     {
+        $request["id_usuario"] = Auth::id();
+        // $id_usuario = $request["id_usuario"];
+        // $email = $request["email"];
+        // echo ($email);
         Denuncia::create($request->all());
         return "Denuncia Criada com Sucesso!";
     }
