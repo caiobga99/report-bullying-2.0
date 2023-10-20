@@ -37,7 +37,7 @@ const MyRoutes = () => {
       //     fontFamily: "FredokaOne_400Regular",
       //   },
       // }}
-      initialRouteName="FAQ"
+      initialRouteName="Cadastro"
     >
       <Stack.Screen
         name="Denuncie"

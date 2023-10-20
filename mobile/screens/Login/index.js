@@ -114,7 +114,7 @@ export default function Login({ navigation }) {
         <Text style={styles.textFooter}>Não tem uma conta?</Text>
         <CustomButton
           title={"Cadastre-se"}
-          onPress={navigation.navigate("Cadastro")}
+          onPress={() => navigation.navigate("Cadastro")}
           size={140}
         />
       </View>

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { TextInput } from "react-native";
+import api from "../../lib/axios";
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -9,6 +10,7 @@ import {
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
 import validator from "validator";
+import axios from "axios";
 export default function Cadastro({ navigation }) {
   const {
     handleSubmit,
@@ -28,17 +30,35 @@ export default function Cadastro({ navigation }) {
 
   const watchPassword = watch("password");
   const onSubmit = async (data) => {
-    const { name, email, password, ra } = data;
+    const { email, password, ra } = data;
+    axios
+      .post(
+        "http://127.0.0.1:8000/usuarios",
+        {
+          email: email,
+          RA: ra,
+          password: password,
+        },
+        {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
     console.log(data);
-    setTimeout(() => {
-      reset({
-        name: "",
-        email: "",
-        ra: "",
-        password: "",
-        passwordConfirmation: "",
-      });
-    }, 2000);
+    // setTimeout(() => {
+    //   reset({
+    //     email: "",
+    //     ra: "",
+    //     password: "",
+    //     passwordConfirmation: "",
+    //   });
+    // }, 2000);
   };
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -46,39 +66,6 @@ export default function Cadastro({ navigation }) {
         <View style={styles.box}>
           <Text style={styles.title}>Cadastre-se</Text>
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Nome</Text>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, errors?.name && styles.inputError]}
-                  onBlur={onBlur}
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                />
-              )}
-              name="name"
-              rules={{
-                required: true,
-                maxLength: 26,
-                minLength: 4,
-              }}
-            />
-            {errors?.name?.type === "required" && (
-              <Text style={styles.errorMessage}>
-                Nome não pode estar vazio!
-              </Text>
-            )}
-            {errors?.name?.type === "maxLength" && (
-              <Text style={styles.errorMessage}>
-                Nome não pode ter mais de 26 caracteres!
-              </Text>
-            )}
-            {errors?.name?.type === "minLength" && (
-              <Text style={styles.errorMessage}>
-                Nome não pode ter menos de 4 caracteres!
-              </Text>
-            )}
             <Text style={styles.label}>R.A</Text>
             <Controller
               control={control}
@@ -214,12 +201,12 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 3,
     backgroundColor: "#D9D9D9",
-    height: "87%",
+    height: "80%",
     width: "90%",
     borderRadius: 50,
     borderColor: "#C2C2C2",
     alignItems: "center",
-    padding: 22,
+    padding: 26,
   },
   formGroup: {
     width: "100%",

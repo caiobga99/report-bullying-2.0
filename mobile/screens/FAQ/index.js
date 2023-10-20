@@ -19,25 +19,19 @@ export default function FAQ() {
   }
   const DATA = [
     {
-      nome: "asdasd",
-      ra: "2132131-2",
+      titulo: "Como Denuncia?",
       mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 1,
+        "Entre a pagina “Denuncie”, e preencha com os dados necesserios. (Nome, R.A, E-mail)",
     },
     {
-      nome: "asdasd",
-      ra: "2132131-2",
+      titulo: "Não tenho R.A?",
       mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 2,
+        "Caso você não saiba seu R.A, entre na secretaria digital e consulte seu R.A",
     },
     {
-      nome: "asdasd",
-      ra: "2132131-2",
+      titulo: "Como funciona as Denuncias?",
       mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 3,
+        "As denúncias são anonimas de forma que só professores e usuários administradores possam ver",
     },
   ];
   return (
@@ -87,7 +81,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Poppins_600SemiBold",
     color: "rgba(73, 95, 126, 1)",
-    fontSize: 22,
+    fontSize: 21,
   },
   content: {
     fontSize: 18,
