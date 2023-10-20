@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Denuncia;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DenunciaController extends Controller
@@ -16,8 +16,6 @@ class DenunciaController extends Controller
         $token = csrf_token();
         $denuncia = Denuncia::all();
         echo $token . "\n";
-
-        //arrumar foreign key
         return $denuncia;
     }
 
@@ -34,10 +32,18 @@ class DenunciaController extends Controller
      */
     public function store(Request $request)
     {
-        $request["id_usuario"] = Auth::id();
-        // $id_usuario = $request["id_usuario"];
-        // $email = $request["email"];
-        // echo ($email);
+        if (Auth::check()) {
+            $request["id_usuario"] = Auth::id();
+            $request["email"] = Auth::user()->email;
+
+            $request["RA"] = Auth::user()->RA;
+            $request["tipo_denuncia"] = false;
+        } else {
+            $request["id_usuario"] = "";
+            $request["email"] = "";
+            $request["RA"] = "";
+            $request["tipo_denuncia"] = true;
+        }
         Denuncia::create($request->all());
         return "Denuncia Criada com Sucesso!";
     }
