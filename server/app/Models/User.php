@@ -24,7 +24,7 @@ class User extends Authenticatable
         "password",
     ];
 
-  
+
     public function denuncias()
     {
         return $this->hasMany(Denuncia::class, "id_usuario");
