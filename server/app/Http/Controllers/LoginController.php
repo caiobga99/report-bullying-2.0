@@ -14,12 +14,13 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     // public function authenticate(Request $request): RedirectResponse
     {
+        if (Auth::check() && Auth::user()->tipo_usuario != 1) {
+            return "ja esta logado!";
+        }
         $credentials = $request->validate([
             "email" => ["required", "email"],
             "password" => ["required"],
         ]);
-        // echo $credentials["email"] . "\n";
-        // echo $credentials["password"] . "\n";
         if (Auth::attempt($credentials)) {
             $typeUser = Auth::user()->tipo_usuario;
             if ($typeUser == 0) {
