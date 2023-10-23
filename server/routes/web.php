@@ -7,7 +7,7 @@ use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
+|--------------------------------------------------s------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -17,8 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get("/naoadm", function () {
-    return "nao é administrador!";
+    return response()->json(["Nao é administrador"]);
 });
+
+Route::get("/teste", function () {
+    return response()->json(["Teste funcionou"]);
+    ;
+});
+
 Route::get("/", function () {
     return view("welcome");
 });

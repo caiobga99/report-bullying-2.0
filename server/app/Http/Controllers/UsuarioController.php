@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\LoginController;
 
 class UsuarioController extends Controller
 {
@@ -37,23 +36,24 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::check() && Auth::user()->tipo_usuario != 1) {
-            return "esta logado e nao e admin";
-        }
-        $data = $request->except("password");
-        $password = $request->input("password");
-        $data["tipo_usuario"] = 0;
-        $email = $request->input("email");
-        if ($email == "adm@adm.com") {
-            $data["tipo_usuario"] = 1;
-        }
-        $passwordHash = Hash::make($password);
-        $data["password"] = $passwordHash;
-        User::create($data);
-        if (!Auth::check()) {
-            app("App\Http\Controllers\LoginController")->authenticate($request);
-            return "Usuario Criado e logado com sucesso!";
-        }
+        dd($request);
+        // if (Auth::check() && Auth::user()->tipo_usuario != 1) {
+        //     return "esta logado e nao e admin";
+        // }
+        // $data = $request->except("password");
+        // $password = $request->input("password");
+        // $data["tipo_usuario"] = 0;
+        // $email = $request->input("email");
+        // if ($email == "adm@adm.com") {
+        //     $data["tipo_usuario"] = 1;
+        // }
+        // $passwordHash = Hash::make($password);
+        // $data["password"] = $passwordHash;
+        // User::create($data);
+        // if (!Auth::check()) {
+        //     app("App\Http\Controllers\LoginController")->authenticate($request);
+        //     return "Usuario Criado e logado com sucesso!";
+        // }
         return "Usuario Criado com sucesso!";
         // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
         // ->withSuccess('You have successfully registered & logged in!');
