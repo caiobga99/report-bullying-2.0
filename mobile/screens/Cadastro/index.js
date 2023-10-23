@@ -31,26 +31,26 @@ export default function Cadastro({ navigation }) {
   const watchPassword = watch("password");
   const onSubmit = async (data) => {
     const { email, password, ra } = data;
-    axios
+    api
       .post(
-        "http://127.0.0.1:8000/usuarios",
+        "/usuarios",
         {
           email: email,
           RA: ra,
           password: password,
         },
         {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          withCredentials: true,
+          // headers: {
+          // "X-Requested-With": "XMLHttpRequest",
+          // "X-CSRF-TOKEN": window.csrf_token,
+          // },
         }
       )
       .then((res) => {
-        console.log(res);
         console.log(res.data);
       })
       .catch((error) => console.log(error));
-    console.log(data);
+    // console.log(data);
     // setTimeout(() => {
     //   reset({
     //     email: "",
