@@ -10,9 +10,19 @@ import {
   FredokaOne_400Regular,
 } from "@expo-google-fonts/fredoka-one";
 import FAQ from "./screens/FAQ";
+import TokenProvider, { TokenContext, useToken } from "./common/Token";
+import { useContext, useEffect } from "react";
+import api from "./lib/axios";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
+  });
+
+  const { setToken } = useToken();
+  useEffect(() => {
+    setTimeout(() => {
+      api.get("/token").then((res) => setToken(res.data));
+    }, 6000);
   });
 
   if (!fontsLoaded) {
