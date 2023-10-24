@@ -3,12 +3,15 @@ import { StyleSheet, Text, ScrollView, StatusBar, View } from "react-native";
 import MyRoutes from "./routes";
 import Navbar from "./components/Navbar";
 import { NavigationContainer } from "@react-navigation/native";
+import TokenProvider from "./common/Token";
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Navbar />
-      <MyRoutes />
+      <TokenProvider>
+        <Navbar />
+        <MyRoutes />
+      </TokenProvider>
     </NavigationContainer>
   );
 }
