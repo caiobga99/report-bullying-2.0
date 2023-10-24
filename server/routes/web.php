@@ -17,12 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get("/naoadm", function () {
-    return response()->json(["Nao é administrador"]);
+    return response()->json(["Nao é admin"]);
 });
-
-Route::get("/teste", function () {
-    return response()->json(["Teste funcionou"]);
-    ;
+Route::get("/token", function () {
+    $token = csrf_token();
+    return $token;
 });
 
 Route::get("/", function () {
@@ -31,7 +30,6 @@ Route::get("/", function () {
 
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
-
 
 
 
