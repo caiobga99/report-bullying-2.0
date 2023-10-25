@@ -1,45 +1,40 @@
 import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Denuncia from "../../components/Denuncia";
 import CustomButton from "../../components/CustomButton";
+import api from "../../lib/axios";
 
 export default function Denuncias() {
-  const DATA = [
-    {
-      nome: "asdasd",
-      ra: "2132131-2",
-      mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 1,
-    },
-    {
-      nome: "asdasd",
-      ra: "2132131-2",
-      mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 2,
-    },
-    {
-      nome: "asdasd",
-      ra: "2132131-2",
-      mensagem:
-        "12312321 nabnufb bewfb jnbnbewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew uibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gewuibgf bgiibweg bibiwegbiwegibgewibgwebibgiewibgweibgewibygwebgiybugibuh bigw ibuhg ewibuy gew",
-      id: 3,
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    api
+      .get("/denuncia")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <View style={styles.container}>
-      <FlatList
-        style={{ flex: 1 }}
-        data={DATA}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <Denuncia nome={item.nome} ra={item.ra} mensagem={item.mensagem} />
-        )}
-        keyExtractor={(item) => item.id}
-      />
-
+      {isLoading ? (
+        <>
+          <Text>Loading...</Text>
+        </>
+      ) : (
+        <FlatList
+          style={{ flex: 1 }}
+          data={data}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <Denuncia ra={item.RA} mensagem={item.mensagem} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      )}
       <View style={styles.foot}>
         <CustomButton title="Fazer Denuncia" size={120} />
         <CustomButton title="FAQ" size={120} />
