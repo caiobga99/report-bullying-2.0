@@ -10,8 +10,9 @@ import {
   FredokaOne_400Regular,
 } from "@expo-google-fonts/fredoka-one";
 import FAQ from "./screens/FAQ";
-import TokenProvider, { TokenContext, useToken } from "./common/Token";
-import { useContext, useEffect } from "react";
+import useToken from "./common/Token";
+import useUser from "./common/User";
+import { useEffect } from "react";
 import api from "./lib/axios";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
@@ -19,11 +20,11 @@ const MyRoutes = () => {
   });
 
   const { setToken } = useToken();
+  const { setIsLogged, isLogged } = useUser();
   useEffect(() => {
-    setTimeout(() => {
-      api.get("/token").then((res) => setToken(res.data));
-    }, 6000);
-  });
+    api.get("/token").then((res) => setToken(res.data));
+    api.get("/userIsLogged").then((res) => setIsLogged(res.data));
+  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -47,19 +48,26 @@ const MyRoutes = () => {
       //     fontFamily: "FredokaOne_400Regular",
       //   },
       // }}
-      initialRouteName="Cadastro"
+      initialRouteName="Login"
     >
-      <Stack.Screen
-        name="Denuncie"
-        component={Denuncie}
-        // options={{
-        //   headerRight: () => <HeaderIcon />,
-        // }}
-      />
-      <Stack.Screen name="Denuncias" component={Denuncias} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Cadastro" component={Cadastro} />
-      <Stack.Screen name="FAQ" component={FAQ} />
+      {isLogged ? (
+        <>
+          <Stack.Screen name="Denuncias" component={Denuncias} />
+          <Stack.Screen name="FAQ" component={FAQ} />
+          <Stack.Screen
+            name="Denuncie"
+            component={Denuncie}
+            // options={{
+            //   headerRight: () => <HeaderIcon />,
+            // }}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Cadastro" component={Cadastro} />
+          <Stack.Screen name="Login" component={Login} />
+        </>
+      )}
     </Stack.Navigator>
   );
 };
