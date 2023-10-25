@@ -15,7 +15,7 @@ class LoginController extends Controller
     // public function authenticate(Request $request): RedirectResponse
     {
         if (Auth::check() && Auth::user()->tipo_usuario != 1) {
-            return "ja esta logado!";
+            return "usuario logado!";
         }
         $credentials = $request->validate([
             "email" => ["required", "email"],
@@ -36,6 +36,11 @@ class LoginController extends Controller
         // return back()->withErrors([
         //     "email" => "The provided credentials do not match our records.",
         // ])->onlyInput("email");
+    }
+
+    public function checkLogged()
+    {
+        return Auth::check();
     }
 
     public function displayLogin()
