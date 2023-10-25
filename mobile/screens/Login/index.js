@@ -9,6 +9,10 @@ import {
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
 import validator from "validator";
+import api from "../../lib/axios";
+import useUser from "../../common/User";
+import { useToken } from "../../common/Token";
+import { CommonActions } from "@react-navigation/native";
 export default function Login({ navigation }) {
   const {
     handleSubmit,
@@ -25,7 +29,23 @@ export default function Login({ navigation }) {
     return null;
   }
 
+  const { token } = useToken();
+  const { setIsLogged } = useUser();
+
   const onSubmit = async (data) => {
+    api.post(`/login?_token=${token}`, data).then((res) => {
+      if (res.data === "Usuario Logado com Sucesso!") {
+        setIsLogged(true);
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Denuncias" }],
+          })
+        );
+      } else {
+        console.log(res.data);
+      }
+    });
     const { email, password } = data;
     console.log(data);
     setTimeout(() => {
