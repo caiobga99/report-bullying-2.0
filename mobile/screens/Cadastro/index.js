@@ -10,8 +10,8 @@ import {
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
 import validator from "validator";
-import axios from "axios";
 import { useToken } from "../../common/Token";
+import useUser from "../../common/User";
 export default function Cadastro({ navigation }) {
   const {
     handleSubmit,
@@ -31,11 +31,11 @@ export default function Cadastro({ navigation }) {
 
   const { token } = useToken();
   const watchPassword = watch("password");
+  const { setIsLogged } = useUser();
   const onSubmit = async (data) => {
     const { email, password, ra } = data;
 
     // api.get("/logout").then((res) => console.log(res.data));
-    api.get("/token").then((res) => console.log(res.data));
     api
       .post(`/usuarios?_token=${token}`, {
         email: email,
@@ -43,7 +43,11 @@ export default function Cadastro({ navigation }) {
         RA: ra,
       })
       .then((res) => {
-        console.log(res.data);
+        {
+          setIsLogged(true);
+          console.log(res.data);
+          navigation.push("Denuncias");
+        }
       })
       .catch((error) => console.log(error));
     // console.log(data);
