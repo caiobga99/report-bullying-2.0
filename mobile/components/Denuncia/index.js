@@ -7,7 +7,7 @@ import {
   Poppins_300Light,
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
-export default function Denuncia({ nome, ra, mensagem }) {
+export default function Denuncia({ email, ra, mensagem }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
@@ -19,7 +19,6 @@ export default function Denuncia({ nome, ra, mensagem }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.textHeader}>Nome: {nome}</Text>
         <Text style={styles.textHeader}>R.A: {ra}</Text>
       </View>
       <View>
@@ -42,15 +41,13 @@ const styles = StyleSheet.create({
     marginBottom: Dimensions.get("window").height * 0.03,
     marginLeft: 15,
   },
-  header: {
-    
-  },
+  header: {},
   textHeader: {
     fontFamily: "Poppins_600SemiBold",
-    fontSize: 25
+    fontSize: 23,
   },
   textContent: {
     fontFamily: "Poppins_400Regular",
-    fontSize: 21
+    fontSize: 21,
   },
 });
