@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Cadastro from "./screens/Cadastro/index";
 import Login from "./screens/Login/index";
 import Denuncias from "./screens/Denuncias/index";
-import { HeaderTitle, HeaderIcon } from "./components/Navbar";
 import Denuncie from "./screens/Denuncie";
 import {
   useFonts,

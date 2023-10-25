@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import React from "react";
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
-import validator from "validator";
 import { TextInput } from "react-native";
 import {
   Poppins_400Regular,
@@ -10,7 +9,10 @@ import {
   useFonts,
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
-const Denuncie = () => {
+import api from "../../lib/axios";
+import useToken from "../../common/Token";
+import showToast from "../../components/Toast";
+const Denuncie = ({ navigation }) => {
   const {
     handleSubmit,
     control,
@@ -25,16 +27,20 @@ const Denuncie = () => {
   if (!fontsLoaded) {
     return null;
   }
+
+  const { token } = useToken();
+
   const onSubmit = async (data) => {
-    const { email, password, mensagem } = data;
-    console.log(data);
-    setTimeout(() => {
-      reset({
-        email: "",
-        password: "",
-        mensagem: "",
-      });
-    }, 2000);
+    api
+      .post(`/denuncias?_token=${token}`, data)
+      .then((res) => {
+        showToast(res.data);
+        setTimeout(() => {
+          navigation.goBack();
+        }, 3000);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -48,52 +54,22 @@ const Denuncie = () => {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={[styles.input, errors?.name && styles.inputError]}
+                    style={[styles.input, errors?.titulo && styles.inputError]}
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
-                    placeholder="Nome"
+                    placeholder="Titulo"
                     placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
                   />
                 )}
-                name="name"
+                name="titulo"
                 rules={{
                   required: true,
                 }}
               />
-              {errors?.name?.type === "required" && (
+              {errors?.titulo?.type === "required" && (
                 <Text style={styles.errorMessage}>
-                  Nome não pode estar vazio!
-                </Text>
-              )}
-            </View>
-            <View style={{ flex: 1 }}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={[styles.input, errors?.ra && styles.inputError]}
-                    onBlur={onBlur}
-                    onChangeText={(value) => onChange(value)}
-                    value={value}
-                    placeholder="R.A"
-                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
-                  />
-                )}
-                name="ra"
-                rules={{
-                  required: true,
-                  minLength: 7,
-                }}
-              />
-              {errors?.ra?.type === "required" && (
-                <Text style={styles.errorMessage}>
-                  R.A não pode estar vazia!
-                </Text>
-              )}
-              {errors?.ra?.type === "minLength" && (
-                <Text style={styles.errorMessage}>
-                  R.A não pode ter menos de 9 caracteres!
+                  Titulo não pode estar vazia!
                 </Text>
               )}
             </View>
@@ -136,7 +112,7 @@ const Denuncie = () => {
         </View>
         <CustomButton
           title={"Voltar"}
-          // onPress={navigation.goBack()}
+          onPress={() => navigation.goBack()}
           size={140}
         />
       </View>
@@ -153,7 +129,7 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 3,
     backgroundColor: "#D9D9D9",
-    height: "85%",
+    height: "82%",
     width: "90%",
     borderRadius: 50,
     borderColor: "#C2C2C2",
@@ -161,7 +137,7 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   title: {
-    fontSize: 26,
+    fontSize: 29,
     textAlign: "center",
     fontFamily: "Poppins_600SemiBold",
   },
@@ -171,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   input: {
-    height: 59,
+    height: 60,
     width: "100%",
     borderWidth: 1,
     backgroundColor: "#495F7E",
@@ -183,7 +159,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   textArea: {
-    height: 180,
+    height: 210,
     width: "100%",
     borderWidth: 1,
     backgroundColor: "#495F7E",
@@ -195,10 +171,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     flexWrap: "wrap",
     textAlignVertical: "top",
-  },
-  label: {
-    marginTop: 5,
-    fontSize: 27,
   },
   inputError: {
     borderWidth: 1.6,

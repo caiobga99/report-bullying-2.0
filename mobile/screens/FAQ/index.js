@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Denuncia from "../../components/Denuncia";
 import CustomButton from "../../components/CustomButton";
 import {
   Poppins_400Regular,
@@ -8,7 +7,7 @@ import {
   useFonts,
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
-export default function FAQ() {
+export default function FAQ({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
@@ -21,7 +20,7 @@ export default function FAQ() {
     {
       titulo: "Como Denuncia?",
       mensagem:
-        "Entre a pagina “Denuncie”, e preencha com os dados necesserios. (Nome, R.A, E-mail)",
+        "Entre a pagina “Denuncie”, e preencha com os dados necesserios. (Titulo e E-mail)",
     },
     {
       titulo: "Não tenho R.A?",
@@ -58,7 +57,11 @@ export default function FAQ() {
         </Text>
       </View>
 
-      <CustomButton title="Voltar" size={120} />
+      <CustomButton
+        title="Voltar"
+        size={120}
+        onPress={() => navigation.goBack()}
+      />
     </View>
   );
 }

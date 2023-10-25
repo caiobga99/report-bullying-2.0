@@ -16,4 +16,4 @@ export const useToken = () => {
   const token = useContext(TokenContext);
   return token;
 };
-export default TokenProvider;
+export default useToken;

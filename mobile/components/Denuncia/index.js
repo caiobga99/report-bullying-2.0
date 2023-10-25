@@ -7,7 +7,7 @@ import {
   Poppins_300Light,
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
-export default function Denuncia({ email, ra, mensagem }) {
+export default function Denuncia({ titulo, mensagem }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
@@ -19,7 +19,7 @@ export default function Denuncia({ email, ra, mensagem }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.textHeader}>R.A: {ra}</Text>
+        <Text style={styles.textHeader}>Titulo: {titulo}</Text>
       </View>
       <View>
         <Text style={styles.textContent}>{mensagem}</Text>
@@ -38,10 +38,18 @@ const styles = StyleSheet.create({
     borderColor: "#C2C2C2",
     alignItems: "center",
     padding: 22,
-    marginBottom: Dimensions.get("window").height * 0.03,
+    marginBottom: Dimensions.get("window").height * 0.04,
     marginLeft: 15,
+    minHeight: Dimensions.get("window").height * 0.2,
+    minWidth: Dimensions.get("window").width * 0.8,
   },
-  header: {},
+  header: {
+    alignItems: "center",
+    width: "100%",
+    borderBottomWidth: 3,
+    minWidth: Dimensions.get("window").width * 0.8,
+    borderColor: "#C5C5C5",
+  },
   textHeader: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 23,

@@ -2,27 +2,56 @@ import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import Denuncia from "../../components/Denuncia";
 import CustomButton from "../../components/CustomButton";
+import Loading from "../../components/Loading";
 import api from "../../lib/axios";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  useFonts,
+  Poppins_300Light,
+} from "@expo-google-fonts/poppins";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function Denuncias() {
+export default function Denuncias({ navigation }) {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
+  const [dataMap, setDataMap] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
+  const getDenuncias = () => {
+    setIsLoading(true);
     api
       .get("/denuncia")
       .then((res) => {
-        console.log(res.data);
         setData(res.data);
+        console.log(data);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, []);
+  };
+  useEffect(() => {
+    if (isFocused) {
+      getDenuncias();
+    }
+  }, [isFocused]);
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_300Light,
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
       {isLoading ? (
         <>
-          <Text>Loading...</Text>
+          <Loading />
         </>
+      ) : data.length <= 0 ? (
+        <View style={styles.containerText}>
+          <Text style={styles.text}>Nenhuma Denuncia foi Feita Ainda😊</Text>
+        </View>
       ) : (
         <FlatList
           style={{ flex: 1 }}
@@ -30,14 +59,23 @@ export default function Denuncias() {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <Denuncia ra={item.RA} mensagem={item.mensagem} />
+            <Denuncia titulo={item.titulo} mensagem={item.mensagem} />
           )}
           keyExtractor={(item) => item.id}
         />
       )}
+
       <View style={styles.foot}>
-        <CustomButton title="Fazer Denuncia" size={120} />
-        <CustomButton title="FAQ" size={120} />
+        <CustomButton
+          title="Fazer Denuncia"
+          size={120}
+          onPress={() => navigation.push("Denuncie")}
+        />
+        <CustomButton
+          title="FAQ"
+          size={120}
+          onPress={() => navigation.push("FAQ")}
+        />
       </View>
     </View>
   );
@@ -45,7 +83,7 @@ export default function Denuncias() {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    height: "98%",
     width: "100%",
     backgroundColor: "#fff",
     alignItems: "center",
@@ -55,5 +93,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     justifyContent: "space-around",
+  },
+  containerText: {
+    height: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 20,
+    fontFamily: "Poppins_600SemiBold",
   },
 });

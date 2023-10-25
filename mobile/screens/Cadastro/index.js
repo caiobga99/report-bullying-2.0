@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import validator from "validator";
 import { useToken } from "../../common/Token";
 import useUser from "../../common/User";
+import showToast from "../../components/Toast";
 export default function Cadastro({ navigation }) {
   const {
     handleSubmit,
@@ -44,6 +45,7 @@ export default function Cadastro({ navigation }) {
       })
       .then((res) => {
         {
+          showToast(res.data);
           setIsLogged(true);
           console.log(res.data);
           navigation.push("Denuncias");
@@ -185,7 +187,10 @@ export default function Cadastro({ navigation }) {
             )}
           </View>
         </View>
-        <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
+        <View style={styles.buttonsGroup}>
+          <CustomButton title={"Voltar"} onPress={() => navigation.goBack()} />
+          <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -201,7 +206,7 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 3,
     backgroundColor: "#D9D9D9",
-    height: "80%",
+    height: "83%",
     width: "90%",
     borderRadius: 50,
     borderColor: "#C2C2C2",
@@ -241,5 +246,8 @@ const styles = StyleSheet.create({
     color: "red",
     fontFamily: "Poppins_300Light",
     fontSize: 15,
+  },
+  buttonsGroup: {
+    flexDirection: "row",
   },
 });

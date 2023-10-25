@@ -3,6 +3,7 @@ import {
   useFonts,
   FredokaOne_400Regular,
 } from "@expo-google-fonts/fredoka-one";
+import Svg, { Use, Circle } from "react-native-svg";
 
 const Navbar = () => {
   let [fontsLoaded] = useFonts({
@@ -19,7 +20,18 @@ const Navbar = () => {
         <Text style={styles.text}>Report Bullying</Text>
       </View>
       <View style={styles.group}>
-        <View style={styles.circle}></View>
+        <View style={styles.circle}>
+          <Svg height="100%" width="100%" viewBox="0 0 100 100">
+            <Circle
+              cx="50"
+              cy="50"
+              r="50"
+              stroke="purple"
+              strokeWidth=".5"
+              fill="violet"
+            />
+          </Svg>
+        </View>
       </View>
     </View>
   );

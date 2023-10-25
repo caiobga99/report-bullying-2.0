@@ -13,6 +13,7 @@ import api from "../../lib/axios";
 import useUser from "../../common/User";
 import { useToken } from "../../common/Token";
 import { CommonActions } from "@react-navigation/native";
+import showToast from "../../components/Toast";
 export default function Login({ navigation }) {
   const {
     handleSubmit,
@@ -34,6 +35,7 @@ export default function Login({ navigation }) {
 
   const onSubmit = async (data) => {
     api.post(`/login?_token=${token}`, data).then((res) => {
+      showToast(res.data);
       if (res.data === "Usuario Logado com Sucesso!") {
         setIsLogged(true);
         navigation.dispatch(
@@ -46,14 +48,6 @@ export default function Login({ navigation }) {
         console.log(res.data);
       }
     });
-    const { email, password } = data;
-    console.log(data);
-    setTimeout(() => {
-      reset({
-        email: "",
-        password: "",
-      });
-    }, 2000);
   };
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
