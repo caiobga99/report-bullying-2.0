@@ -28,6 +28,7 @@ Route::get("/", function () {
     return view("welcome");
 });
 
+Route::get("/userIsLogged", [LoginController::class, "checkLogged"]);
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
