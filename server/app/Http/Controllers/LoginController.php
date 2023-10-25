@@ -28,7 +28,6 @@ class LoginController extends Controller
             } elseif ($typeUser == 1) {
                 session(["tipo" => "administrador"]);
             }
-            echo $typeUser . "\n";
             return "Usuario Logado com Sucesso!";
         } else {
             return "Usuario ou senha incorretos!";

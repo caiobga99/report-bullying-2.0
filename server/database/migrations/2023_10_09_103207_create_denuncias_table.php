@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string("titulo");
             $table->string("mensagem");
             $table->boolean("tipo_denuncia");
-            $table->string("email")->unique()->nullable();
+            $table->string("email")->nullable();
             $table->string("RA")->nullable();
             $table->foreignIdFor(User::class, "id_usuario")->nullable();
             // $table->foreign("fk_usuario_id")->references("id")->on("usuarios");
