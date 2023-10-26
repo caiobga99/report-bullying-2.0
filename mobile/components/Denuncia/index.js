@@ -21,7 +21,7 @@ export default function Denuncia({ titulo, mensagem }) {
       <View style={styles.header}>
         <Text style={styles.textHeader}>Titulo: {titulo}</Text>
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         <Text style={styles.textContent}>{mensagem}</Text>
       </View>
     </View>

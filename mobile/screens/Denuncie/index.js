@@ -37,7 +37,7 @@ const Denuncie = ({ navigation }) => {
         showToast(res.data);
         setTimeout(() => {
           navigation.goBack();
-        }, 3000);
+        }, 2500);
         console.log(res.data);
       })
       .catch((err) => console.log(err));

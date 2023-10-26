@@ -33,5 +33,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins_400Regular",
     textAlign: "center",
-  },
+  }, 
 });
