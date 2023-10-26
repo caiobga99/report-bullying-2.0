@@ -45,8 +45,7 @@ class DenunciaController extends Controller
             $request["tipo_denuncia"] = true;
         }
         Denuncia::create($request->all());
-        app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
-        return "Denuncia Criada com Sucesso!";
+        return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
     }
 
     /**
