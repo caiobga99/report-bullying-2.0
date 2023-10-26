@@ -54,7 +54,7 @@ class DenunciaController extends Controller
     public function show()
     {
         $id = Auth::id();
-        $denuncia = Denuncia::all()->where('id_usuario', $id)->values(); //problema no map das denuncias aqui por causa do indice retornado
+        $denuncia = Denuncia::all()->where('id_usuario', $id)->values();
         return $denuncia;
     }
 
