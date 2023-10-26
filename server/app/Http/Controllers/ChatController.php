@@ -55,6 +55,19 @@ class ChatController extends Controller
         ]);
         $result = json_decode($response->getBody()->getContents(), true);
         $responseString = response()->json($result['choices'][0]['message']['content']);
+        $responseString = str_replace(array('[', ']', "'"), '', $responseString);
+        $responseString = str_replace('\u00e3', 'ã', $responseString);
+        $responseString = str_replace('\u00e7', 'ç', $responseString);
+        $responseString = str_replace('\u00ed', 'i', $responseString);
+        $responseString = str_replace('\u00e9', 'e', $responseString);
+        $responseString = str_replace('\u00ea', 'e', $responseString);
+        $responseString = str_replace('\u00e1', 'a', $responseString);
+        $responseString = str_replace('\u00f3', 'o', $responseString);
+        $responseString = str_replace('\u00c9', 'é', $responseString);
+        $responseString = str_replace('\u00f5', 'õ', $responseString);
+        $responseString = str_replace('\u00fa', 'u', $responseString);
+        $responseString = str_replace('\u00e0', 'á', $responseString);
+        $responseString = str_replace('\n', '', $responseString);
         return $responseString;
     }
 
