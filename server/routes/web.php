@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -35,6 +36,7 @@ Route::post("/login", [LoginController::class, "authenticate"]);
 
 
 Route::post("/usuarios", [UsuarioController::class, "store"]);
+Route::post("/testeApi", [ChatController::class, "getConselho"]);
 
 Route::get("/denuncia", [DenunciaController::class, "show"]);
 Route::post("/denuncias", [DenunciaController::class, "store"]);
