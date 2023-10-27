@@ -5,6 +5,7 @@ use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UsuarioController;
+use App\Mail\DenunciasCreated;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get("/email", function () {
+    return new DenunciasCreated("titulo de teste", "mensagem de teste");
+});
+
 Route::get("/naoadm", function () {
     return response()->json(["Nao é admin"]);
 });
