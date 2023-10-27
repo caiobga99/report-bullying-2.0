@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DenunciasCreated;
 use App\Models\Denuncia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class DenunciaController extends Controller
      */
     public function store(Request $request)
     {
+        
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;
@@ -44,8 +46,16 @@ class DenunciaController extends Controller
             $request["RA"] = "";
             $request["tipo_denuncia"] = true;
         }
+        // $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
         Denuncia::create($request->all());
-        return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
+        $email = new DenunciasCreated("titulo de teste", "mensagem de teste");
+        // $email = new DenunciasCreated(
+        //     $request["titulo"],
+        //     $mensagemChat
+        // );
+        \Mail::to(Auth::user())->send($email);
+        return "Denuncia Criada com sucesso!";
+        // return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
     }
 
     /**
