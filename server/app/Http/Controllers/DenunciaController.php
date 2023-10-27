@@ -35,6 +35,8 @@ class DenunciaController extends Controller
     {
 
         $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
+        //problema do tempo da requisicao é algo relacionado a request
+
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;

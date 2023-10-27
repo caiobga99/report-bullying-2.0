@@ -30,6 +30,10 @@ class ChatController extends Controller
         ]);
         $result = json_decode($response->getBody()->getContents(), true);
         $responseString = response()->json($result['choices'][0]['message']['content']);
+        // $promise = $client->sendAsync($request)->then(function ($response) {
+        //     echo 'I completed! ' . $response->getBody();
+        // });
+        // https://stackoverflow.com/questions/39452928/guzzle-6-async-request-return-argument-1-passed-must-be-of-the-type-array-strin
         return $responseString;
     }
 
