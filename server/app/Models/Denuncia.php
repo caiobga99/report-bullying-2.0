@@ -13,7 +13,7 @@ class Denuncia extends Model
 
     protected $table = "denuncias";
     protected $primaryKey = "id_denuncia";
-    protected $fillable = ["id_denuncia", "titulo", "mensagem", "tipo_denuncia", "email", "RA", "id_usuario"];
+    protected $fillable = ["id_denuncia", "titulo", "mensagem", "tipo_denuncia", "nome", "email", "RA", "id_usuario"];
     public function usuario()
     {
         return $this->hasMany(User::class, "id_usuario");
