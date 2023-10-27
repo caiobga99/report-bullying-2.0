@@ -34,6 +34,7 @@ class DenunciaController extends Controller
     public function store(Request $request)
     {
 
+        $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;
@@ -41,6 +42,7 @@ class DenunciaController extends Controller
 
             $request["RA"] = Auth::user()->RA;
             $request["tipo_denuncia"] = false;
+            $request["conselho"] = $mensagemChat;
         } else {
             $request["id_usuario"] = "";
             $request["email"] = "";
@@ -48,8 +50,8 @@ class DenunciaController extends Controller
             $request["RA"] = "";
             $request["tipo_denuncia"] = true;
         }
-        // $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
         Denuncia::create($request->all());
+
         // $email = new DenunciasCreated($request["titulo"], $request["mensagem"]);
         // $email = new DenunciasCreated(
         //     $request["titulo"],
@@ -57,7 +59,9 @@ class DenunciaController extends Controller
         // );
         // \Mail::to(Auth::user())->send($email);
         // return "Denuncia Criada com sucesso!";
-        return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
+
+        // Denuncia::query("INSERT INTO denuncias (conselho) VALUES $mensagemChat");
+        return "Denuncia Criada com Sucesso! " . "\n" . $mensagemChat;
     }
 
     /**

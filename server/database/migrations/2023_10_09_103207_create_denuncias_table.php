@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string("titulo");
             $table->string("mensagem");
             $table->boolean("tipo_denuncia");
+            $table->string("conselho")->nullable();
             $table->string("email")->nullable();
             $table->string("nome")->nullable();
             $table->string("RA")->nullable();
