@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/email", function () {
-    return new DenunciasCreated("titulo de teste", "mensagem de teste");
-});
+// Route::get("/email", function () {
+//     return new DenunciasCreated("titulo de teste", "mensagem de teste");
+// });
 
 Route::get("/naoadm", function () {
     return response()->json(["Nao é admin"]);

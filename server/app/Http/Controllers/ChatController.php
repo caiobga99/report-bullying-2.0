@@ -29,8 +29,6 @@ class ChatController extends Controller
         ]);
         $result = json_decode($response->getBody()->getContents(), true);
         $responseString = response()->json($result['choices'][0]['message']['content']);
-        /* $formatedResult = str_replace('\n', '', $responseString);
-        $formatedResult = preg_replace('/[^":\w\s]+/', '', $formatedResult); */
         return $responseString;
     }
 
