@@ -40,7 +40,6 @@ Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
 
-
 Route::post("/usuarios", [UsuarioController::class, "store"]);
 Route::post("/testeApi", [ChatController::class, "getConselho"]);
 

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 
+use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class ChatController extends Controller
             ],
             'json' => [
                 "model" => "gpt-3.5-turbo",
-                'messages' => [["role" => "user", "content" => 'Crie uma mensagem de conselho e ajuda para a vitima que sofreu o seguinte bullying: ("' . $request->input('message') . '").']],
+                'messages' => [["role" => "user", "content" => 'Crie uma mensagem de conselho e ajuda para a vitima com o nome de ' . Auth::user()->nome . 'que sofreu o seguinte bullying: ("' . $request->input('message') . '").']],
                 'temperature' => 0.7,
                 'max_tokens' => 60,
             ],
@@ -47,7 +48,7 @@ class ChatController extends Controller
             ],
             'json' => [
                 "model" => "gpt-3.5-turbo",
-                'messages' => [["role" => "user", "content" => 'Crie uma mensagem de conselho e ajuda para a vitima que sofreu o seguinte bullying: ("' . $denuncia . '").']],
+                'messages' => [["role" => "user", "content" => 'Crie uma mensagem de conselho e ajuda para a vitima cujo o nome é: "' . Auth::user()->nome . '" que sofreu o seguinte bullying: ("' . $denuncia . '").']],
                 'temperature' => 0.7,
             ],
         ]);

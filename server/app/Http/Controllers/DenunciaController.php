@@ -33,29 +33,31 @@ class DenunciaController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;
+            $request["nome"] = Auth::user()->nome;
 
             $request["RA"] = Auth::user()->RA;
             $request["tipo_denuncia"] = false;
         } else {
             $request["id_usuario"] = "";
             $request["email"] = "";
+            $request["nome"] = "";
             $request["RA"] = "";
             $request["tipo_denuncia"] = true;
         }
         // $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
         Denuncia::create($request->all());
-        $email = new DenunciasCreated("titulo de teste", "mensagem de teste");
+        // $email = new DenunciasCreated($request["titulo"], $request["mensagem"]);
         // $email = new DenunciasCreated(
         //     $request["titulo"],
         //     $mensagemChat
         // );
-        \Mail::to(Auth::user())->send($email);
-        return "Denuncia Criada com sucesso!";
-        // return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
+        // \Mail::to(Auth::user())->send($email);
+        // return "Denuncia Criada com sucesso!";
+        return "Denuncia Criada com Sucesso! " . "\n" . app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
     }
 
     /**
