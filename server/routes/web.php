@@ -4,6 +4,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RespostaController;
 use App\Http\Controllers\UsuarioController;
 use App\Mail\DenunciasCreated;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::get("/userIsLogged", [LoginController::class, "checkLogged"]);
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
+Route::resource("respostas", RespostaController::class);
 
 Route::post("/usuarios", [UsuarioController::class, "store"]);
 Route::post("/testeApi", [ChatController::class, "getConselho"]);
@@ -48,7 +50,7 @@ Route::post("/denuncias", [DenunciaController::class, "store"]);
 
 Route::middleware(["autenticador"])->group(function () {
     Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
-
+    Route::get("/resposta", [RespostaController::class, "show"]);
     Route::get("/usuario", [UsuarioController::class, "show"]);
     Route::get("/usuarios", [UsuarioController::class, "index"])->block();
 
