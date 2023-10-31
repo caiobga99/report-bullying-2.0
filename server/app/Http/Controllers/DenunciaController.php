@@ -34,17 +34,15 @@ class DenunciaController extends Controller
     public function store(Request $request)
     {
 
-        $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
         //problema do tempo da requisicao é algo relacionado a request
 
-        if (Auth::check()) {
+        if (Auth::check()) {    
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;
             $request["nome"] = Auth::user()->nome;
 
             $request["RA"] = Auth::user()->RA;
             $request["tipo_denuncia"] = false;
-            $request["conselho"] = $mensagemChat;
         } else {
             $request["id_usuario"] = "";
             $request["email"] = "";
@@ -63,7 +61,7 @@ class DenunciaController extends Controller
         // return "Denuncia Criada com sucesso!";
 
         // Denuncia::query("INSERT INTO denuncias (conselho) VALUES $mensagemChat");
-        return "Denuncia Criada com Sucesso! " . "\n" . $mensagemChat;
+        return "Denuncia Criada com Sucesso!";
     }
 
     /**
