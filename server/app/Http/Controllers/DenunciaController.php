@@ -36,7 +36,7 @@ class DenunciaController extends Controller
 
         //problema do tempo da requisicao é algo relacionado a request
 
-        if (Auth::check()) {    
+        if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
             $request["email"] = Auth::user()->email;
             $request["nome"] = Auth::user()->nome;
@@ -51,7 +51,7 @@ class DenunciaController extends Controller
             $request["tipo_denuncia"] = true;
         }
         Denuncia::create($request->all());
-
+        // app("App\Http\Controllers\RespostaController")->store($request->all());
         // $email = new DenunciasCreated($request["titulo"], $request["mensagem"]);
         // $email = new DenunciasCreated(
         //     $request["titulo"],

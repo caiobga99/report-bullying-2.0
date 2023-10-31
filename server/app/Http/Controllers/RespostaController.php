@@ -39,6 +39,7 @@ class RespostaController extends Controller
         $mensagem = $denuncia[0]->mensagem;
         $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($mensagem);
         $request["conselho"] = $mensagemChat;
+
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
         } else {
