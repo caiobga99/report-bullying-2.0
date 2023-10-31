@@ -37,6 +37,15 @@ class ChatController extends Controller
         return $responseString;
     }
 
+    public function sintaxeMensagem(string $denuncia)
+    {
+        if (Auth::check()) {
+            return 'Crie uma mensagem de conselho e ajuda para a vitima cujo o nome é: "' . Auth::user()->nome . '" que sofreu o seguinte bullying: ("' . $denuncia . '").';
+        } else {
+            return 'Crie uma mensagem de conselho e ajuda para a vitima que sofreu o seguinte bullying: ("' . $denuncia . '").';
+        }
+    }
+
 
     private function sendApiRequest(string $denuncia)
     {
@@ -52,12 +61,12 @@ class ChatController extends Controller
             ],
             'json' => [
                 "model" => "gpt-3.5-turbo",
-                'messages' => [["role" => "user", "content" => 'Crie uma mensagem de conselho e ajuda para a vitima cujo o nome é: "' . Auth::user()->nome . '" que sofreu o seguinte bullying: ("' . $denuncia . '").']],
+                'messages' => [["role" => "user", "content" => $this->sintaxeMensagem($denuncia)]],
                 'temperature' => 0.7,
             ],
         ]);
         $result = json_decode($response->getBody()->getContents(), true);
-        $responseString = response()->json($result['choices'][0]['message']['content']);
+        $responseString = response()->json($result['choices'][0]['message']['content'])->getContent();
         $responseString = str_replace(array('[', ']', "'"), '', $responseString);
         $responseString = str_replace('\u00e3', 'ã', $responseString);
         $responseString = str_replace('\u00e7', 'ç', $responseString);
@@ -76,7 +85,7 @@ class ChatController extends Controller
 
     public function getConselho(string $denuncia)
     {
-        return $this->sendApiRequest('Denuncia', $denuncia);
+        return $this->sendApiRequest($denuncia);
     }
 
 }
