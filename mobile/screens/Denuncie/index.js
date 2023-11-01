@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import { useForm, Controller } from "react-hook-form";
 import { TextInput } from "react-native";
@@ -12,7 +12,9 @@ import {
 import api from "../../lib/axios";
 import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
+import Loading from "../../components/Loading";
 const Denuncie = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -31,90 +33,107 @@ const Denuncie = ({ navigation }) => {
   const { token } = useToken();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     api
       .post(`/denuncias?_token=${token}`, data)
       .then((res) => {
+        setLoading(false);
         showToast(res.data);
         setTimeout(() => {
           navigation.goBack();
         }, 2500);
         console.log(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <View style={styles.box}>
-          <Text style={styles.title}>Denuncia</Text>
-          <View style={styles.formGroup}>
-            <View style={{ flex: 1 }}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={[styles.input, errors?.titulo && styles.inputError]}
-                    onBlur={onBlur}
-                    onChangeText={(value) => onChange(value)}
-                    value={value}
-                    placeholder="Titulo"
-                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+        {loading ? (
+          <>
+            <Text style={styles.textFooter}>Criando sua resposta...</Text>
+            <Loading />
+          </>
+        ) : (
+          <>
+            <View style={styles.box}>
+              <Text style={styles.title}>Denuncia</Text>
+              <View style={styles.formGroup}>
+                <View style={{ flex: 1 }}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        style={[
+                          styles.input,
+                          errors?.titulo && styles.inputError,
+                        ]}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Titulo"
+                        placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+                      />
+                    )}
+                    name="titulo"
+                    rules={{
+                      required: true,
+                    }}
                   />
-                )}
-                name="titulo"
-                rules={{
-                  required: true,
-                }}
-              />
-              {errors?.titulo?.type === "required" && (
-                <Text style={styles.errorMessage}>
-                  Titulo não pode estar vazia!
-                </Text>
-              )}
-            </View>
-            <View style={{ flex: 1 }}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={[
-                      styles.textArea,
-                      errors?.mensagem && styles.inputError,
-                    ]}
-                    onBlur={onBlur}
-                    onChangeText={(value) => onChange(value)}
-                    value={value}
-                    placeholder="Mensagem"
-                    placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
-                    multiline={true}
+                  {errors?.titulo?.type === "required" && (
+                    <Text style={styles.errorMessage}>
+                      Titulo não pode estar vazia!
+                    </Text>
+                  )}
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        style={[
+                          styles.textArea,
+                          errors?.mensagem && styles.inputError,
+                        ]}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Mensagem"
+                        placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+                        multiline={true}
+                      />
+                    )}
+                    name="mensagem"
+                    rules={{
+                      required: true,
+                    }}
                   />
-                )}
-                name="mensagem"
-                rules={{
-                  required: true,
-                }}
-              />
-              {errors?.mensagem?.type === "required" && (
-                <Text style={styles.errorMessage}>
-                  Mensagem não pode estar vazia!
-                </Text>
-              )}
+                  {errors?.mensagem?.type === "required" && (
+                    <Text style={styles.errorMessage}>
+                      Mensagem não pode estar vazia!
+                    </Text>
+                  )}
+                </View>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <CustomButton
+                    title={"Enviar Denuncia"}
+                    onPress={handleSubmit(onSubmit)}
+                    size={250}
+                  />
+                </View>
+              </View>
             </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <CustomButton
-                title={"Enviar Denuncia"}
-                onPress={handleSubmit(onSubmit)}
-                size={250}
-              />
-            </View>
-          </View>
-        </View>
-        <CustomButton
-          title={"Voltar"}
-          onPress={() => navigation.goBack()}
-          size={140}
-        />
+            <CustomButton
+              title={"Voltar"}
+              onPress={() => navigation.goBack()}
+              size={140}
+            />
+          </>
+        )}
       </View>
     </ScrollView>
   );

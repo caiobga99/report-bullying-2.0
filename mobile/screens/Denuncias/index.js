@@ -14,7 +14,6 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function Denuncias({ navigation }) {
   const [data, setData] = useState([]);
-  const [dataMap, setDataMap] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const getDenuncias = () => {
@@ -23,7 +22,7 @@ export default function Denuncias({ navigation }) {
       .get("/denuncia")
       .then((res) => {
         setData(res.data);
-        console.log(data);
+        console.log(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
@@ -59,7 +58,13 @@ export default function Denuncias({ navigation }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <Denuncia titulo={item.titulo} mensagem={item.mensagem} />
+            <Denuncia
+              titulo={item.titulo}
+              mensagem={item.mensagem}
+              onPress={() =>
+                navigation.push("Resposta", { id: item.id_denuncia })
+              }
+            />
           )}
           keyExtractor={(item) => item.id}
         />

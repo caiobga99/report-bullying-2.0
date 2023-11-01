@@ -34,7 +34,7 @@ export default function Cadastro({ navigation }) {
   const watchPassword = watch("password");
   const { setIsLogged } = useUser();
   const onSubmit = async (data) => {
-    const { email, password, ra } = data;
+    const { email, password, ra, name } = data;
 
     // api.get("/logout").then((res) => console.log(res.data));
     api
@@ -42,6 +42,7 @@ export default function Cadastro({ navigation }) {
         email: email,
         password: password,
         RA: ra,
+        nome: name,
       })
       .then((res) => {
         {
@@ -93,6 +94,34 @@ export default function Cadastro({ navigation }) {
                 R.A não pode ter menos de 9 caracteres!
               </Text>
             )}
+            <Text style={styles.label}>Nome</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={[styles.input, errors?.name && styles.inputError]}
+                  onBlur={onBlur}
+                  onChangeText={(value) => onChange(value)}
+                  value={value}
+                />
+              )}
+              name="name"
+              rules={{
+                required: true,
+                maxLength: 45,
+              }}
+            />
+            {errors?.name?.type === "required" && (
+              <Text style={styles.errorMessage}>
+                Nome não pode estar vazio!
+              </Text>
+            )}
+            {errors?.email?.type === "maxLength" && (
+              <Text style={styles.errorMessage}>
+                Nome não ter mais de 45 caracteres!
+              </Text>
+            )}
+
             <Text style={styles.label}>E-mail</Text>
             <Controller
               control={control}
