@@ -33,13 +33,9 @@ class RespostaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $id_denuncia = $request["id_denuncia"];
-        $denuncia = Denuncia::all()->where("id_denuncia", $id_denuncia)->values();
-        $mensagem = $denuncia[0]->mensagem;
-        $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($mensagem);
-        $request["conselho"] = $mensagemChat;
 
+        $mensagemChat = app("App\Http\Controllers\ChatController")->getConselho($request["mensagem"]);
+        $request["conselho"] = $mensagemChat;
         if (Auth::check()) {
             $request["id_usuario"] = Auth::id();
         } else {
