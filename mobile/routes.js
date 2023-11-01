@@ -13,6 +13,7 @@ import useToken from "./common/Token";
 import useUser from "./common/User";
 import { useEffect } from "react";
 import api from "./lib/axios";
+import Resposta from "./screens/Resposta";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
@@ -21,6 +22,7 @@ const MyRoutes = () => {
   const { setToken } = useToken();
   const { setIsLogged, isLogged } = useUser();
   useEffect(() => {
+    // api.get("/logout");
     api.get("/token").then((res) => setToken(res.data));
     api.get("/userIsLogged").then((res) => setIsLogged(res.data));
   }, []);
@@ -60,6 +62,7 @@ const MyRoutes = () => {
             //   headerRight: () => <HeaderIcon />,
             // }}
           />
+          <Stack.Screen name="Resposta" component={Resposta} />
         </>
       ) : (
         <>
