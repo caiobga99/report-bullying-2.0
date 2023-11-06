@@ -14,7 +14,12 @@ import useUser from "../../common/User";
 import { useToken } from "../../common/Token";
 import { CommonActions } from "@react-navigation/native";
 import showToast from "../../components/Toast";
+import { useEffect } from "react";
 export default function Login({ navigation }) {
+  const { setIsLogged, isLogged } = useUser();
+  if (isLogged) {
+    navigation.navigate("Home");
+  }
   const {
     handleSubmit,
     control,
@@ -31,19 +36,19 @@ export default function Login({ navigation }) {
   }
 
   const { token } = useToken();
-  const { setIsLogged } = useUser();
 
   const onSubmit = async (data) => {
     api.post(`/login?_token=${token}`, data).then((res) => {
       showToast(res.data);
       if (res.data === "Usuario Logado com Sucesso!") {
         setIsLogged(true);
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: "Denuncias" }],
-          })
-        );
+        navigation.push("Home");
+        // navigation.dispatch(
+        //   CommonActions.reset({
+        //     index: 0,
+        //     routes: [{ name: "Home" }],
+        //   })
+        // );
       } else {
         console.log(res.data);
       }
@@ -65,6 +70,7 @@ export default function Login({ navigation }) {
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
+                    textContentType="emailAddress"
                   />
                 )}
                 name="email"
@@ -101,6 +107,7 @@ export default function Login({ navigation }) {
                     onBlur={onBlur}
                     onChangeText={(value) => onChange(value)}
                     value={value}
+                    secureTextEntry
                   />
                 )}
                 name="password"

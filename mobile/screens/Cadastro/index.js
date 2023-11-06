@@ -14,6 +14,10 @@ import { useToken } from "../../common/Token";
 import useUser from "../../common/User";
 import showToast from "../../components/Toast";
 export default function Cadastro({ navigation }) {
+  const { setIsLogged, isLogged } = useUser();
+  if (isLogged) {
+    navigation.navigate("Home");
+  }
   const {
     handleSubmit,
     control,
@@ -32,7 +36,7 @@ export default function Cadastro({ navigation }) {
 
   const { token } = useToken();
   const watchPassword = watch("password");
-  const { setIsLogged } = useUser();
+
   const onSubmit = async (data) => {
     const { email, password, ra, name } = data;
 
@@ -49,7 +53,7 @@ export default function Cadastro({ navigation }) {
           showToast(res.data);
           setIsLogged(true);
           console.log(res.data);
-          navigation.push("Denuncias");
+          navigation.push("Home");
         }
       })
       .catch((error) => console.log(error));
@@ -103,6 +107,7 @@ export default function Cadastro({ navigation }) {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  textContentType="name"
                 />
               )}
               name="name"
@@ -131,6 +136,7 @@ export default function Cadastro({ navigation }) {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  textContentType="emailAddress"
                 />
               )}
               name="email"
@@ -162,6 +168,7 @@ export default function Cadastro({ navigation }) {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  secureTextEntry
                 />
               )}
               name="password"
@@ -192,6 +199,7 @@ export default function Cadastro({ navigation }) {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  secureTextEntry
                 />
               )}
               name="passwordConfirmation"
@@ -235,12 +243,12 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 3,
     backgroundColor: "#D9D9D9",
-    height: "83%",
+    height: "84.5%",
     width: "90%",
     borderRadius: 50,
     borderColor: "#C2C2C2",
     alignItems: "center",
-    padding: 26,
+    padding: 28,
   },
   formGroup: {
     width: "100%",
