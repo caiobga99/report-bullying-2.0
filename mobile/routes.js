@@ -14,6 +14,7 @@ import useUser from "./common/User";
 import { useEffect } from "react";
 import api from "./lib/axios";
 import Resposta from "./screens/Resposta";
+import Home from "./screens/Home";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
@@ -49,10 +50,11 @@ const MyRoutes = () => {
       //     fontFamily: "FredokaOne_400Regular",
       //   },
       // }}
-      initialRouteName="Login"
+      initialRouteName={"Login"}
     >
       {isLogged ? (
         <>
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Denuncias" component={Denuncias} />
           <Stack.Screen name="FAQ" component={FAQ} />
           <Stack.Screen
