@@ -5,15 +5,18 @@ import Navbar from "./components/Navbar";
 import { NavigationContainer } from "@react-navigation/native";
 import { TokenProvider } from "./common/Token";
 import { UserProvider } from "./common/User";
+import { TemaProvider } from "./common/Tema";
 
 export default function App() {
   return (
     <NavigationContainer>
       <TokenProvider>
-        <UserProvider>
-          <Navbar />
-          <MyRoutes />
-        </UserProvider>
+        <TemaProvider>
+          <UserProvider>
+            <Navbar />
+            <MyRoutes />
+          </UserProvider>
+        </TemaProvider>
       </TokenProvider>
     </NavigationContainer>
   );
