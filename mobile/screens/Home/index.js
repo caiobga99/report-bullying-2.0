@@ -64,7 +64,7 @@ export default function Home({ navigation }) {
             style={[
               styles.temaText,
               {
-                color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
               },
             ]}
           >
@@ -77,7 +77,7 @@ export default function Home({ navigation }) {
               style={[
                 styles.link,
                 {
-                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
                 },
               ]}
               onPress={() => navigation.push("Denuncie")}
@@ -92,7 +92,7 @@ export default function Home({ navigation }) {
               style={[
                 styles.link,
                 {
-                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
                 },
               ]}
               onPress={() => navigation.push("Denuncias")}
@@ -107,7 +107,7 @@ export default function Home({ navigation }) {
               style={[
                 styles.link,
                 {
-                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
                 },
               ]}
               onPress={() => navigation.push("FAQ")}
