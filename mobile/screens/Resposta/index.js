@@ -12,6 +12,7 @@ import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
 import { useIsFocused } from "@react-navigation/native";
+import useTema from "../../common/Tema";
 const Resposta = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -41,13 +42,18 @@ const Resposta = ({ navigation, route }) => {
   if (!fontsLoaded) {
     return null;
   }
-
+  const { tema } = useTema();
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: tema === "dark" ? "#fff" : "#000" },
+        ]}
+      >
         {isLoading ? (
           <>
-            <Loading />
+            <Loading background={tema === "dark" ? "#fff" : "#000"} />
           </>
         ) : (
           <>

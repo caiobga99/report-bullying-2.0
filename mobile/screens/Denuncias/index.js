@@ -11,6 +11,7 @@ import {
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
 import { useIsFocused } from "@react-navigation/native";
+import useTema from "../../common/Tema";
 
 export default function Denuncias({ navigation }) {
   const [data, setData] = useState([]);
@@ -40,16 +41,27 @@ export default function Denuncias({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
-
+  const { tema } = useTema();
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: tema === "dark" ? "#fff" : "#000",
+        },
+      ]}
+    >
       {isLoading ? (
         <>
-          <Loading />
+          <Loading background={tema === "dark" ? "#fff" : "#000"} />
         </>
       ) : data.length <= 0 ? (
         <View style={styles.containerText}>
-          <Text style={styles.text}>Nenhuma Denuncia foi Feita Ainda😊</Text>
+          <Text
+            style={[styles.text, { color: tema === "light" ? "#fff" : "#000" }]}
+          >
+            Nenhuma Denuncia foi Feita Ainda😊
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -70,14 +82,26 @@ export default function Denuncias({ navigation }) {
         />
       )}
 
-      <View style={styles.foot}>
+      <View
+        style={[
+          styles.foot,
+          {
+            backgroundColor: tema === "dark" ? "#fff" : "#000",
+          },
+        ]}
+      >
+        <CustomButton
+          title="Home"
+          size={120}
+          onPress={() => navigation.push("Home")}
+        />
         <CustomButton
           title="Fazer Denuncia"
           size={120}
           onPress={() => navigation.push("Denuncie")}
         />
         <CustomButton
-          title="FAQ"
+          title="Ajuda"
           size={120}
           onPress={() => navigation.push("FAQ")}
         />
@@ -90,7 +114,6 @@ const styles = StyleSheet.create({
   container: {
     height: "98%",
     width: "100%",
-    backgroundColor: "#fff",
     alignItems: "center",
   },
   foot: {

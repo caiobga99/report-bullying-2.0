@@ -4,6 +4,7 @@ import {
   FredokaOne_400Regular,
 } from "@expo-google-fonts/fredoka-one";
 import SvgLogo from "../LogoSvg";
+import useTema from "../../common/Tema";
 const Navbar = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
@@ -12,16 +13,24 @@ const Navbar = () => {
   if (!fontsLoaded) {
     return null;
   }
+  const { tema } = useTema();
 
   return (
-    <View style={styles.navbar}>
+    <View
+      style={[
+        styles.navbar,
+        { backgroundColor: tema === "dark" ? "#fff" : "#000" },
+      ]}
+    >
       <View style={styles.container}>
-        <Text style={styles.text}>Report Bullying</Text>
+        <Text
+          style={[styles.text, { color: tema === "dark" ? "#000" : "#fff" }]}
+        >
+          Report Bullying
+        </Text>
       </View>
       <View style={styles.group}>
-        <View style={styles.circle}>
-          <SvgLogo />
-        </View>
+        <SvgLogo />
       </View>
     </View>
   );
@@ -29,7 +38,7 @@ const Navbar = () => {
 
 const styles = StyleSheet.create({
   navbar: {
-    height: "20%",
+    height: "23%",
     width: "100%",
     flexDirection: "row",
     alignItems: "center",

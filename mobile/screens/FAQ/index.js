@@ -7,6 +7,7 @@ import {
   useFonts,
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
+import useTema from "../../common/Tema";
 export default function FAQ({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -16,6 +17,7 @@ export default function FAQ({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
+  const { tema } = useTema();
   const DATA = [
     {
       titulo: "Como Denuncia?",
@@ -34,7 +36,14 @@ export default function FAQ({ navigation }) {
     },
   ];
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: tema === "dark" ? "#fff" : "#000",
+        },
+      ]}
+    >
       <View style={styles.box}>
         <Text style={styles.title}>Como Denuncia?</Text>
         <Text style={styles.content}>

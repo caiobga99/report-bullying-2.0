@@ -13,9 +13,11 @@ import api from "../../lib/axios";
 import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
+import useTema from "../../common/Tema";
 const Denuncie = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [textLoading, setTextLoading] = useState("");
+  const { tema } = useTema();
   const {
     handleSubmit,
     control,
@@ -62,21 +64,48 @@ const Denuncie = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: tema === "dark" ? "#fff" : "#000" },
+        ]}
+      >
         {loading ? (
           <>
-            <Text style={styles.textFooter}>
+            <Text
+              style={[
+                styles.textFooter,
+                { color: tema === "dark" ? "#000" : "#fff" },
+              ]}
+            >
               Criando sua resposta{textLoading}
             </Text>
-            <Text style={[styles.textFooter, { fontSize: 17 }]}>
-              Isso pode alguns segundos
+            <Text
+              style={[
+                styles.textFooter,
+                { fontSize: 17, color: tema === "dark" ? "#000" : "#fff" },
+              ]}
+            >
+              Isso pode levar alguns segundos
             </Text>
-            <Loading />
+            <Loading background={tema === "dark" ? "#fff" : "#000"} />
           </>
         ) : (
           <>
-            <View style={styles.box}>
-              <Text style={styles.title}>Denuncia</Text>
+            <View
+              style={[
+                styles.box,
+                { backgroundColor: tema === "light" ? "#000" : "#D9D9D9" },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.title,
+                  { color: tema === "light" ? "#efefef" : "#060606" },
+                ]}
+              >
+                Denuncia
+              </Text>
               <View style={styles.formGroup}>
                 <View style={{ flex: 1 }}>
                   <Controller
@@ -91,7 +120,9 @@ const Denuncie = ({ navigation }) => {
                         onChangeText={(value) => onChange(value)}
                         value={value}
                         placeholder="Titulo"
-                        placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+                        placeholderTextColor={
+                          tema === "dark" ? "rgba(0, 0, 0, 0.65)" : "#fff"
+                        }
                       />
                     )}
                     name="titulo"
@@ -118,7 +149,9 @@ const Denuncie = ({ navigation }) => {
                         onChangeText={(value) => onChange(value)}
                         value={value}
                         placeholder="Mensagem"
-                        placeholderTextColor={"rgba(0, 0, 0, 0.4)"}
+                        placeholderTextColor={
+                          tema === "dark" ? "rgba(0, 0, 0, 0.65)" : "#fff"
+                        }
                         multiline={true}
                       />
                     )}
@@ -158,15 +191,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   box: {
     borderWidth: 3,
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#060606",
     height: "82%",
     width: "90%",
     borderRadius: 50,
-    borderColor: "#C2C2C2",
+    borderColor: "#efefef",
     alignItems: "center",
     padding: 25,
   },
@@ -208,10 +240,10 @@ const styles = StyleSheet.create({
   },
   inputError: {
     borderWidth: 1.6,
-    borderColor: "red",
+    borderColor: "#fc2323",
   },
   errorMessage: {
-    color: "red",
+    color: "#fc2323",
     fontFamily: "Poppins_300Light",
     fontSize: 17,
   },
