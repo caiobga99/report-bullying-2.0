@@ -4,7 +4,7 @@ import {
   View,
   Switch,
   Pressable,
-  Appearance,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -14,6 +14,10 @@ import {
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
 import useTema from "../../common/Tema";
+import api from "../../lib/axios";
+import showToast from "../../components/Toast";
+import useUser from "../../common/User";
+import useToken from "../../common/Token";
 export default function Home({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -25,7 +29,20 @@ export default function Home({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
+  const { setIsLogged } = useUser();
+  const { setToken } = useToken();
   const { setTema, tema } = useTema();
+  const logout = () => {
+    api.get("/logout").then((res) => {
+      setIsLogged(false);
+      setTema("dark");
+      showToast(res.data.message);
+      setToken(res.data.token);
+      setTimeout(() => {
+        navigation.push("Login");
+      }, 2500);
+    });
+  };
   return (
     <View
       style={[
@@ -48,14 +65,14 @@ export default function Home({ navigation }) {
           <Text style={styles.temaText}>CLARO/ESCURO</Text>
         </View>
         <View>
-          <Pressable>
+          <TouchableOpacity>
             <Text
               style={styles.link}
               onPress={() => navigation.push("Denuncie")}
             >
               FAZER DENUNCIA
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View>
           <Pressable>
@@ -74,6 +91,26 @@ export default function Home({ navigation }) {
             </Text>
           </Pressable>
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "red",
+            width: "80%",
+            height: "15%",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 22,
+          }}
+          onPress={() => logout()}
+        >
+          <Text
+            style={[
+              styles.link,
+              { color: tema === "light" ? "#efefef" : "#fff" },
+            ]}
+          >
+            Sair
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

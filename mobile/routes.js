@@ -50,28 +50,21 @@ const MyRoutes = () => {
       //     fontFamily: "FredokaOne_400Regular",
       //   },
       // }}
-      initialRouteName={"Login"}
+      initialRouteName={isLogged ? "Home" : "Login"}
     >
-      {isLogged ? (
-        <>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Denuncias" component={Denuncias} />
-          <Stack.Screen name="FAQ" component={FAQ} />
-          <Stack.Screen
-            name="Denuncie"
-            component={Denuncie}
-            // options={{
-            //   headerRight: () => <HeaderIcon />,
-            // }}
-          />
-          <Stack.Screen name="Resposta" component={Resposta} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Cadastro" component={Cadastro} />
-          <Stack.Screen name="Login" component={Login} />
-        </>
-      )}
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Denuncias" component={Denuncias} />
+      <Stack.Screen name="FAQ" component={FAQ} />
+      <Stack.Screen
+        name="Denuncie"
+        component={Denuncie}
+        // options={{
+        //   headerRight: () => <HeaderIcon />,
+        // }}
+      />
+      <Stack.Screen name="Resposta" component={Resposta} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Cadastro" component={Cadastro} />
     </Stack.Navigator>
   );
 };
