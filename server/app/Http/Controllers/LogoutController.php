@@ -15,7 +15,11 @@ class LogoutController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         // Session::flush();
-        return "Usuario Deslogado!";
+        return response()->json([
+            "status" => "success",
+            "message" => "Usuario deslogado com sucesso!",
+            "token" => csrf_token(),
+        ]);
         // return redirect('login');
     }
 }
