@@ -48,9 +48,8 @@ class RespostaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(string $id_denuncia)
     {
-        $id_denuncia = $request->all();
         $id_usuario = Auth::id();
         $resposta = Resposta::where(["id_denuncia" => $id_denuncia, "id_usuario" => $id_usuario])->get();
         return $resposta;
