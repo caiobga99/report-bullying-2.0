@@ -17,11 +17,11 @@ const Resposta = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const isFocused = useIsFocused();
   const { id } = route.params;
-
+  console.log(id);
   const getRespostas = () => {
     setIsLoading(true);
     api
-      .get("/resposta", { id_denuncia: id })
+      .get(`/resposta/${id}`)
       .then((res) => {
         setData(res.data);
         console.log(res.data);
