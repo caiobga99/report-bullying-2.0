@@ -50,7 +50,7 @@ Route::post("/denuncias", [DenunciaController::class, "store"]);
 
 Route::middleware(["autenticador"])->group(function () {
     Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
-    Route::get("/resposta", [RespostaController::class, "show"]);
+    Route::get("/resposta/{id_denuncia}", [RespostaController::class, "show"]);
     Route::get("/usuario", [UsuarioController::class, "show"]);
     Route::get("/usuarios", [UsuarioController::class, "index"])->block();
 
