@@ -23,6 +23,19 @@ const Resposta = ({ navigation, route }) => {
     api
       .get(`/resposta/${id}`)
       .then((res) => {
+        if (res.data.length <= 0) {
+          console.log("menor de 0");
+          setData(
+            [
+              {
+                conselho:
+                  "Desculpe, não foi possivel gerar uma resposta para sua denuncia, por favor tente novamente!",
+              },
+            ][0]
+          );
+          setIsLoading(false);
+          return;
+        }
         setData(res.data[0]);
         console.log(res.data);
         setIsLoading(false);
