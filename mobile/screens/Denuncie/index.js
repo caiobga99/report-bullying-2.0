@@ -15,6 +15,7 @@ import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
 const Denuncie = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
+  const [textLoading, setTextLoading] = useState("");
   const {
     handleSubmit,
     control,
@@ -33,7 +34,16 @@ const Denuncie = ({ navigation }) => {
   const { token } = useToken();
 
   const onSubmit = async (data) => {
+    let i = 0;
     setLoading(true);
+    setInterval(function () {
+      i++;
+      setTextLoading((prev) => prev + ".");
+      if (i === 4) {
+        setTextLoading("");
+        i = 0;
+      }
+    }, 500);
     api
       .post(`/denuncias?_token=${token}`, data)
       .then((res) => {
@@ -55,7 +65,12 @@ const Denuncie = ({ navigation }) => {
       <View style={styles.container}>
         {loading ? (
           <>
-            <Text style={styles.textFooter}>Criando sua resposta...</Text>
+            <Text style={styles.textFooter}>
+              Criando sua resposta{textLoading}
+            </Text>
+            <Text style={[styles.textFooter, { fontSize: 17 }]}>
+              Isso pode alguns segundos
+            </Text>
             <Loading />
           </>
         ) : (

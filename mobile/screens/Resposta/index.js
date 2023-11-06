@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import {
@@ -17,13 +17,12 @@ const Resposta = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const isFocused = useIsFocused();
   const { id } = route.params;
-  console.log(id);
   const getRespostas = () => {
     setIsLoading(true);
     api
       .get(`/resposta/${id}`)
       .then((res) => {
-        setData(res.data);
+        setData(res.data[0]);
         console.log(res.data);
         setIsLoading(false);
       })
@@ -72,11 +71,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#fff",
+    marginBottom: Dimensions.get("window").width * 0.05,
   },
   box: {
     borderWidth: 3,
     backgroundColor: "#D9D9D9",
-    height: "82%",
+    minHeight: "82%",
+    height: "auto",
     width: "90%",
     borderRadius: 50,
     borderColor: "#C2C2C2",
