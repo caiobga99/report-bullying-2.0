@@ -56,7 +56,12 @@ export default function Cadastro({ navigation }) {
           navigation.push("Home");
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Request failed with status code 500") {
+          showToast("Usuario já existente");
+        }
+      });
     // console.log(data);
     // setTimeout(() => {
     //   reset({
