@@ -22,7 +22,7 @@ export default function FAQ({ navigation }) {
     {
       titulo: "Como Denuncia?",
       mensagem:
-        "Entre a pagina “Denuncie”, e preencha com os dados necesserios. (Titulo e E-mail)",
+        "Entre a tela “Denuncie”, e preencha com os dados necessários. (Titulo e E-mail)",
     },
     {
       titulo: "Não tenho R.A?",
@@ -47,8 +47,8 @@ export default function FAQ({ navigation }) {
       <View style={styles.box}>
         <Text style={styles.title}>Como Denuncia?</Text>
         <Text style={styles.content}>
-          Entre a pagina “Denuncie”, e preencha com os dados necesserios. (Nome,
-          R.A, E-mail)
+          Entre a pagina “Denuncie”, e preencha com os dados necessários.
+          (Titulo e E-mail)
         </Text>
       </View>
       <View style={styles.box}>

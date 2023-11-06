@@ -38,9 +38,7 @@ export default function Home({ navigation }) {
       setTema("dark");
       showToast(res.data.message);
       setToken(res.data.token);
-      setTimeout(() => {
-        navigation.push("Login");
-      }, 2500);
+      navigation.push("Login");
     });
   };
   return (
@@ -54,7 +52,7 @@ export default function Home({ navigation }) {
         <View style={{ alignItems: "center" }}>
           <Switch
             trackColor={{ false: "#767577", true: "#e6e9ed" }}
-            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            thumbColor={isEnabled ? "#f5dd4b" : "#2A2A2A"}
             onValueChange={toggleSwitch}
             value={tema === "light"}
             style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
@@ -62,12 +60,26 @@ export default function Home({ navigation }) {
               tema === "dark" ? setTema("light") : setTema("dark");
             }}
           />
-          <Text style={styles.temaText}>CLARO/ESCURO</Text>
+          <Text
+            style={[
+              styles.temaText,
+              {
+                color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+              },
+            ]}
+          >
+            CLARO/ESCURO
+          </Text>
         </View>
         <View>
           <TouchableOpacity>
             <Text
-              style={styles.link}
+              style={[
+                styles.link,
+                {
+                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                },
+              ]}
               onPress={() => navigation.push("Denuncie")}
             >
               FAZER DENUNCIA
@@ -77,7 +89,12 @@ export default function Home({ navigation }) {
         <View>
           <Pressable>
             <Text
-              style={styles.link}
+              style={[
+                styles.link,
+                {
+                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                },
+              ]}
               onPress={() => navigation.push("Denuncias")}
             >
               DENUNCIAS
@@ -86,7 +103,15 @@ export default function Home({ navigation }) {
         </View>
         <View>
           <Pressable>
-            <Text style={styles.link} onPress={() => navigation.push("FAQ")}>
+            <Text
+              style={[
+                styles.link,
+                {
+                  color: tema === "light" ? "rgba(73, 95, 126, 1)" : "#172c4a",
+                },
+              ]}
+              onPress={() => navigation.push("FAQ")}
+            >
               AJUDA
             </Text>
           </Pressable>
@@ -133,13 +158,17 @@ const styles = StyleSheet.create({
   },
   link: {
     fontFamily: "Poppins_600SemiBold",
-    color: "rgba(73, 95, 126, 1)",
     fontSize: 27,
+    textShadowOffset: { width: 2.5, height: 2.5 },
+    textShadowRadius: 20,
+    textShadowColor: "rgba(73, 95, 126, 1)",
   },
   temaText: {
     fontSize: 20,
     fontFamily: "Poppins_400Regular",
     textAlign: "center",
-    color: "rgba(73, 95, 126, 1)",
+    textShadowColor: "rgba(73, 95, 126, 1)",
+    textShadowOffset: { width: 2.5, height: 2.5 },
+    textShadowRadius: 13.3,
   },
 });

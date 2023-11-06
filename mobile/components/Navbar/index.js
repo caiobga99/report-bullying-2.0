@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontWeight: "400",
     fontFamily: "FredokaOne_400Regular",
+    textShadowColor: "rgba(73, 95, 126, 1)",
+    textShadowOffset: { width: 2.5, height: 2.5 },
+    textShadowRadius: 15,
   },
   container: {
     flex: 1,

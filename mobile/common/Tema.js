@@ -4,7 +4,6 @@ export const TemaContext = createContext();
 
 export const TemaProvider = ({ children }) => {
   const [tema, setTema] = useState("dark");
-  console.log(tema);
   return (
     <TemaContext.Provider value={{ tema, setTema }}>
       {children}

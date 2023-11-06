@@ -23,7 +23,6 @@ export default function Denuncias({ navigation }) {
       .get("/denuncia")
       .then((res) => {
         setData(res.data);
-        console.log(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));

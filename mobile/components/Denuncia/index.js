@@ -20,7 +20,7 @@ export default function Denuncia({ titulo, mensagem, onPress }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.textHeader}>Titulo: {titulo}</Text>
+        <Text style={styles.textHeader}>{titulo}</Text>
       </View>
       <View style={{ flex: 1 }}>
         <Text style={styles.textContent}>{mensagem}</Text>
@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
   textHeader: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 23,
+    textShadowColor: "rgba(73, 95, 126, 1)",
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 5,
   },
   textContent: {
     fontFamily: "Poppins_400Regular",
