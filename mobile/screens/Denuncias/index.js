@@ -111,7 +111,7 @@ export default function Denuncias({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: "98%",
+    height: "100%",
     width: "100%",
     alignItems: "center",
   },

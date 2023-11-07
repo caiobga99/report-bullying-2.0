@@ -11,6 +11,8 @@
 
 php artisan serve --host 10.112.240.210 --port 8000
 
+php artisan serve --host 10.112.240.174 --port 8082
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

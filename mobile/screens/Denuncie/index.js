@@ -52,7 +52,7 @@ const Denuncie = ({ navigation }) => {
         setLoading(false);
         showToast(res.data);
         setTimeout(() => {
-          navigation.goBack();
+          navigation.push("Denuncias");
         }, 2500);
         console.log(res.data);
       })

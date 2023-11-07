@@ -24,7 +24,9 @@ const Resposta = ({ navigation, route }) => {
       .get(`/resposta/${id}`)
       .then((res) => {
         if (res.data.length <= 0) {
-          console.log("menor de 0");
+          showToast(
+            "Ocorreu um erro ao criar sua resposta, por favor tente novamente"
+          );
           setData(
             [
               {
@@ -89,8 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#fff",
-    marginBottom: Dimensions.get("window").width * 0.05,
+    backgroundColor: "#D9D9D9",
   },
   box: {
     borderWidth: 3,
