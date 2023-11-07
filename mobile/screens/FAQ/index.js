@@ -45,7 +45,7 @@ export default function FAQ({ navigation }) {
       ]}
     >
       <View style={styles.box}>
-        <Text style={styles.title}>Como Denuncia?</Text>
+        <Text style={styles.title}>Como Realizar a Denuncia?</Text>
         <Text style={styles.content}>
           Entre a pagina “Denuncie”, e preencha com os dados necessários.
           (Titulo e E-mail)
@@ -54,8 +54,8 @@ export default function FAQ({ navigation }) {
       <View style={styles.box}>
         <Text style={styles.title}>Não tenho R.A?</Text>
         <Text style={styles.content}>
-          Caso você não saiba seu R.A, entre na secretaria digital e consulte
-          seu R.A
+          Caso você não saiba seu R.A, entre no site da secretaria digital e
+          consulte seu R.A
         </Text>
       </View>
       <View style={styles.box}>

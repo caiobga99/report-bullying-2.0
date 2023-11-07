@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../../components/CustomButton";
 import {
@@ -8,7 +8,6 @@ import {
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
 import api from "../../lib/axios";
-import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
 import { useIsFocused } from "@react-navigation/native";

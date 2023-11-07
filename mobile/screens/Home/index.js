@@ -12,6 +12,7 @@ import {
   Poppins_600SemiBold,
   useFonts,
   Poppins_300Light,
+  Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import useTema from "../../common/Tema";
 import api from "../../lib/axios";
@@ -25,6 +26,7 @@ export default function Home({ navigation }) {
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_300Light,
+    Poppins_700Bold,
   });
   if (!fontsLoaded) {
     return null;
@@ -60,16 +62,48 @@ export default function Home({ navigation }) {
               tema === "dark" ? setTema("light") : setTema("dark");
             }}
           />
-          <Text
-            style={[
-              styles.temaText,
-              {
-                color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
-              },
-            ]}
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
           >
-            CLARO/ESCURO
-          </Text>
+            <Text
+              style={[
+                styles.temaText,
+                {
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                  fontFamily:
+                    tema === "dark" ? "Poppins_700Bold" : "Poppins_400Regular",
+                },
+              ]}
+            >
+              CLARO
+            </Text>
+            <Text
+              style={[
+                styles.temaText,
+                {
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                },
+              ]}
+            >
+              /
+            </Text>
+            <Text
+              style={[
+                styles.temaText,
+                {
+                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                  fontFamily:
+                    tema === "light" ? "Poppins_700Bold" : "Poppins_400Regular",
+                },
+              ]}
+            >
+              ESCURO
+            </Text>
+          </View>
         </View>
         <View>
           <TouchableOpacity>
