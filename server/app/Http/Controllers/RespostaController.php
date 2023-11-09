@@ -54,7 +54,7 @@ class RespostaController extends Controller
         $resposta = Resposta::where(["id_denuncia" => $id_denuncia, "id_usuario" => $id_usuario])->get();
         return $resposta;
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      */
