@@ -6,19 +6,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { TokenProvider } from "./common/Token";
 import { UserProvider } from "./common/User";
 import { TemaProvider } from "./common/Tema";
-import { AnonymousProvider } from "./common/Anonymous";
 
 export default function App() {
   return (
     <NavigationContainer>
       <TokenProvider>
         <TemaProvider>
-          <AnonymousProvider>
-            <UserProvider>
-              <Navbar />
-              <MyRoutes />
-            </UserProvider>
-          </AnonymousProvider>
+          <UserProvider>
+            <Navbar />
+            <MyRoutes />
+          </UserProvider>
         </TemaProvider>
       </TokenProvider>
     </NavigationContainer>
