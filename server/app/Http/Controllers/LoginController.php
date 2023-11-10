@@ -22,6 +22,7 @@ class LoginController extends Controller
             "password" => ["required"],
         ]);
 
+
         if ($credentials["email"] == "Anonimo@gmail.com" && $credentials["password"] == "Anonimo@123") {
             if (Auth::attempt($credentials)) {
                 return "Usuario Anonimo Logado com Sucesso!";
@@ -33,6 +34,7 @@ class LoginController extends Controller
                 session(["tipo" => "comum"]);
             } elseif ($typeUser == 1) {
                 session(["tipo" => "administrador"]);
+                return "Usuario Administrador Logado com Sucesso!";
             }
             return "Usuario Logado com Sucesso!";
         } else {
