@@ -49,8 +49,13 @@ class UsuarioController extends Controller
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
         User::create($data);
+        if ($email == "adm@adm.com") {
+            app("App\Http\Controllers\LoginController")->authenticate($request);
+            return "Usuario Administrador Criado e logado com sucesso!";
+        }
         if (!Auth::check()) {
             app("App\Http\Controllers\LoginController")->authenticate($request);
+
             return "Usuario Criado e logado com sucesso!";
         }
         return "Usuario Criado com sucesso!";
