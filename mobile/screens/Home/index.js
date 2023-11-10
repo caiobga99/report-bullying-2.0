@@ -19,7 +19,6 @@ import api from "../../lib/axios";
 import showToast from "../../components/Toast";
 import useUser from "../../common/User";
 import useToken from "../../common/Token";
-import useAnonymous from "../../common/Anonymous";
 export default function Home({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -32,15 +31,15 @@ export default function Home({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
-  const { setIsLogged } = useUser();
+  const { setIsLogged, setViewReport, isAdmin, setIsAdmin } = useUser();
   const { setToken } = useToken();
-  const { setViewReport } = useAnonymous();
   const { setTema, tema } = useTema();
   const logout = () => {
     api.get("/logout").then((res) => {
       setIsLogged(false);
       setTema("dark");
       setViewReport(false);
+      setIsAdmin(false);
       showToast(res.data.message);
       setToken(res.data.token);
       navigation.push("Login");
@@ -108,36 +107,59 @@ export default function Home({ navigation }) {
             </Text>
           </View>
         </View>
-        <View>
-          <TouchableOpacity>
-            <Text
-              style={[
-                styles.link,
-                {
-                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
-                },
-              ]}
-              onPress={() => navigation.push("Denuncie")}
-            >
-              FAZER DENUNCIA
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Pressable>
-            <Text
-              style={[
-                styles.link,
-                {
-                  color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
-                },
-              ]}
-              onPress={() => navigation.push("Denuncias")}
-            >
-              DENUNCIAS
-            </Text>
-          </Pressable>
-        </View>
+
+        {!isAdmin ? (
+          <>
+            <View>
+              <TouchableOpacity>
+                <Text
+                  style={[
+                    styles.link,
+                    {
+                      color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                    },
+                  ]}
+                  onPress={() => navigation.push("Denuncie")}
+                >
+                  FAZER DENUNCIA
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Pressable>
+                <Text
+                  style={[
+                    styles.link,
+                    {
+                      color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                    },
+                  ]}
+                  onPress={() => navigation.push("Denuncias")}
+                >
+                  DENUNCIAS
+                </Text>
+              </Pressable>
+            </View>
+          </>
+        ) : (
+          <>
+            <View>
+              <Pressable>
+                <Text
+                  style={[
+                    styles.link,
+                    {
+                      color: tema === "light" ? "#8ba4c7" : "#2f4e7a",
+                    },
+                  ]}
+                  onPress={() => navigation.push("Painel")}
+                >
+                  PAINEL
+                </Text>
+              </Pressable>
+            </View>
+          </>
+        )}
         <View>
           <Pressable>
             <Text

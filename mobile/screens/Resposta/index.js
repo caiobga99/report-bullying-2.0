@@ -16,12 +16,14 @@ const Resposta = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const isFocused = useIsFocused();
-  const { id } = route.params;
+  const { id_denuncia, id_usuario } = route.params;
   const getRespostas = () => {
     setIsLoading(true);
+    console.log(id_usuario);
     api
-      .get(`/resposta/${id}`)
+      .get(`/resposta/${id_denuncia}/${id_usuario}`)
       .then((res) => {
+        console.log(res.data);
         if (res.data.length <= 0) {
           showToast(
             "Ocorreu um erro ao criar sua resposta, por favor tente novamente"

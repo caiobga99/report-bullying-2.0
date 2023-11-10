@@ -12,13 +12,13 @@ import {
 } from "@expo-google-fonts/poppins";
 import { useIsFocused } from "@react-navigation/native";
 import useTema from "../../common/Tema";
-import useAnonymous from "../../common/Anonymous";
+import useUser from "../../common/User";
 
 export default function Denuncias({ navigation }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
-  const { viewReport, isAnonymous } = useAnonymous();
+  const { viewReport, isAnonymous } = useUser();
   const getDenuncias = () => {
     setIsLoading(true);
     api
@@ -79,7 +79,7 @@ export default function Denuncias({ navigation }) {
               titulo={item.titulo}
               mensagem={item.mensagem}
               onPress={() =>
-                navigation.push("Resposta", { id: item.id_denuncia })
+                navigation.push("Resposta", { id_denuncia: item.id_denuncia })
               }
             />
           )}

@@ -14,7 +14,7 @@ import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
 import useTema from "../../common/Tema";
-import useAnonymous from "../../common/Anonymous";
+import useUser from "../../common/User";
 const Denuncie = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [textLoading, setTextLoading] = useState("");
@@ -35,7 +35,7 @@ const Denuncie = ({ navigation }) => {
   }
 
   const { token } = useToken();
-  const { setViewReport } = useAnonymous();
+  const { setViewReport } = useUser();
 
   const onSubmit = async (data) => {
     let i = 0;

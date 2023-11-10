@@ -15,9 +15,10 @@ import { useToken } from "../../common/Token";
 import { CommonActions } from "@react-navigation/native";
 import showToast from "../../components/Toast";
 import { useEffect } from "react";
-import useAnonymous from "../../common/Anonymous";
+
 export default function Login({ navigation }) {
-  const { setIsLogged, isLogged } = useUser();
+  const { setIsLogged, isLogged, setViewReport, setIsAnonymous, setIsAdmin } =
+    useUser();
   if (isLogged) {
     navigation.navigate("Home");
   }
@@ -37,22 +38,21 @@ export default function Login({ navigation }) {
   }
 
   const { token } = useToken();
-  const { setViewReport, setIsAnonymous } = useAnonymous();
   const onSubmit = async (data) => {
     api.post(`/login?_token=${token}`, data).then((res) => {
       showToast(res.data);
       if (res.data === "Usuario Logado com Sucesso!") {
         setIsLogged(true);
         setViewReport(true);
-        navigation.push("Home"); // navigation.dispatch(
-        //   CommonActions.reset({
-        //     index: 0,
-        //     routes: [{ name: "Home" }],
-        //   })
-        // );
+        navigation.push("Home");
       } else if (res.data === "Usuario Anonimo Logado com Sucesso!") {
         setViewReport(false);
         setIsAnonymous(true);
+        setIsLogged(true);
+        navigation.push("Home");
+      } else if (res.data === "Usuario Administrador Logado com Sucesso!") {
+        setViewReport(true);
+        setIsAdmin(true);
         setIsLogged(true);
         navigation.push("Home");
       } else {
@@ -141,7 +141,6 @@ export default function Login({ navigation }) {
                 justifyContent: "space-evenly",
               }}
             >
-              <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
               <CustomButton
                 title={"Anonimo"}
                 onPress={() =>
@@ -151,6 +150,7 @@ export default function Login({ navigation }) {
                   })
                 }
               />
+              <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
             </View>
           </View>
         </View>

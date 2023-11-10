@@ -14,7 +14,7 @@ import { useToken } from "../../common/Token";
 import useUser from "../../common/User";
 import showToast from "../../components/Toast";
 export default function Cadastro({ navigation }) {
-  const { setIsLogged, isLogged } = useUser();
+  const { setIsLogged, isLogged, setIsAdmin } = useUser();
   if (isLogged) {
     navigation.navigate("Home");
   }
@@ -50,6 +50,11 @@ export default function Cadastro({ navigation }) {
       })
       .then((res) => {
         {
+          if (
+            res.data === "Usuario Administrador Criado e logado com sucesso!"
+          ) {
+            setIsAdmin(true);
+          }
           showToast(res.data);
           setIsLogged(true);
           console.log(res.data);
