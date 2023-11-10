@@ -14,9 +14,7 @@ class DenunciaController extends Controller
      */
     public function index(Denuncia $denuncia)
     {
-        $token = csrf_token();
         $denuncia = Denuncia::all();
-        echo $token . "\n";
         return $denuncia;
     }
 
