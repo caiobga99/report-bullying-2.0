@@ -15,13 +15,14 @@ import { useEffect } from "react";
 import api from "./lib/axios";
 import Resposta from "./screens/Resposta";
 import Home from "./screens/Home";
+import Painel from "./screens/Painel";
 const MyRoutes = () => {
   let [fontsLoaded] = useFonts({
     FredokaOne_400Regular,
   });
 
   const { setToken } = useToken();
-  const { setIsLogged, isLogged } = useUser();
+  const { setIsLogged, isLogged, isAdmin } = useUser();
   useEffect(() => {
     // api.get("/logout");
     api.get("/token").then((res) => setToken(res.data));
@@ -52,19 +53,33 @@ const MyRoutes = () => {
       // }}
       initialRouteName={isLogged ? "Home" : "Login"}
     >
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Denuncias" component={Denuncias} />
-      <Stack.Screen name="FAQ" component={FAQ} />
-      <Stack.Screen
-        name="Denuncie"
-        component={Denuncie}
-        // options={{
-        //   headerRight: () => <HeaderIcon />,
-        // }}
-      />
-      <Stack.Screen name="Resposta" component={Resposta} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Cadastro" component={Cadastro} />
+      {isAdmin ? (
+        <>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Denuncias" component={Denuncias} />
+          <Stack.Screen name="FAQ" component={FAQ} />
+          <Stack.Screen name="Painel" component={Painel} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Cadastro" component={Cadastro} />
+          <Stack.Screen name="Resposta" component={Resposta} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Denuncias" component={Denuncias} />
+          <Stack.Screen name="FAQ" component={FAQ} />
+          <Stack.Screen
+            name="Denuncie"
+            component={Denuncie}
+            // options={{
+            //   headerRight: () => <HeaderIcon />,
+            // }}
+          />
+          <Stack.Screen name="Resposta" component={Resposta} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Cadastro" component={Cadastro} />
+        </>
+      )}
     </Stack.Navigator>
   );
 };
