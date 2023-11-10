@@ -14,6 +14,7 @@ import useToken from "../../common/Token";
 import showToast from "../../components/Toast";
 import Loading from "../../components/Loading";
 import useTema from "../../common/Tema";
+import useAnonymous from "../../common/Anonymous";
 const Denuncie = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [textLoading, setTextLoading] = useState("");
@@ -34,6 +35,7 @@ const Denuncie = ({ navigation }) => {
   }
 
   const { token } = useToken();
+  const { setViewReport } = useAnonymous();
 
   const onSubmit = async (data) => {
     let i = 0;
@@ -50,6 +52,7 @@ const Denuncie = ({ navigation }) => {
       .post(`/denuncias?_token=${token}`, data)
       .then((res) => {
         setLoading(false);
+        setViewReport(true);
         showToast(res.data);
         setTimeout(() => {
           navigation.push("Denuncias");

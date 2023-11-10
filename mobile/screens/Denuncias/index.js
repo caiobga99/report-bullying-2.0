@@ -12,17 +12,23 @@ import {
 } from "@expo-google-fonts/poppins";
 import { useIsFocused } from "@react-navigation/native";
 import useTema from "../../common/Tema";
+import useAnonymous from "../../common/Anonymous";
 
 export default function Denuncias({ navigation }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
+  const { viewReport, isAnonymous } = useAnonymous();
   const getDenuncias = () => {
     setIsLoading(true);
     api
       .get("/denuncia")
       .then((res) => {
-        setData(res.data);
+        if (isAnonymous) {
+          setData([res.data[res.data.length - 1]]);
+        } else {
+          setData(res.data);
+        }
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
@@ -54,7 +60,7 @@ export default function Denuncias({ navigation }) {
         <>
           <Loading background={tema === "dark" ? "#fff" : "#000"} />
         </>
-      ) : data.length <= 0 ? (
+      ) : data.length <= 0 || !viewReport ? (
         <View style={styles.containerText}>
           <Text
             style={[styles.text, { color: tema === "light" ? "#fff" : "#000" }]}

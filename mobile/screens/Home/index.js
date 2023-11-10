@@ -19,6 +19,7 @@ import api from "../../lib/axios";
 import showToast from "../../components/Toast";
 import useUser from "../../common/User";
 import useToken from "../../common/Token";
+import useAnonymous from "../../common/Anonymous";
 export default function Home({ navigation }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -33,11 +34,13 @@ export default function Home({ navigation }) {
   }
   const { setIsLogged } = useUser();
   const { setToken } = useToken();
+  const { setViewReport } = useAnonymous();
   const { setTema, tema } = useTema();
   const logout = () => {
     api.get("/logout").then((res) => {
       setIsLogged(false);
       setTema("dark");
+      setViewReport(false);
       showToast(res.data.message);
       setToken(res.data.token);
       navigation.push("Login");
