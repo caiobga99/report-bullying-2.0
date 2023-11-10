@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { TextInput } from "react-native";
 import {
   Poppins_400Regular,
@@ -139,6 +139,7 @@ export default function Login({ navigation }) {
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "space-evenly",
+                bottom: Dimensions.get("screen").height * 0.03,
               }}
             >
               <CustomButton
