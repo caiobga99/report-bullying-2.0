@@ -11,6 +11,10 @@
 
 Adicionar variavel OPENAI_API_KEY e do banco de dados!
 
+php artisan migrate
+
+php artisan db:seed --class=UserSeeder
+
 php artisan serve --host 10.112.240.210 --port 8000
 
 php artisan serve --host 10.112.240.174 --port 8081
