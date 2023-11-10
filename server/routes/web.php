@@ -46,7 +46,6 @@ Route::post("/usuarios", [UsuarioController::class, "store"]);
 Route::post("/testeApi", [ChatController::class, "getConselho"]);
 
 Route::get("/denuncia", [DenunciaController::class, "show"]);
-Route::post("/denuncias", [DenunciaController::class, "store"]);
 
 Route::middleware(["autenticador"])->group(function () {
     Route::get("/logout", [LogoutController::class, "logout"])->name("logout");
@@ -54,6 +53,7 @@ Route::middleware(["autenticador"])->group(function () {
     Route::get("/usuario", [UsuarioController::class, "show"]);
     Route::get("/usuarios", [UsuarioController::class, "index"])->block();
 
+    Route::post("/denuncias", [DenunciaController::class, "store"]);
 
     Route::middleware(["admin"])->group(function () {
         Route::get("/usuarios", [UsuarioController::class, "index"]);
