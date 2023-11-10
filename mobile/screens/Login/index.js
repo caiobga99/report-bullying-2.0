@@ -15,6 +15,7 @@ import { useToken } from "../../common/Token";
 import { CommonActions } from "@react-navigation/native";
 import showToast from "../../components/Toast";
 import { useEffect } from "react";
+import useAnonymous from "../../common/Anonymous";
 export default function Login({ navigation }) {
   const { setIsLogged, isLogged } = useUser();
   if (isLogged) {
@@ -36,19 +37,24 @@ export default function Login({ navigation }) {
   }
 
   const { token } = useToken();
-
+  const { setViewReport, setIsAnonymous } = useAnonymous();
   const onSubmit = async (data) => {
     api.post(`/login?_token=${token}`, data).then((res) => {
       showToast(res.data);
       if (res.data === "Usuario Logado com Sucesso!") {
         setIsLogged(true);
-        navigation.push("Home");
-        // navigation.dispatch(
+        setViewReport(true);
+        navigation.push("Home"); // navigation.dispatch(
         //   CommonActions.reset({
         //     index: 0,
         //     routes: [{ name: "Home" }],
         //   })
         // );
+      } else if (res.data === "Usuario Anonimo Logado com Sucesso!") {
+        setViewReport(false);
+        setIsAnonymous(true);
+        setIsLogged(true);
+        navigation.push("Home");
       } else {
         console.log(res.data);
       }
@@ -127,8 +133,24 @@ export default function Login({ navigation }) {
                 </Text>
               )}
             </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
               <CustomButton title={"Entrar"} onPress={handleSubmit(onSubmit)} />
+              <CustomButton
+                title={"Anonimo"}
+                onPress={() =>
+                  onSubmit({
+                    email: "Anonimo@gmail.com",
+                    password: "Anonimo@123",
+                  })
+                }
+              />
             </View>
           </View>
         </View>
