@@ -33,20 +33,13 @@ class DenunciaController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::check()) {
-            $request["id_usuario"] = Auth::id();
-            $request["email"] = Auth::user()->email;
-            $request["nome"] = Auth::user()->nome;
+        $request["id_usuario"] = Auth::id();
+        $request["email"] = Auth::user()->email;
+        $request["nome"] = Auth::user()->nome;
+        $request["RA"] = Auth::user()->RA;
 
-            $request["RA"] = Auth::user()->RA;
-            $request["tipo_denuncia"] = false;
-        } else {
-            $request["id_usuario"] = "";
-            $request["email"] = "";
-            $request["nome"] = "";
-            $request["RA"] = "";
-            $request["tipo_denuncia"] = true;
-        }
+
+
         $id = Denuncia::create($request->all())->id_denuncia;
         $request["id_denuncia"] = $id;
         app("App\Http\Controllers\RespostaController")->store($request);
@@ -57,7 +50,6 @@ class DenunciaController extends Controller
         // );
         // \Mail::to(Auth::user())->send($email);
         // return "Denuncia Criada com sucesso!";
-
         // Denuncia::query("INSERT INTO denuncias (conselho) VALUES $mensagemChat");
         return "Denuncia Criada com Sucesso!";
     }

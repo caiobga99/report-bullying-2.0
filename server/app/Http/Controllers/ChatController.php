@@ -81,6 +81,7 @@ class ChatController extends Controller
         $responseString = str_replace('\u00e0', 'á', $responseString);
         $responseString = str_replace('\u00e2', 'â', $responseString);
         $responseString = str_replace('\u00c0', 'Á', $responseString);
+        $responseString = str_replace('\u00f4', 'ô', $responseString);
         $responseString = str_replace('\n', '', $responseString);
         return $responseString;
     }
