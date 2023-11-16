@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\DenunciasCreated;
 use App\Models\Denuncia;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class DenunciaController extends Controller
      */
     public function index(Denuncia $denuncia)
     {
-        $denuncia = Denuncia::all();
+        $denuncia = Denuncia::all()->sortBy("created_at");
+        // orderBy('created_at', 'ASC')->get()
         return $denuncia;
     }
 
