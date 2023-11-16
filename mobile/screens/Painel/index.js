@@ -63,25 +63,33 @@ export default function Painel({ navigation }) {
           </Text>
         </View>
       ) : (
-        <FlatList
-          style={{ flex: 1 }}
-          data={data}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <Denuncia
-              titulo={item.titulo}
-              mensagem={item.mensagem}
-              onPress={() =>
-                navigation.push("Resposta", {
-                  id_denuncia: item.id_denuncia,
-                  id_usuario: item.id_usuario,
-                })
-              }
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        <>
+          <Text
+            style={[styles.text, { color: tema === "light" ? "#fff" : "#000" }]}
+          >
+            Total de {data.length} denuncias!
+          </Text>
+          <FlatList
+            style={{ flex: 1 }}
+            data={data}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Denuncia
+                titulo={item.titulo}
+                mensagem={item.mensagem}
+                email={item.email}
+                onPress={() =>
+                  navigation.push("Resposta", {
+                    id_denuncia: item.id_denuncia,
+                    id_usuario: item.id_usuario,
+                  })
+                }
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </>
       )}
 
       <View
