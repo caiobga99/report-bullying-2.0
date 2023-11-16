@@ -8,7 +8,7 @@ import {
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
 import CustomButton from "../CustomButton";
-export default function Denuncia({ titulo, mensagem, onPress }) {
+export default function Denuncia({ titulo, mensagem, onPress, email }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
@@ -20,6 +20,7 @@ export default function Denuncia({ titulo, mensagem, onPress }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        {email ? <Text style={styles.textHeader}>{email}</Text> : ""}
         <Text style={styles.textHeader}>{titulo}</Text>
       </View>
       <View style={{ flex: 1 }}>
