@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-type UserContextType = {
+interface UserContextType {
   isLogged: boolean;
   setIsLogged: (value: boolean) => void;
   viewReport: boolean;
@@ -9,7 +9,7 @@ type UserContextType = {
   setIsAnonymous: (value: boolean) => void;
   isAdmin: boolean;
   setIsAdmin: (value: boolean) => void;
-};
+}
 
 export const UserContext = createContext<UserContextType | undefined>(
   undefined

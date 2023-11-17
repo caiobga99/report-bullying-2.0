@@ -11,11 +11,19 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import reportBullyingLogo from "../../assets/logo.svg";
 import { useTema } from "../../common/Tema";
+import useUser from "../../common/User";
+import api from "../../lib/api";
+import showToastMessage from "../../utils/showToastMessage";
+import useToken from "../../common/Token";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Login", href: "/login" },
   { name: "Register", href: "/register" },
+  { name: "Denuncie", href: "/denuncie" },
+];
+const navigationLogged = [
+  { name: "Home", href: "/" },
   { name: "Denuncie", href: "/denuncie" },
 ];
 
@@ -30,6 +38,31 @@ export default function Navbar() {
   };
   const navigate = useNavigate();
   const location = useLocation();
+  const { setIsLogged, isLogged, setViewReport, setIsAdmin } = useUser() as {
+    setIsLogged: (value: boolean) => void;
+    isLogged: boolean;
+    isAdmin: boolean;
+    setViewReport: (value: boolean) => void;
+    setIsAnonymous: (value: boolean) => void;
+    setIsAdmin: (value: boolean) => void;
+  };
+  const { setTema } = useTema() as {
+    setTema: (value: string) => void;
+  };
+  const { setToken } = useToken() as {
+    setToken: (value: string) => void;
+  };
+  const logout = () => {
+    api.get("/logout").then((res) => {
+      setIsLogged(false);
+      setTema("dark");
+      setViewReport(false);
+      setIsAdmin(false);
+      showToastMessage(res.data.message, "sucess");
+      setToken(res.data.token);
+      navigate("/login");
+    });
+  };
   return (
     <Disclosure
       as="nav"
@@ -61,23 +94,45 @@ export default function Navbar() {
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.href === location.pathname
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
-                        )}
-                        aria-current={
-                          item.href !== location.pathname ? "page" : undefined
-                        }
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {!isLogged
+                      ? navigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              item.href === location.pathname
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={
+                              item.href !== location.pathname
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.name}
+                          </Link>
+                        ))
+                      : navigationLogged.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              item.href === location.pathname
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={
+                              item.href !== location.pathname
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
                   </div>
                 </div>
               </div>
@@ -101,60 +156,59 @@ export default function Navbar() {
                 </button>
 
                 {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Open user menu</span>
-                      <UserCircleIcon
-                        className="h-10 w-10 rounded-full"
-                        color="gray"
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {() => (
-                          <Link
-                            to="/profile"
-                            className={classNames(
-                              "/profile" === location.pathname
-                                ? "bg-gray-100"
-                                : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Perfil
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {() => (
-                          <Link
-                            to="logout"
-                            className={classNames(
-                              "/logout" === location.pathname
-                                ? "bg-gray-100"
-                                : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sair
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
+                {isLogged && (
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span className="absolute -inset-1.5" />
+                        <span className="sr-only">Open user menu</span>
+                        <UserCircleIcon
+                          className="h-10 w-10 rounded-full"
+                          color="gray"
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {() => (
+                            <Link
+                              to="/profile"
+                              className={classNames(
+                                "/profile" === location.pathname
+                                  ? "bg-gray-100"
+                                  : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Perfil
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {() => (
+                            <button
+                              className={
+                                "block px-4 py-2 text-sm text-gray-700"
+                              }
+                              onClick={logout}
+                            >
+                              Sair
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                )}
               </div>
             </div>
           </div>

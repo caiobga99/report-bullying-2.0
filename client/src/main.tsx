@@ -6,12 +6,18 @@ import TemaProvider from "./common/Tema.tsx";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserProvider } from "./common/User.tsx";
+import { TokenProvider } from "./common/Token.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Router>
-    <TemaProvider>
-      <App />
-      <ToastContainer />
-    </TemaProvider>
+    <TokenProvider>
+      <UserProvider>
+        <TemaProvider>
+          <App />
+          <ToastContainer />
+        </TemaProvider>
+      </UserProvider>
+    </TokenProvider>
   </Router>
 );

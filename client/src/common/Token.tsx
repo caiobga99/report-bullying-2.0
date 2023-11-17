@@ -1,12 +1,10 @@
 import { createContext, useContext, useState } from "react";
 
-type TokenContextType = {
-  token: string;
-  setToken: (value: string) => void;
-};
-export const TokenContext = createContext<TokenContextType | undefined>(
-  undefined
-);
+interface TokenContextType {
+  token?: string;
+  setToken?: (value: string) => void;
+}
+export const TokenContext = createContext<TokenContextType>({});
 
 export const TokenProvider = ({ children }: any) => {
   const [token, setToken] = useState("");

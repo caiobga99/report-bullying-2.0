@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type TemaContextType = {
-  pegarTema: string;
-  setPegarTema: (value: string) => void;
-};
+interface TemaContextType {
+  pegarTema?: string;
+  setPegarTema?: (value: string) => void;
+}
 
-const temaContext = createContext<TemaContextType | undefined>(undefined);
+const temaContext = createContext<TemaContextType>({});
 
 type TemaProps = {
   children: ReactNode;

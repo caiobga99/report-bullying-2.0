@@ -5,11 +5,25 @@ import FormAction from "../../components/FormAction";
 import { useForm } from "react-hook-form";
 import * as val from "validator";
 import showToastMessage from "../../utils/showToastMessage";
+import api from "../../lib/api";
+import useUser from "../../common/User";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const fields = signupFields;
   let fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
+
+  const navigate = useNavigate();
+  const { setIsLogged, isLogged, setViewReport, setIsAnonymous, setIsAdmin } =
+    useUser() as {
+      setIsLogged: (value: boolean) => void;
+      isLogged: boolean;
+      isAdmin: boolean;
+      setViewReport: (value: boolean) => void;
+      setIsAnonymous: (value: boolean) => void;
+      setIsAdmin: (value: boolean) => void;
+    };
 
   const {
     register,
@@ -18,10 +32,33 @@ const Register = () => {
     reset,
     watch,
   } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
-    reset();
-    showToastMessage("Conta Criada e Logado com sucesso!", "sucess");
+  const onSubmit = ({ nome, email, senha, ra }: any) => {
+    api
+      .post(`/usuarios`, {
+        email: email,
+        password: senha,
+        RA: ra,
+        nome: nome,
+      })
+      .then((res) => {
+        {
+          if (
+            res.data === "Usuario Administrador Criado e logado com sucesso!"
+          ) {
+            setIsAdmin(true);
+          }
+          showToastMessage(res.data, "sucess");
+          setIsLogged(true);
+          console.log(res.data);
+          navigate("/Home");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Request failed with status code 500") {
+          showToastMessage("Usuario já existente", "error");
+        }
+      });
   };
   const watchPassword = watch("senha");
   return (
