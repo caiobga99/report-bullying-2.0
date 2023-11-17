@@ -36,9 +36,17 @@ export default function FormInput({
           Preencha o campo {id} corretamente!
         </div>
       )}
-      {typeError === "validate" && (
+      {typeError === "validate" && id === "email" && (
         <div className="text-red-500 text-sm italic">Email invalido!</div>
       )}
+      {typeError === "validate" && id === "confirmar-senha" ? (
+        <div className="text-red-500 text-sm italic">Senhas não conferem</div>
+      ) : null}
+      {typeError === "minLength" && id === "ra" ? (
+        <div className="text-red-500 text-sm italic">
+          RA precisa ter no minimo 9 caracteres
+        </div>
+      ) : null}
     </div>
   );
 }

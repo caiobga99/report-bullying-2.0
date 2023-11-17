@@ -1,4 +1,3 @@
-import { useState } from "react";
 import FormHeader from "../../components/FormHeader";
 import { loginFields } from "../../constants/formFields";
 import FormInput from "../../components/FormInput";
@@ -46,7 +45,7 @@ const Login = () => {
                 registerInput={register(field.name, {
                   required: field.isRequired,
                   validate:
-                    field.name == "email"
+                    field.name === "email"
                       ? (value) => val.default.isEmail(value)
                       : undefined,
                 })}

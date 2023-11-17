@@ -1,78 +1,67 @@
+import FormHeader from "../../components/FormHeader";
+import { signupFields } from "../../constants/formFields";
+import FormInput from "../../components/FormInput";
+import FormAction from "../../components/FormAction";
+import { useForm } from "react-hook-form";
+import * as val from "validator";
+import showToastMessage from "../../utils/showToastMessage";
+
 const Register = () => {
+  const fields = signupFields;
+  let fieldsState: any = {};
+  fields.forEach((field) => (fieldsState[field.id] = ""));
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+    watch,
+  } = useForm();
+  const onSubmit = (data: any) => {
+    console.log(data);
+    reset();
+    showToastMessage("Conta Criada e Logado com sucesso!", "sucess");
+  };
+  const watchPassword = watch("senha");
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
+    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
+      <div className="max-w-md w-full space-y-8">
+        <FormHeader
+          heading="Cadastre-se para criar uma conta"
+          paragraph="Já tem uma conta? "
+          linkName="Login"
+          linkUrl="/Login"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6">
           <div>
-            <label className="block text-sm font-medium leading-6 text-gray-900">
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            {fields.map((field) => (
+              <FormInput
+                key={field.id}
+                labelText={field.labelText}
+                labelFor={field.labelFor}
+                id={field.id}
+                type={field.type}
+                isRequired={field.isRequired}
+                placeholder={field.placeholder}
+                registerInput={register(field.name, {
+                  required: field.isRequired,
+                  minLength: field.name === "ra" ? 0 : undefined,
+                  validate: (value: string) => {
+                    if (field.name === "confirmar-senha") {
+                      return value === watchPassword;
+                    } else if (field.name === "email") {
+                      return val.default.isEmail(value);
+                    }
+                  },
+                })}
+                errors={errors[field.name]?.ref?.type === field.name}
+                typeError={errors[field.name]?.type}
               />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <label className="block text-sm font-medium leading-6 text-gray-900">
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign in
-            </button>
+            ))}
           </div>
         </form>
-
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?
-          <a
-            href="#"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >
-            Start a 14 day free trial
-          </a>
-        </p>
+        <FormAction onClick={handleSubmit(onSubmit)} text="Cadastrar" />
       </div>
     </div>
   );
