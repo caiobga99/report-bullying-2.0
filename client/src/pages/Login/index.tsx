@@ -5,6 +5,7 @@ import FormInput from "../../components/FormInput";
 import FormAction from "../../components/FormAction";
 import { useForm } from "react-hook-form";
 import * as val from "validator";
+import showToastMessage from "../../utils/showToastMessage";
 const Login = () => {
   const fields = loginFields;
   let fieldsState: any = {};
@@ -19,6 +20,7 @@ const Login = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     reset();
+    showToastMessage("Sucesso ao logar", "sucess");
   };
 
   return (
