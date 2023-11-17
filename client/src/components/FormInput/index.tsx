@@ -1,6 +1,8 @@
+import { useForm } from "react-hook-form";
 const fixedInputClass =
   "rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm";
-import { useForm } from "react-hook-form";
+const inputErrorClass =
+  "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline";
 export default function FormInput({
   value,
   labelText,
@@ -11,6 +13,8 @@ export default function FormInput({
   placeholder,
   customClass,
   registerInput,
+  errors,
+  typeError,
 }: any) {
   const {} = useForm();
   return (
@@ -23,10 +27,18 @@ export default function FormInput({
         id={id}
         type={type}
         required={isRequired}
-        className={fixedInputClass + customClass}
+        className={errors ? inputErrorClass : fixedInputClass + customClass}
         placeholder={placeholder}
         {...registerInput}
       />
+      {typeError === "required" && (
+        <div className="text-red-500 text-sm italic">
+          Preencha o campo {id} corretamente!
+        </div>
+      )}
+      {typeError === "validate" && (
+        <div className="text-red-500 text-sm italic">Email invalido!</div>
+      )}
     </div>
   );
 }

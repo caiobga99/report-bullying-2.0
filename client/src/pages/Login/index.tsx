@@ -4,7 +4,7 @@ import { loginFields } from "../../constants/formFields";
 import FormInput from "../../components/FormInput";
 import FormAction from "../../components/FormAction";
 import { useForm } from "react-hook-form";
-
+import * as val from "validator";
 const Login = () => {
   const fields = loginFields;
   let fieldsState: any = {};
@@ -22,12 +22,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-md w-full space-y-8">
         <FormHeader
-          heading="Login to your account"
-          paragraph="Don't have an account yet? "
-          linkName="Signup"
+          heading="Faça login na sua conta"
+          paragraph="Não tem uma conta ainda? "
+          linkName="Registrar"
           linkUrl="/register"
         />
         <form className="mt-8 space-y-6">
@@ -43,13 +43,18 @@ const Login = () => {
                 placeholder={field.placeholder}
                 registerInput={register(field.name, {
                   required: field.isRequired,
+                  validate:
+                    field.name == "email"
+                      ? (value) => val.default.isEmail(value)
+                      : undefined,
                 })}
-                customClass={errors?.name ? "outline-red-600" : ""}
+                errors={errors[field.name]?.ref?.type === field.name}
+                typeError={errors[field.name]?.type}
               />
             ))}
           </div>
         </form>
-        <FormAction onClick={handleSubmit(onSubmit)} text="Login" />
+        <FormAction onClick={handleSubmit(onSubmit)} text="Entrar" />
       </div>
     </div>
   );

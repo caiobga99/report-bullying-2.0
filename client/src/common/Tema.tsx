@@ -18,7 +18,7 @@ type TemaProps = {
 };
 
 export default function TemaProvider({ children }: TemaProps) {
-  const temaInicial = localStorage.getItem("tema") || "light";
+  const temaInicial = localStorage.getItem("tema") || "dark";
   const [pegarTema, setPegarTema] = useState<string>(temaInicial);
 
   const atualizarTema = (novoTema: string) => {

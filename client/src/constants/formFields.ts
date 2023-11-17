@@ -2,22 +2,22 @@ const loginFields = [
   {
     labelText: "Email address",
     labelFor: "email-address",
-    id: "email-address",
+    id: "email",
     name: "email",
     type: "email",
     autoComplete: "email",
     isRequired: true,
-    placeholder: "Email address",
+    placeholder: "Email",
   },
   {
     labelText: "Password",
     labelFor: "password",
-    id: "password",
+    id: "senha",
     name: "password",
     type: "password",
     autoComplete: "current-password",
     isRequired: true,
-    placeholder: "Password",
+    placeholder: "Senha",
   },
 ];
 
