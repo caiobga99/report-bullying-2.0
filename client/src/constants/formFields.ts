@@ -74,4 +74,28 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+const reportFields = [
+  {
+    labelText: "Titulo",
+    labelFor: "Titulo",
+    id: "titulo",
+    name: "titulo",
+    type: "text",
+    autoComplete: "Titulo",
+    isRequired: true,
+    placeholder: "Titulo",
+  },
+  {
+    labelText: "Mensagem",
+    labelFor: "Mensagem",
+    id: "mensagem",
+    name: "mensagem",
+    type: "text",
+    autoComplete: "Mensagem",
+    isRequired: true,
+    placeholder: "Mensagem",
+    inputType: "textarea",
+  },
+];
+
+export { loginFields, signupFields, reportFields };

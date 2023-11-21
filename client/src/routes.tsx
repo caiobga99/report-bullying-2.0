@@ -24,9 +24,11 @@ const MyRoutes = () => {
     // api.get("/token").then((res) => {
     //   setToken(res.data);
     // });
-    api.get("/userIsLogged").then((res) => {
-      setIsLogged(res.data);
-      console.log(res.data);
+    api.get("/sanctum/csrf-cookie").then((response) => {
+      api.get("/userIsLogged").then((res) => {
+        setIsLogged(res.data);
+        console.log(res.data);
+      });
     });
   }, []);
   return (

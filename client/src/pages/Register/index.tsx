@@ -29,36 +29,38 @@ const Register = () => {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
     watch,
   } = useForm();
   const onSubmit = ({ nome, email, senha, ra }: any) => {
-    api
-      .post(`/usuarios`, {
-        email: email,
-        password: senha,
-        RA: ra,
-        nome: nome,
-      })
-      .then((res) => {
-        {
-          if (
-            res.data === "Usuario Administrador Criado e logado com sucesso!"
-          ) {
-            setIsAdmin(true);
+    api.get("/sanctum/csrf-cookie").then((response) => {
+      console.log(response);
+      api
+        .post(`/usuarios`, {
+          email: email,
+          password: senha,
+          RA: ra,
+          nome: nome,
+        })
+        .then((res) => {
+          {
+            if (
+              res.data === "Usuario Administrador Criado e logado com sucesso!"
+            ) {
+              setIsAdmin(true);
+            }
+            showToastMessage(res.data, "sucess");
+            setIsLogged(true);
+            console.log(res.data);
+            navigate("/Home");
           }
-          showToastMessage(res.data, "sucess");
-          setIsLogged(true);
-          console.log(res.data);
-          navigate("/Home");
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        if (error.message === "Request failed with status code 500") {
-          showToastMessage("Usuario já existente", "error");
-        }
-      });
+        })
+        .catch((error) => {
+          console.log(error.message);
+          if (error.message === "Request failed with status code 500") {
+            showToastMessage("Usuario já existente", "error");
+          }
+        });
+    });
   };
   const watchPassword = watch("senha");
   return (
@@ -68,7 +70,7 @@ const Register = () => {
           heading="Cadastre-se para criar uma conta"
           paragraph="Já tem uma conta? "
           linkName="Login"
-          linkUrl="/Login"
+          linkUrl="/login"
         />
         <form className="mt-8 space-y-6">
           <div>

@@ -20,7 +20,6 @@ export const UserProvider = ({ children }: any) => {
   const [viewReport, setViewReport] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log(isAdmin);
   return (
     <UserContext.Provider
       value={{

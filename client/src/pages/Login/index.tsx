@@ -38,27 +38,26 @@ const Login = () => {
   };
   const onSubmit = (data: any) => {
     api.get("/sanctum/csrf-cookie").then((response) => {
-      console.log(response.config);
-      // api.post(`/login`, data).then((res: any) => {
-      //   showToastMessage(res.data, "sucess");
-      //   if (res.data === "Usuario Logado com Sucesso!") {
-      //     setIsLogged(true);
-      //     setViewReport(true);
-      //     navigate("/");
-      //   } else if (res.data === "Usuario Anonimo Logado com Sucesso!") {
-      //     setViewReport(false);
-      //     setIsAnonymous(true);
-      //     setIsLogged(true);
-      //     navigate("/");
-      //   } else if (res.data === "Usuario Administrador Logado com Sucesso!") {
-      //     setViewReport(true);
-      //     setIsAdmin(true);
-      //     setIsLogged(true);
-      //     navigate("/");
-      //   } else {
-      //     console.log(res.data);
-      //   }
-      // });
+      api.post(`/login`, data).then((res: any) => {
+        showToastMessage(res.data, "sucess");
+        if (res.data === "Usuario Logado com Sucesso!") {
+          setIsLogged(true);
+          setViewReport(true);
+          navigate("/");
+        } else if (res.data === "Usuario Anonimo Logado com Sucesso!") {
+          setViewReport(false);
+          setIsAnonymous(true);
+          setIsLogged(true);
+          navigate("/");
+        } else if (res.data === "Usuario Administrador Logado com Sucesso!") {
+          setViewReport(true);
+          setIsAdmin(true);
+          setIsLogged(true);
+          navigate("/");
+        } else {
+          console.log(res.data);
+        }
+      });
     });
   };
 
