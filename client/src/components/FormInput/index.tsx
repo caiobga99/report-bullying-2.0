@@ -1,8 +1,4 @@
-import { useForm } from "react-hook-form";
-const fixedInputClass =
-  "rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm";
-const inputErrorClass =
-  "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline";
+import { useTema } from "../../common/Tema";
 
 export default function FormInput({
   value,
@@ -18,7 +14,17 @@ export default function FormInput({
   typeError,
   inputType,
 }: any) {
-  const {} = useForm();
+  const { pegarTema } = useTema() as {
+    setPegarTema: (value: string) => void;
+    pegarTema: string;
+  };
+  const fixedInputClass: string =
+    pegarTema === "light"
+      ? "rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm "
+      : "rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm ";
+
+  const inputErrorClass =
+    "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline";
   return (
     <div className="my-5">
       <label htmlFor={labelFor} className="sr-only">

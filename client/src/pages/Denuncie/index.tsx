@@ -1,37 +1,40 @@
 import FormHeader from "../../components/FormHeader";
-import { reportFields, signupFields } from "../../constants/formFields";
+import { reportFields } from "../../constants/formFields";
 import FormInput from "../../components/FormInput";
 import FormAction from "../../components/FormAction";
 import { useForm } from "react-hook-form";
-import * as val from "validator";
 import showToastMessage from "../../utils/showToastMessage";
 import api from "../../lib/api";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 
-const Denuncie = () => {
+const Denuncie: React.FC = () => {
   const fields = reportFields;
   let fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
 
   const navigate = useNavigate();
-  const { setIsLogged, isLogged, setViewReport, setIsAnonymous, setIsAdmin } =
-    useUser() as {
-      setIsLogged: (value: boolean) => void;
-      isLogged: boolean;
-      isAdmin: boolean;
-      setViewReport: (value: boolean) => void;
-      setIsAnonymous: (value: boolean) => void;
-      setIsAdmin: (value: boolean) => void;
-    };
+  const { setIsLogged } = useUser() as {
+    setIsLogged: (value: boolean) => void;
+    isLogged: boolean;
+    isAdmin: boolean;
+    setViewReport: (value: boolean) => void;
+    setIsAnonymous: (value: boolean) => void;
+    setIsAdmin: (value: boolean) => void;
+  };
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    watch,
   } = useForm();
-  const onSubmit = ({ titulo, mensagem, senha, ra }: any) => {
+  // interface FormValues {
+  //   titulo: string;
+  //   mensagem: string;
+  //   senha: string;
+  //   ra: string;
+  // }
+  const onSubmit = ({ titulo, mensagem }: any) => {
     api.get("/sanctum/csrf-cookie").then((response) => {
       console.log(response);
       api

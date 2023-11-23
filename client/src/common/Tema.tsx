@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface TemaContextType {
   pegarTema?: string;
@@ -12,8 +18,12 @@ type TemaProps = {
 };
 
 export default function TemaProvider({ children }: TemaProps) {
+  console.log(localStorage.getItem("tema"));
   const temaInicial = localStorage.getItem("tema") || "dark";
   const [pegarTema, setPegarTema] = useState<string>(temaInicial);
+  useEffect(() => {
+    localStorage.setItem("tema", pegarTema);
+  }, [pegarTema]);
 
   const atualizarTema = (novoTema: string) => {
     setPegarTema(novoTema);

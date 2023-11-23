@@ -9,6 +9,7 @@ import useToken from "./common/Token";
 import useUser from "./common/User";
 import { useEffect } from "react";
 import api from "./lib/api";
+import Resposta from "./pages/Reposta";
 
 const MyRoutes = () => {
   const { setToken } = useToken() as {
@@ -27,7 +28,7 @@ const MyRoutes = () => {
     api.get("/sanctum/csrf-cookie").then((response) => {
       api.get("/userIsLogged").then((res) => {
         setIsLogged(res.data);
-        console.log(res.data);
+        console.log(res.data === "" ? "nao esta logado" : res.data);
       });
     });
   }, []);
@@ -38,6 +39,7 @@ const MyRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/denuncie" element={<Denuncie />} />
+      <Route path="/resposta/:id" element={<Resposta />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );
