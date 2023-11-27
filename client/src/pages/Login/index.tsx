@@ -8,21 +8,29 @@ import showToastMessage from "../../utils/showToastMessage";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 import api from "../../lib/api";
-import useToken from "../../common/Token";
 const Login = () => {
   const navigate = useNavigate();
   const fields = loginFields;
   let fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
-  const { setIsLogged, isLogged, setViewReport, setIsAnonymous, setIsAdmin } =
-    useUser() as {
-      setIsLogged: (value: boolean) => void;
-      isLogged: boolean;
-      isAdmin: boolean;
-      setViewReport: (value: boolean) => void;
-      setIsAnonymous: (value: boolean) => void;
-      setIsAdmin: (value: boolean) => void;
-    };
+  const {
+    setIsLogged,
+    isLogged,
+    setViewReport,
+    setIsAnonymous,
+    setIsAdmin,
+    setToken,
+    setUser,
+  } = useUser() as {
+    setIsLogged: (value: boolean) => void;
+    isLogged: boolean;
+    isAdmin: boolean;
+    setViewReport: (value: boolean) => void;
+    setIsAnonymous: (value: boolean) => void;
+    setIsAdmin: (value: boolean) => void;
+    setToken: (value: string) => void;
+    setUser: (value: object) => void;
+  };
 
   if (isLogged) {
     navigate("Home");
@@ -31,33 +39,34 @@ const Login = () => {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm();
-  const { token } = useToken() as {
-    token: string;
-  };
-  const onSubmit = (data: any) => {
-    api.get("/sanctum/csrf-cookie").then((response) => {
-      api.post(`/login`, data).then((res: any) => {
-        showToastMessage(res.data, "sucess");
-        if (res.data === "Usuario Logado com Sucesso!") {
-          setIsLogged(true);
-          setViewReport(true);
-          navigate("/");
-        } else if (res.data === "Usuario Anonimo Logado com Sucesso!") {
-          setViewReport(false);
-          setIsAnonymous(true);
-          setIsLogged(true);
-          navigate("/");
-        } else if (res.data === "Usuario Administrador Logado com Sucesso!") {
-          setViewReport(true);
-          setIsAdmin(true);
-          setIsLogged(true);
-          navigate("/");
-        } else {
-          console.log(res.data);
-        }
-      });
+
+  const onSubmit = async (data: any) => {
+    api.post(`/login`, data).then((res: any) => {
+      console.log(res.data);
+      setUser(res.data.user);
+      setToken(res.data.token);
+      showToastMessage(res.data.message, "sucess");
+      if (res.data.message === "Usuario Logado com Sucesso!") {
+        setIsLogged(true);
+        setViewReport(true);
+        setToken(res.data.token);
+        navigate("/");
+      } else if (res.data.message === "Usuario Anonimo Logado com Sucesso!") {
+        setViewReport(false);
+        setIsAnonymous(true);
+        setIsLogged(true);
+        navigate("/");
+      } else if (
+        res.data.message === "Usuario Administrador Logado com Sucesso!"
+      ) {
+        setViewReport(true);
+        setIsAdmin(true);
+        setIsLogged(true);
+        navigate("/");
+      } else {
+        console.log(res.data.message);
+      }
     });
   };
 

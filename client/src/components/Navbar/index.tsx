@@ -14,7 +14,6 @@ import { useTema } from "../../common/Tema";
 import useUser from "../../common/User";
 import api from "../../lib/api";
 import showToastMessage from "../../utils/showToastMessage";
-import useToken from "../../common/Token";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -38,25 +37,29 @@ export default function Navbar() {
   };
   const navigate = useNavigate();
   const location = useLocation();
-  const { setIsLogged, isLogged, setViewReport, setIsAdmin } = useUser() as {
-    setIsLogged: (value: boolean) => void;
-    isLogged: boolean;
-    isAdmin: boolean;
-    setViewReport: (value: boolean) => void;
-    setIsAnonymous: (value: boolean) => void;
-    setIsAdmin: (value: boolean) => void;
-  };
-  const { setToken } = useToken() as {
-    setToken: (value: string) => void;
-  };
+  const { setIsLogged, isLogged, setViewReport, setIsAdmin, setToken, user } =
+    useUser() as {
+      setIsLogged: (value: boolean) => void;
+      isLogged: boolean;
+      isAdmin: boolean;
+      setViewReport: (value: boolean) => void;
+      setIsAnonymous: (value: boolean) => void;
+      setIsAdmin: (value: boolean) => void;
+      setToken: (value: string | null) => void;
+      user: object;
+    };
+
   const logout = () => {
-    api.get("/logout").then((res) => {
+    // api.get("/token").then((res) => console.log(res.data));
+
+    api.post("/logout").then((res) => {
+      setToken(null);
       setIsLogged(false);
       setPegarTema("dark");
       setViewReport(false);
       setIsAdmin(false);
+      console.log(res.data);
       showToastMessage(res.data.message, "sucess");
-      setToken(res.data.token);
       navigate("/login");
     });
   };
@@ -125,13 +128,13 @@ export default function Navbar() {
                             to={item.href}
                             className={classNames(
                               item.href === location.pathname
-                              ? pegarTema === "dark"
-                                ? "bg-gray-900 text-white"
-                                : "text-blue-700 bg-branco"
-                              : pegarTema === "light"
-                              ? "hover:bg-gray-300 hover:text-blue-900"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
+                                ? pegarTema === "dark"
+                                  ? "bg-gray-900 text-white"
+                                  : "text-blue-700 bg-branco"
+                                : pegarTema === "light"
+                                ? "hover:bg-gray-300 hover:text-blue-900"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "rounded-md px-3 py-2 text-sm font-medium"
                             )}
                             aria-current={
                               item.href !== location.pathname

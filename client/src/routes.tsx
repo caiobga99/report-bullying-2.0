@@ -5,32 +5,26 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Notfound from "./pages/NotFound";
 import Denuncie from "./pages/Denuncie";
-import useToken from "./common/Token";
 import useUser from "./common/User";
 import { useEffect } from "react";
 import api from "./lib/api";
 import Resposta from "./pages/Reposta";
 
 const MyRoutes = () => {
-  const { setToken } = useToken() as {
-    setToken: (value: string) => void;
-  };
-  const { setIsLogged, isLogged, isAdmin } = useUser() as {
+  const { setIsLogged, isLogged, isAdmin, token } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isLogged: boolean;
     isAdmin: boolean;
+    token: string | null;
   };
   useEffect(() => {
     // api.get("/logout");
     // api.get("/token").then((res) => {
     //   setToken(res.data);
     // });
-    api.get("/sanctum/csrf-cookie").then((response) => {
-      api.get("/userIsLogged").then((res) => {
-        setIsLogged(res.data);
-        console.log(res.data === "" ? "nao esta logado" : res.data);
-      });
-    });
+    if (localStorage.getItem("ACCESS_TOKEN")) {
+      setIsLogged(true);
+    }
   }, []);
   return (
     <Routes>
