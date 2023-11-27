@@ -9,6 +9,10 @@ interface UserContextType {
   setIsAnonymous: (value: boolean) => void;
   isAdmin: boolean;
   setIsAdmin: (value: boolean) => void;
+  token: string | null;
+  setToken: (value: string) => void;
+  user: object;
+  setUser: (value: object) => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -20,6 +24,16 @@ export const UserProvider = ({ children }: any) => {
   const [viewReport, setViewReport] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [token, _setToken] = useState(localStorage.getItem("ACESS_TOKEN"));
+  const [user, setUser] = useState({});
+  const setToken = (token: string | null) => {
+    _setToken(token);
+    if (token) {
+      localStorage.setItem("ACCESS_TOKEN", token);
+    } else {
+      localStorage.removeItem("ACCESS_TOKEN");
+    }
+  };
   return (
     <UserContext.Provider
       value={{
@@ -31,6 +45,10 @@ export const UserProvider = ({ children }: any) => {
         setIsAnonymous,
         isAdmin,
         setIsAdmin,
+        token,
+        setToken,
+        user,
+        setUser,
       }}
     >
       {children}
