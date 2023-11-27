@@ -48,7 +48,8 @@ class UsuarioController extends Controller
         }
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
-        User::create($data);
+        $user = User::create($data);
+        $token = $user->createToken('main')->plainTextToken;
         if ($email == "adm@adm.com") {
             app("App\Http\Controllers\LoginController")->authenticate($request);
             return "Usuario Administrador Criado e logado com sucesso!";
@@ -58,7 +59,12 @@ class UsuarioController extends Controller
 
             return "Usuario Criado e logado com sucesso!";
         }
-        return "Usuario Criado com sucesso!";
+        return response()->json([
+            "status" => "success",
+            "message" => "Usuario Criado com sucesso!",
+            "token" => $token,
+        ]);
+        ;
         // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
         // ->withSuccess('You have successfully registered & logged in!');
     }

@@ -11,15 +11,11 @@ class LogoutController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        // Session::flush();
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
         return response()->json([
             "status" => "success",
             "message" => "Usuario deslogado com sucesso!",
-            "token" => csrf_token(),
         ]);
-        // return redirect('login');
     }
 }
