@@ -8,22 +8,21 @@ import showToastMessage from "../../utils/showToastMessage";
 import api from "../../lib/api";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 const Register = () => {
   const fields = signupFields;
   let fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
 
   const navigate = useNavigate();
-  const { setIsLogged, isLogged, setViewReport, setIsAnonymous, setIsAdmin } =
-    useUser() as {
-      setIsLogged: (value: boolean) => void;
-      isLogged: boolean;
-      isAdmin: boolean;
-      setViewReport: (value: boolean) => void;
-      setIsAnonymous: (value: boolean) => void;
-      setIsAdmin: (value: boolean) => void;
-    };
+  const { setIsLogged, setIsAdmin, setToken } = useUser() as {
+    setIsLogged: (value: boolean) => void;
+    isLogged: boolean;
+    isAdmin: boolean;
+    setViewReport: (value: boolean) => void;
+    setIsAnonymous: (value: boolean) => void;
+    setIsAdmin: (value: boolean) => void;
+    setToken: (value: string) => void;
+  };
 
   const {
     register,
@@ -33,55 +32,32 @@ const Register = () => {
   } = useForm();
   const onSubmit = ({ nome, email, senha, ra }: any) => {
     api
-      .get("/sanctum/csrf-cookie", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+      .post(`/usuarios`, {
+        email: email,
+        password: senha,
+        RA: ra,
+        nome: nome,
       })
-      .then((response) => {
-        console.log(response.headers);
-        const token: string = "teste";
-        console.log(response + " Token");
-        api
-          .post(
-            `/usuarios`,
-            {
-              email: email,
-              password: senha,
-              RA: ra,
-              nome: nome,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
-              },
-              xsrfHeaderName: "X-XSRF-TOKEN",
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            console.log(res + " POST");
-            {
-              if (
-                res.data ===
-                "Usuario Administrador Criado e logado com sucesso!"
-              ) {
-                setIsAdmin(true);
-              }
-              showToastMessage(res.data, "sucess");
-              setIsLogged(true);
-              console.log(res.data);
-              navigate("/Home");
-            }
-          })
-          .catch((error) => {
-            console.log(error.message);
-            if (error.message === "Request failed with status code 500") {
-              showToastMessage("Usuario já existente", "error");
-            }
-          });
+      .then((res) => {
+        console.log(res + " POST");
+        setToken(res.data.token);
+        {
+          if (
+            res.data === "Usuario Administrador Criado e logado com sucesso!"
+          ) {
+            setIsAdmin(true);
+          }
+          showToastMessage(res.data.message, "sucess");
+          setIsLogged(true);
+          console.log(res.data);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Request failed with status code 500") {
+          showToastMessage("Usuario já existente", "error");
+        }
       });
   };
   const watchPassword = watch("senha");

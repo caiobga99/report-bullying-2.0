@@ -11,6 +11,10 @@ import api from "../../lib/api";
 const Login = () => {
   const navigate = useNavigate();
   const fields = loginFields;
+  interface FormData {
+    email: string;
+    senha: string;
+  }
   let fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
   const {
@@ -33,7 +37,7 @@ const Login = () => {
   };
 
   if (isLogged) {
-    navigate("Home");
+    navigate("/");
   }
   const {
     register,
@@ -50,7 +54,6 @@ const Login = () => {
       if (res.data.message === "Usuario Logado com Sucesso!") {
         setIsLogged(true);
         setViewReport(true);
-        setToken(res.data.token);
         navigate("/");
       } else if (res.data.message === "Usuario Anonimo Logado com Sucesso!") {
         setViewReport(false);

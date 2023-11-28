@@ -15,13 +15,18 @@ import useUser from "../../common/User";
 import api from "../../lib/api";
 import showToastMessage from "../../utils/showToastMessage";
 
-const navigation = [
+interface Navigation {
+  name: string;
+  href: string;
+}
+
+const navigation: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Login", href: "/login" },
   { name: "Register", href: "/register" },
   { name: "Denuncie", href: "/denuncie" },
 ];
-const navigationLogged = [
+const navigationLogged: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Denuncie", href: "/denuncie" },
 ];
@@ -37,7 +42,7 @@ export default function Navbar() {
   };
   const navigate = useNavigate();
   const location = useLocation();
-  const { setIsLogged, isLogged, setViewReport, setIsAdmin, setToken, user } =
+  const { setIsLogged, isLogged, setViewReport, setIsAdmin, setToken } =
     useUser() as {
       setIsLogged: (value: boolean) => void;
       isLogged: boolean;

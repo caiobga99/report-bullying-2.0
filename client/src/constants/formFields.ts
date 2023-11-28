@@ -1,6 +1,18 @@
-const loginFields = [
+interface FormFiedls {
+  labelText: string;
+  labelFor: string;
+  id: string;
+  name: string;
+  type: string;
+  autoComplete: string;
+  isRequired: true;
+  placeholder: string;
+  inputType?: string;
+}
+
+const loginFields: FormFiedls[] = [
   {
-    labelText: "Email address",
+    labelText: "Email addressstring",
     labelFor: "email-address",
     id: "email",
     name: "email",
@@ -21,7 +33,7 @@ const loginFields = [
   },
 ];
 
-const signupFields = [
+const signupFields: FormFiedls[] = [
   {
     labelText: "Nome",
     labelFor: "Nome",
@@ -74,7 +86,7 @@ const signupFields = [
   },
 ];
 
-const reportFields = [
+const reportFields: FormFiedls[] = [
   {
     labelText: "Titulo",
     labelFor: "Titulo",

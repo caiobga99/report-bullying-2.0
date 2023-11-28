@@ -1,11 +1,18 @@
 import { Link } from "react-router-dom";
 import ReportBullyingLogo from "../../assets/logo.svg";
+interface FormHeaderProps {
+  heading: string;
+  paragraph: string;
+  linkName: string;
+  linkUrl: string;
+}
+
 export default function FormHeader({
   heading,
   paragraph,
   linkName,
   linkUrl = "#",
-}: any) {
+}: FormHeaderProps) {
   return (
     <div className="mb-10">
       <div className="flex justify-center">
