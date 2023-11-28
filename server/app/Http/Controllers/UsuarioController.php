@@ -57,7 +57,11 @@ class UsuarioController extends Controller
         if (!Auth::check()) {
             app("App\Http\Controllers\LoginController")->authenticate($request);
 
-            return "Usuario Criado e logado com sucesso!";
+            return response()->json([
+                "status" => "success",
+                "message" => "Usuario Criado e logado com sucesso!",
+                "token" => $token,
+            ]);
         }
         return response()->json([
             "status" => "success",
