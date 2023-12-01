@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get("/naoadm", function () {
     return response()->json(["Nao é admin"]);
 });
-Route::get("/token", function (Request $request) {
+Route::get("/token", function () {
     $token = csrf_token();
     return $token;
 });
@@ -37,26 +37,26 @@ Route::get("/", function () {
     return view("welcome");
 });
 
-Route::get("/userIsLogged", [LoginController::class, "checkLogged"]);
 Route::get("/login", [LoginController::class, "displayLogin"])->name("login");
 Route::post("/login", [LoginController::class, "authenticate"]);
 
-Route::resource("respostas", RespostaController::class);
 
 Route::post("/usuarios", [UsuarioController::class, "store"]);
 Route::post("/testeApi", [ChatController::class, "getConselho"]);
 
-Route::get("/denuncia", [DenunciaController::class, "show"]);
 
 Route::middleware(["auth:sanctum"])->group(function () {
+    Route::post("/userIsLogged", [LoginController::class, "checkLogged"]);
     Route::post("/logout", [LogoutController::class, "logout"])->name("logout");
     Route::get("/resposta/{id_denuncia}/{id_usuario}", [RespostaController::class, "show"]);
     Route::get("/usuario", [UsuarioController::class, "show"]);
     Route::get("/usuarios", [UsuarioController::class, "index"])->block();
+    Route::get("/denuncia", [DenunciaController::class, "show"]);
     Route::post("/denuncias", [DenunciaController::class, "store"]);
+    Route::resource("respostas", RespostaController::class);
 
     Route::middleware(["admin"])->group(function () {
-        Route::get("/usuarios", [UsuarioController::class, "i]ndex"]);
+        Route::get("/usuarios", [UsuarioController::class, "index"]);
 
         //   Route::post("/usuarios", [UsuarioController::class, "store"]);
         Route::get("/denuncias", [DenunciaController::class, "index"]);
