@@ -35,10 +35,8 @@ const Denuncie: React.FC = () => {
   //   ra: string;
   // }
   const onSubmit = ({ titulo, mensagem }: any) => {
-    api.get("/sanctum/csrf-cookie").then((response) => {
-      console.log(response);
       api
-        .post(`/denuncia`, {
+        .post(`/denuncias`, {
           titulo: titulo,
           mensagem: mensagem,
         })
@@ -53,7 +51,6 @@ const Denuncie: React.FC = () => {
         .catch((error) => {
           console.log(error.message);
           showToastMessage(error.message, "error");
-        });
     });
   };
   return (

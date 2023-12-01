@@ -3,21 +3,34 @@ import {
   ChatBubbleBottomCenterIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-const ReportCard: React.FC = () => {
+interface ReportCardProps {
+  titulo: string;
+  mensagem: string;
+  nome: string;
+  data: string;
+  id_denuncia: string;
+  id_usuario: string;
+}
+const ReportCard = ({
+  titulo,
+  mensagem,
+  nome,
+  data,
+  id_denuncia,
+  id_usuario,
+}: ReportCardProps) => {
   return (
     <div className="max-w-sm w-full lg:max-w-fit lg:flex items-center justify-center">
       <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
         <div className="mb-8">
           <p className="text-sm text-gray-600 flex items-center gap-2">
             <ChatBubbleBottomCenterIcon width={27} height={27} />
-            <Link to={"/resposta/2"}>Visualize sua resposta</Link>
+            <Link to={`/resposta/${id_denuncia}/${id_usuario}`}>
+              Visualize sua resposta
+            </Link>
           </p>
-          <div className="text-gray-900 font-bold text-xl mb-2">
-            Can coffee make you a better developer?
-          </div>
-          <p className="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet, 
-          </p>
+          <div className="text-gray-900 font-bold text-xl mb-2">{titulo}</div>
+          <p className="text-gray-700 text-base">{mensagem}</p>
         </div>
         <div className="flex items-center">
           <UserCircleIcon width={50} height={50} />
@@ -27,8 +40,8 @@ const ReportCard: React.FC = () => {
             alt="Avatar of Jonathan Reinink"
           /> */}
           <div className="text-sm">
-            <p className="text-gray-900 leading-none">Jonathan Reinink</p>
-            <p className="text-gray-600">Aug 18</p>
+            <p className="text-gray-900 leading-none">{nome}</p>
+            <p className="text-gray-600">{data}</p>
           </div>
         </div>
       </div>
