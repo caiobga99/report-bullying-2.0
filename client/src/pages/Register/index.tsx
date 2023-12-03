@@ -10,8 +10,6 @@ import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
   const fields = signupFields;
-  let fieldsState: any = {};
-  fields.forEach((field) => (fieldsState[field.id] = ""));
 
   const navigate = useNavigate();
   const { setIsLogged, setIsAdmin, setToken } = useUser() as {

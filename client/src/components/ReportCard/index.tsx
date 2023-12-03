@@ -2,7 +2,7 @@ import {
   UserCircleIcon,
   ChatBubbleBottomCenterIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 interface ReportCardProps {
   titulo: string;
   mensagem: string;
@@ -11,6 +11,8 @@ interface ReportCardProps {
   id_denuncia: string;
   id_usuario: string;
 }
+import ModalComponent from "../../components/ModalComponent";
+
 const ReportCard = ({
   titulo,
   mensagem,
@@ -19,15 +21,17 @@ const ReportCard = ({
   id_denuncia,
   id_usuario,
 }: ReportCardProps) => {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className="max-w-sm w-full lg:max-w-fit lg:flex items-center justify-center">
       <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
         <div className="mb-8">
           <p className="text-sm text-gray-600 flex items-center gap-2">
             <ChatBubbleBottomCenterIcon width={27} height={27} />
-            <Link to={`/resposta/${id_denuncia}/${id_usuario}`}>
+            <button onClick={() => setOpenModal(true)}>
               Visualize sua resposta
-            </Link>
+            </button>
           </p>
           <div className="text-gray-900 font-bold text-xl mb-2">{titulo}</div>
           <p className="text-gray-700 text-base">{mensagem}</p>
@@ -45,6 +49,13 @@ const ReportCard = ({
           </div>
         </div>
       </div>
+      <ModalComponent
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        titulo={titulo}
+        id_denuncia={id_denuncia}
+        id_usuario={id_usuario}
+      />
     </div>
   );
 };

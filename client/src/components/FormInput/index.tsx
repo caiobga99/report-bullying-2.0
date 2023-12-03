@@ -1,4 +1,19 @@
+import { UseFormRegisterReturn } from "react-hook-form";
 import { useTema } from "../../common/Tema";
+interface FormInput {
+  value?: string;
+  labelText?: string;
+  labelFor?: string;
+  id: string;
+  type: string;
+  isRequired: boolean;
+  placeholder: string;
+  customClass?: string;
+  registerInput: UseFormRegisterReturn<string>;
+  errors: boolean;
+  typeError: unknown;
+  inputType?: string;
+}
 
 export default function FormInput({
   value,
@@ -13,7 +28,7 @@ export default function FormInput({
   errors,
   typeError,
   inputType,
-}: any) {
+}: FormInput) {
   const { pegarTema } = useTema() as {
     setPegarTema: (value: string) => void;
     pegarTema: string;
@@ -35,7 +50,6 @@ export default function FormInput({
           <textarea
             value={value}
             id={id}
-            type={type}
             rows={4}
             required={isRequired}
             className={errors ? inputErrorClass : fixedInputClass + customClass}

@@ -55,8 +55,6 @@ export default function Navbar() {
     };
 
   const logout = () => {
-    // api.get("/token").then((res) => console.log(res.data));
-
     api.post("/logout").then((res) => {
       setToken(null);
       setIsLogged(false);

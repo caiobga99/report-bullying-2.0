@@ -13,10 +13,9 @@ const Login = () => {
   const fields = loginFields;
   interface FormData {
     email: string;
-    senha: string;
+    password: string;
+    lembrarMe?: boolean;
   }
-  let fieldsState: any = {};
-  fields.forEach((field) => (fieldsState[field.id] = ""));
   const {
     setIsLogged,
     isLogged,
@@ -43,39 +42,46 @@ const Login = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormData>();
 
-  const onSubmit = async (data: any) => {
-    api.post(`/login`, data).then((res: any) => {
+  const onSubmit = async (data: FormData) => {
+    api.post(`/login`, data).then((res) => {
       console.log(res.data);
       setUser(res.data.user);
       setToken(res.data.token);
-      showToastMessage(res.data.message, "sucess");
-      if (res.data.message === "Usuario Logado com Sucesso!") {
-        setIsLogged(true);
-        setViewReport(true);
-        navigate("/");
-      } else if (res.data.message === "Usuario Anonimo Logado com Sucesso!") {
-        setViewReport(false);
-        setIsAnonymous(true);
-        setIsLogged(true);
-        navigate("/");
-      } else if (
-        res.data.message === "Usuario Administrador Logado com Sucesso!"
-      ) {
-        setViewReport(true);
-        setIsAdmin(true);
-        setIsLogged(true);
-        navigate("/");
-      } else {
-        console.log(res.data.message);
+      switch (res.data.message) {
+        case "Usuario Logado com Sucesso!":
+          setIsLogged(true);
+          showToastMessage(res.data.message, "sucess");
+          setViewReport(true);
+          navigate("/");
+          break;
+        case "Usuario Anonimo Logado com Sucesso!":
+          showToastMessage(res.data.message, "sucess");
+          setViewReport(false);
+          setIsAnonymous(true);
+          setIsLogged(true);
+          navigate("/");
+          break;
+        case "Usuario Administrador Logado com Sucesso!":
+          showToastMessage(res.data.message, "sucess");
+          setViewReport(true);
+          setIsAdmin(true);
+          setIsLogged(true);
+          navigate("/");
+          break;
+
+        default:
+          showToastMessage(res.data.message, "error");
+          console.log(res.data.message);
+          break;
       }
     });
   };
 
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 ">
         <FormHeader
           heading="Faça login na sua conta"
           paragraph="Não tem uma conta ainda? "
@@ -104,9 +110,29 @@ const Login = () => {
                 typeError={errors[field.name]?.type}
               />
             ))}
+            <div className="flex items-center justify-end w-full gap-2 h-10">
+              <div>Lembrar-me</div>
+              <input type="checkbox" {...register("lembrarMe")} />
+            </div>
+            <div className="w-full flex items-center justify-between">
+              <div className="w-52 ">
+                <FormAction onClick={handleSubmit(onSubmit)} text="Entrar" />
+              </div>
+              <div className="w-52 ">
+                <FormAction
+                  action="button"
+                  onClick={() =>
+                    onSubmit({
+                      password: "Anonimo@123",
+                      email: "Anonimo@gmail.com",
+                    })
+                  }
+                  text="Entrar Anonimamente"
+                />
+              </div>
+            </div>
           </div>
         </form>
-        <FormAction onClick={handleSubmit(onSubmit)} text="Entrar" />
       </div>
     </div>
   );

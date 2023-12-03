@@ -7,10 +7,10 @@ import showToastMessage from "../../utils/showToastMessage";
 import api from "../../lib/api";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 const Denuncie: React.FC = () => {
   const fields = reportFields;
-  let fieldsState: any = {};
+  const fieldsState: any = {};
   fields.forEach((field) => (fieldsState[field.id] = ""));
 
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Denuncie: React.FC = () => {
     setIsAnonymous: (value: boolean) => void;
     setIsAdmin: (value: boolean) => void;
   };
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     formState: { errors },
@@ -35,6 +35,10 @@ const Denuncie: React.FC = () => {
   //   ra: string;
   // }
   const onSubmit = ({ titulo, mensagem }: any) => {
+    setIsLoading(true);
+    showToastMessage(
+      "Denuncia Criada com sucesso!",
+      "promise",
       api
         .post(`/denuncias`, {
           titulo: titulo,
@@ -42,16 +46,17 @@ const Denuncie: React.FC = () => {
         })
         .then((res) => {
           {
-            showToastMessage(res.data, "sucess");
+            setIsLoading(false);
             setIsLogged(true);
             console.log(res.data);
-            navigate("/denuncias");
+            navigate("/profile");
           }
         })
         .catch((error) => {
           console.log(error.message);
-          showToastMessage(error.message, "error");
-    });
+        }),
+      "Criando Denuncia..."
+    );
   };
   return (
     <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
@@ -83,7 +88,11 @@ const Denuncie: React.FC = () => {
             ))}
           </div>
         </form>
-        <FormAction onClick={handleSubmit(onSubmit)} text="Denunciar" />
+        <FormAction
+          disabled={isLoading}
+          onClick={handleSubmit(onSubmit)}
+          text="Denunciar"
+        />
       </div>
     </div>
   );

@@ -33,7 +33,6 @@ const MyRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/denuncie" element={<Denuncie />} />
-      <Route path="/resposta/:id_denuncia/:id_usuario" element={<Resposta />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );
