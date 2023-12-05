@@ -9,3 +9,13 @@ export interface Denuncias {
   titulo: string;
   updated_at: string;
 }
+
+export interface User {
+  nome?: string;
+  email?: string;
+  RA?: string;
+  id_usuario?: string;
+  tipo_usuario?: boolean;
+  created_at: string;
+  updated_at?: string;
+}

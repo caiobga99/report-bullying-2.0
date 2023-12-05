@@ -4,11 +4,16 @@ import api from "../../lib/api";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Denuncias } from "../../utils/protocols";
+import { Denuncias, User } from "../../utils/protocols";
 import showToastMessage from "../../utils/showToastMessage";
+import UserCard from "../../components/UserCard";
 const TimeLine = () => {
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  console.log(user + " user");
   useEffect(() => {
     api
       .get("/denuncia")
@@ -19,6 +24,14 @@ const TimeLine = () => {
         setIsLoading(false);
         setDenuncias(response.data);
         console.log(response.data);
+      })
+      .catch((err) => console.log(err.message));
+    api
+      .get("/usuario")
+      .then((response) => {
+        setIsLoadingUser(false);
+        setUser(response.data[0]);
+        console.log(response.data[0]);
       })
       .catch((err) => console.log(err.message));
   }, []);
@@ -41,6 +54,30 @@ const TimeLine = () => {
               Denuncie Agora
             </span>
           </Link>
+          <div>
+            {isLoadingUser ? (
+              <Spinner />
+            ) : (
+              <UserCard
+                created_at={format(
+                  new Date(user!.created_at),
+                  "dd/MM/yyyy"
+                ).toString()}
+                email={user?.email}
+                nome={user?.nome}
+                quantidade_denuncias={denuncias.length}
+                ra={user?.RA}
+                tipo_usuario={
+                  user?.nome === "Anonimo"
+                    ? "Anonimo"
+                    : user?.tipo_usuario
+                    ? "Admin"
+                    : "Comum"
+                }
+                key={user?.id_usuario}
+              />
+            )}
+          </div>
         </div>
         <div className="ml-0 md:ml-12 lg:w-2/3 sticky">
           <div className="container mx-auto w-full h-full">
