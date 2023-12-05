@@ -110,11 +110,7 @@ const Login = () => {
                 typeError={errors[field.name]?.type}
               />
             ))}
-            <div className="flex items-center justify-end w-full gap-2 h-10">
-              <div>Lembrar-me</div>
-              <input type="checkbox" {...register("lembrarMe")} />
-            </div>
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex items-center justify-between flex-wrap">
               <div className="w-52 ">
                 <FormAction onClick={handleSubmit(onSubmit)} text="Entrar" />
               </div>

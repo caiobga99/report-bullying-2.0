@@ -16,6 +16,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/validator": "^13.11.6",
     "axios": "^1.6.2",
+    "date-fns": "^2.30.0",
     "flowbite": "^2.2.0",
     "flowbite-react": "^0.7.0",
     "js-cookie": "^3.0.5",

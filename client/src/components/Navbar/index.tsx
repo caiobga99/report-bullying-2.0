@@ -41,20 +41,30 @@ export default function Navbar() {
   };
   const navigate = useNavigate();
   const location = useLocation();
-  const { setIsLogged, isLogged, setViewReport, setIsAdmin, setToken } =
-    useUser() as {
-      setIsLogged: (value: boolean) => void;
-      isLogged: boolean;
-      isAdmin: boolean;
-      setViewReport: (value: boolean) => void;
-      setIsAnonymous: (value: boolean) => void;
-      setIsAdmin: (value: boolean) => void;
-      setToken: (value: string | null) => void;
-      user: object;
-    };
+  const {
+    setIsLogged,
+    isLogged,
+    setViewReport,
+    setIsAdmin,
+    setToken,
+    lembrarMe,
+  } = useUser() as {
+    setIsLogged: (value: boolean) => void;
+    isLogged: boolean;
+    isAdmin: boolean;
+    setViewReport: (value: boolean) => void;
+    setIsAnonymous: (value: boolean) => void;
+    setIsAdmin: (value: boolean) => void;
+    setToken: (value: string | null) => void;
+    user: object;
+    lembrarMe: boolean;
+  };
 
   const logout = () => {
     api.post("/logout").then((res) => {
+      if (!lembrarMe) {
+        localStorage.removeItem("ACCESS_TOKEN");
+      }
       setToken(null);
       setIsLogged(false);
       setPegarTema("dark");
@@ -102,51 +112,51 @@ export default function Navbar() {
                   <div className="flex space-x-4">
                     {!isLogged
                       ? navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={classNames(
-                            item.href === location.pathname
-                              ? pegarTema === "dark"
-                                ? "bg-gray-900 text-white"
-                                : "text-blue-700 bg-branco"
-                              : pegarTema === "light"
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              item.href === location.pathname
+                                ? pegarTema === "dark"
+                                  ? "bg-gray-900 text-white"
+                                  : "text-blue-700 bg-branco"
+                                : pegarTema === "light"
                                 ? "hover:bg-gray-300 hover:text-blue-900"
                                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={
-                            item.href !== location.pathname
-                              ? "page"
-                              : undefined
-                          }
-                        >
-                          {item.name}
-                        </Link>
-                      ))
+                              "rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={
+                              item.href !== location.pathname
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.name}
+                          </Link>
+                        ))
                       : navigationLogged.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={classNames(
-                            item.href === location.pathname
-                              ? pegarTema === "dark"
-                                ? "bg-gray-900 text-white"
-                                : "text-blue-700 bg-branco"
-                              : pegarTema === "light"
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              item.href === location.pathname
+                                ? pegarTema === "dark"
+                                  ? "bg-gray-900 text-white"
+                                  : "text-blue-700 bg-branco"
+                                : pegarTema === "light"
                                 ? "hover:bg-gray-300 hover:text-blue-900"
                                 : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={
-                            item.href !== location.pathname
-                              ? "page"
-                              : undefined
-                          }
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                              "rounded-md px-3 py-2 text-sm font-medium"
+                            )}
+                            aria-current={
+                              item.href !== location.pathname
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
                   </div>
                 </div>
               </div>
@@ -219,6 +229,21 @@ export default function Navbar() {
                         </Menu.Item>
                         <Menu.Item>
                           {() => (
+                            <Link
+                              to="/timeLine"
+                              className={classNames(
+                                "/timeLine" === location.pathname
+                                  ? "bg-gray-100"
+                                  : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              TimeLine
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {() => (
                             <button
                               className={
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -248,8 +273,8 @@ export default function Navbar() {
                     item.href === location.pathname
                       ? "bg-gray-900 text-white"
                       : pegarTema === "light"
-                        ? "hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      ? "hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "rounded-md px-3 py-2 text-sm font-medium",
                     "block rounded-md px-3 py-2 text-base font-medium"
                   )}

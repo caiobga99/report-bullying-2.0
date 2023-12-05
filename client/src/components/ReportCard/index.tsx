@@ -1,6 +1,7 @@
 import {
   UserCircleIcon,
   ChatBubbleBottomCenterIcon,
+  EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 interface ReportCardProps {
@@ -24,7 +25,7 @@ const ReportCard = ({
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="max-w-sm w-full lg:max-w-fit lg:flex items-center justify-center">
+    <div className="max-w-sm w-full lg:max-w-fit lg:flex items-center justify-center font-dm">
       <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
         <div className="mb-8">
           <p className="text-sm text-gray-600 flex items-center gap-2">
@@ -37,7 +38,11 @@ const ReportCard = ({
           <p className="text-gray-700 text-base">{mensagem}</p>
         </div>
         <div className="flex items-center">
-          <UserCircleIcon width={50} height={50} />
+          {nome !== "Anonimo" ? (
+            <UserCircleIcon width={50} height={50} />
+          ) : (
+            <EyeSlashIcon width={35} height={35} />
+          )}
           {/* <img
             className="w-10 h-10 rounded-full mr-4"
             src="/img/jonathan.jpg"

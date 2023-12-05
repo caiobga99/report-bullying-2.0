@@ -2,25 +2,20 @@ import { useEffect, useState } from "react";
 import ReportCard from "../../components/ReportCard";
 import api from "../../lib/api";
 import { Spinner } from "flowbite-react";
+import { Denuncias } from "../../utils/protocols";
+import { format } from "date-fns";
+import showToastMessage from "../../utils/showToastMessage";
 const Profile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  interface Denuncias {
-    RA: string;
-    created_at: string;
-    email: string;
-    id_denuncia: string;
-    id_usuario: string;
-    mensagem: string;
-    nome: string;
-    titulo: string;
-    updated_at: string;
-  }
+
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   useEffect(() => {
     api
       .get("denuncia")
       .then((response) => {
         setIsLoading(false);
+        response.data <= 0 &&
+          showToastMessage("Nenhuma Denuncia foi Realizada ainda!", "info");
         setDenuncias(response.data);
       })
       .catch((err) => {
@@ -41,7 +36,11 @@ const Profile = () => {
           <Spinner />
         </div>
       ) : denuncias.length <= 0 ? (
-        <p>Nenhuma Denuncia foi Realizada ainda!</p>
+        <div className="flex items-center justify-center h-24">
+          <p className="font-dm text-xl">
+            Nenhuma Denuncia foi Realizada ainda!
+          </p>
+        </div>
       ) : (
         denuncias.map((denuncia) => {
           return (
@@ -50,7 +49,10 @@ const Profile = () => {
               titulo={denuncia.titulo}
               mensagem={denuncia.mensagem}
               nome={denuncia.nome}
-              data={denuncia.created_at}
+              data={format(
+                new Date(denuncia.created_at),
+                "dd/MM/yyyy"
+              ).toString()}
               id_denuncia={denuncia.id_denuncia}
               id_usuario={denuncia.id_usuario}
             />

@@ -11,41 +11,43 @@ import TimeLine from "./pages/TimeLine";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
 const MyRoutes = () => {
-  const { setIsLogged, token } = useUser() as {
+  const { setIsLogged } = useUser() as {
     setIsLogged: (value: boolean) => void;
-    isLogged: boolean;
-    isAdmin: boolean;
-    token: string | null;
   };
   useEffect(() => {
-    // api.get("/logout");
-    // api.get("/token").then((res) => {
-    //   setToken(res.data);
-    // });
     if (localStorage.getItem("ACCESS_TOKEN")) {
       setIsLogged(true);
     }
   }, [setIsLogged]);
   return (
     <Routes>
+      <Route
+        path="/timeLine"
+        element={
+          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+            <TimeLine />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/denuncie"
+        element={
+          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+            <Denuncie />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Home />} />
-      <Route path="/timeLine" element={
-        <ProtectedRoute token={token}>
-          <TimeLine />
-        </ProtectedRoute>
-      } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={
-        <ProtectedRoute token={token} >
-          <Profile />
-        </ProtectedRoute>
-      } />
-      <Route path="/denuncie" element={
-        <ProtectedRoute token={token}>
-          <Denuncie />
-        </ProtectedRoute>
-      } />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );

@@ -13,6 +13,8 @@ interface UserContextType {
   setToken: (value: string) => void;
   user: object;
   setUser: (value: object) => void;
+  lembrarMe: boolean;
+  setLembrarMe: (value: boolean) => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -23,6 +25,7 @@ export const UserProvider = ({ children }: any) => {
   const [isLogged, setIsLogged] = useState(false);
   const [viewReport, setViewReport] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [lembrarMe, setLembrarMe] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [token, _setToken] = useState(localStorage.getItem("ACESS_TOKEN"));
   const [user, setUser] = useState({});
@@ -49,6 +52,9 @@ export const UserProvider = ({ children }: any) => {
         setToken,
         user,
         setUser,
+        lembrarMe,
+        setLembrarMe
+
       }}
     >
       {children}

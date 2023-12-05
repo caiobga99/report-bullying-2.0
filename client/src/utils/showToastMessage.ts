@@ -16,6 +16,11 @@ const showToastMessage = (
         position: toast.POSITION.TOP_RIGHT,
       });
       break;
+    case "info":
+      toast.info(message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      break;
     case "promise":
       if (promisse !== undefined) {
         toast.promise(
