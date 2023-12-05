@@ -7,12 +7,15 @@ import { Link } from "react-router-dom";
 import { Denuncias, User } from "../../utils/protocols";
 import showToastMessage from "../../utils/showToastMessage";
 import UserCard from "../../components/UserCard";
+import { useTema } from "../../common/Tema";
 const TimeLine = () => {
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
-
+  const { pegarTema } = useTema() as {
+    pegarTema: string;
+  };
   console.log(user + " user");
   useEffect(() => {
     api
@@ -36,7 +39,13 @@ const TimeLine = () => {
       .catch((err) => console.log(err.message));
   }, []);
   return (
-    <div className="bg-black text-white py-8 min-h-screen font-dm">
+    <div
+      className={
+        pegarTema === "dark"
+          ? "bg-black text-white py-8 min-h-screen font-dm"
+          : "bg-white text-black py-8 min-h-screen font-dm"
+      }
+    >
       <div className="container mx-auto flex flex-col items-start md:flex-row my-12 md:my-24">
         <div className="flex flex-col w-full sticky md:top-36 lg:w-1/3 mt-2 md:mt-12 px-8">
           <p className="ml-2 text-yellow-300 uppercase tracking-loose">
@@ -45,12 +54,18 @@ const TimeLine = () => {
           <p className="text-3xl md:text-4xl leading-normal md:leading-relaxed mb-2">
             Todas denuncias realizadas
           </p>
-          <p className="text-sm md:text-base text-gray-50 mb-4">
+          <p
+            className={
+              pegarTema === "dark"
+                ? "text-sm md:text-base text-gray-50 mb-4"
+                : "text-sm md:text-base text-gray-600 mb-4"
+            }
+          >
             Aqui está todas as suas denuncias divididas em uma linha do tempo,
             ordenada de forma decrescente.
           </p>
           <Link to={"/denuncie"}>
-            <span className="bg-transparent mr-auto hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
+            <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
               Denuncie Agora
             </span>
           </Link>
@@ -69,6 +84,7 @@ const TimeLine = () => {
                 nome={user?.nome}
                 quantidade_denuncias={denuncias.length}
                 ra={user?.RA}
+                theme={pegarTema}
                 tipo_usuario={
                   user?.nome === "Anonimo"
                     ? "Anonimo"
@@ -109,6 +125,7 @@ const TimeLine = () => {
                         "dd/MM/yyyy"
                       ).toString()}
                       position={index % 2 != 0 ? "right" : "left"}
+                      theme={pegarTema}
                     />
                   ))}
                 </div>

@@ -35,10 +35,10 @@ function classNames(...classes: Object[]) {
 }
 
 export default function Navbar() {
-  const { pegarTema, setPegarTema } = useTema() as {
-    setPegarTema: (value: string) => void;
-    pegarTema: string;
-  };
+    const { pegarTema, setPegarTema } = useTema() as {
+      setPegarTema: (value: string) => void;
+      pegarTema: string;
+    };
   const navigate = useNavigate();
   const location = useLocation();
   const {
