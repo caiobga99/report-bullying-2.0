@@ -40,7 +40,7 @@ const UserCard = ({
               Usuario criado em
             </span>
             <span className="text-lg font-medium text-gray-900 dark:text-white">
-              {created_at}
+              {nome === "Anonimo" ? "00/00/0000" : created_at}
             </span>
           </div>
           <div className="flex flex-col items-start">

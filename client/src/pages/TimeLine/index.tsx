@@ -56,7 +56,9 @@ const TimeLine = () => {
           </Link>
           <div>
             {isLoadingUser ? (
-              <Spinner />
+              <div className="flex items-center justify-center h-80">
+                <Spinner />
+              </div>
             ) : (
               <UserCard
                 created_at={format(
@@ -121,7 +123,7 @@ const TimeLine = () => {
                 )}
               </>
             ) : (
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center h-60">
                 <Spinner />
               </div>
             )}
