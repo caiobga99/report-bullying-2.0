@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -81,7 +82,7 @@ class UsuarioController extends Controller
         $token = csrf_token();
         echo $token . "\n";
         $id = Auth::id();
-        $usuario = User::all()->where('id_usuario', $id);
+        $usuario = User::all()->where('id_usuario', $id)->values();
         return $usuario;
     }
 

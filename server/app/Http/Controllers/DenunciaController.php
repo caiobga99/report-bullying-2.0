@@ -60,7 +60,7 @@ class DenunciaController extends Controller
     public function show()
     {
         $id = Auth::id();
-        $denuncia = Denuncia::all()->where('id_usuario', $id)->values();
+        $denuncia = Denuncia::all()->where('id_usuario', $id)->sortByDesc("created_at")->values();
         return $denuncia;
     }
 
