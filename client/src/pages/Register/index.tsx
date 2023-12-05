@@ -8,6 +8,7 @@ import showToastMessage from "../../utils/showToastMessage";
 import api from "../../lib/api";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
+import { useTema } from "../../common/Tema";
 const Register = () => {
   const fields = signupFields;
   interface FormData {
@@ -16,7 +17,9 @@ const Register = () => {
     senha: string;
     ra: string;
   }
-
+  const { pegarTema } = useTema() as {
+    pegarTema: string;
+  };
   const navigate = useNavigate();
   const { setIsLogged, setIsAdmin, setToken } = useUser() as {
     setIsLogged: (value: boolean) => void;
@@ -66,12 +69,19 @@ const Register = () => {
   };
   const watchPassword = watch("senha");
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
+    <div
+      className={
+        pegarTema === "light"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark"
+      }
+    >
       <div className="max-w-md w-full space-y-8">
         <FormHeader
           heading="Cadastre-se para criar uma conta"
           paragraph="Já tem uma conta? "
           linkName="Login"
+          theme={pegarTema}
           linkUrl="/login"
         />
         <form className="mt-8 space-y-6">

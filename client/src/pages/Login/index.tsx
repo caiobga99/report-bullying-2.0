@@ -8,6 +8,7 @@ import showToastMessage from "../../utils/showToastMessage";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 import api from "../../lib/api";
+import { useTema } from "../../common/Tema";
 const Login = () => {
   const navigate = useNavigate();
   const fields = loginFields;
@@ -16,6 +17,9 @@ const Login = () => {
     password: string;
     lembrarMe?: boolean;
   }
+  const { pegarTema } = useTema() as {
+    pegarTema: string;
+  };
   const {
     setIsLogged,
     isLogged,
@@ -80,13 +84,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      className={
+        pegarTema === "light"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark"
+      }
+    >
       <div className="max-w-md w-full space-y-8 ">
         <FormHeader
           heading="Faça login na sua conta"
           paragraph="Não tem uma conta ainda? "
           linkName="Registrar"
           linkUrl="/register"
+          theme={pegarTema}
         />
         <form className="mt-8 space-y-6">
           <div className="-space-y-px">
