@@ -10,6 +10,12 @@ import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
   const fields = signupFields;
+  interface FormData {
+    nome: string;
+    email: string;
+    senha: string;
+    ra: string;
+  }
 
   const navigate = useNavigate();
   const { setIsLogged, setIsAdmin, setToken } = useUser() as {
@@ -27,8 +33,8 @@ const Register = () => {
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm();
-  const onSubmit = ({ nome, email, senha, ra }: any) => {
+  } = useForm<FormData>();
+  const onSubmit = ({ nome, email, senha, ra }: FormData) => {
     api
       .post(`/usuarios`, {
         email: email,

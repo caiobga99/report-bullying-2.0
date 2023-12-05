@@ -14,7 +14,7 @@ export default function FormHeader({
   linkUrl = "#",
 }: FormHeaderProps) {
   return (
-    <div className="mb-10">
+    <div className="mb-10 font-dm">
       <div className="flex justify-center">
         <img alt="" className="max-h-44 max-w-44 " src={ReportBullyingLogo} />
       </div>

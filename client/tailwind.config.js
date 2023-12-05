@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from "tailwindcss/defaultTheme"
 export default {
   content: [
     "./index.html",
@@ -12,7 +13,11 @@ export default {
         dark: "#1f2937",
         azul: "rgb(99 102 241)",
         branco: "#e4e7eb",
+        borderColor: "#FFC100"
       },
+      fontFamily: {
+        dm: ['"DM Sans"', ...defaultTheme.fontFamily.sans]
+      }
     },
   },
 
