@@ -72,11 +72,11 @@ const Register = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark"
+          ? "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500"
+          : "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full h-full space-y-8">
         <FormHeader
           heading="Cadastre-se para criar uma conta"
           paragraph="Já tem uma conta? "

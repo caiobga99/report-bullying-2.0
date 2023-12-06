@@ -44,8 +44,8 @@ const Profile = () => {
         isLoading
           ? "container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen"
           : pegarTema === "light"
-          ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center"
-          : "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white"
+          ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500"
+          : "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white transition-all duration-500"
       }
     >
       {isLoading ? (

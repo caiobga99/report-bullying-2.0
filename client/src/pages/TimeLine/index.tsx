@@ -54,8 +54,8 @@ const TimeLine = () => {
     <div
       className={
         pegarTema === "dark"
-          ? "bg-black text-white py-8 min-h-screen font-dm"
-          : "bg-white text-black py-8 min-h-screen font-dm"
+          ? "bg-black text-white py-8 min-h-screen font-dm transition-all duration-500"
+          : "bg-white text-black py-8 min-h-screen font-dm transition-all duration-500"
       }
     >
       <div className="container mx-auto flex flex-col items-start md:flex-row my-12 md:my-24">

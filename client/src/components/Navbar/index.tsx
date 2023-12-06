@@ -81,8 +81,8 @@ export default function Navbar() {
       as="nav"
       className={
         pegarTema === "dark"
-          ? "bg-dark"
-          : "bg-light dark:bg-gray-900 dark:border-gray-700"
+          ? "bg-dark transition-all duration-500"
+          : "bg-light dark:bg-gray-900 dark:border-gray-700 transition-all duration-500"
       }
     >
       {({ open }) => (

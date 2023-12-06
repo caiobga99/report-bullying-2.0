@@ -88,8 +88,8 @@ const Login = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500"
+          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >
       <div className="max-w-md w-full space-y-8 ">
@@ -122,8 +122,8 @@ const Login = () => {
                 typeError={errors[field.name]?.type}
               />
             ))}
-            <div className="w-full flex items-center justify-between flex-wrap">
-              <div className="w-52 ">
+            <div className="w-full flex items-center lg:justify-between justify-center md:justify-between flex-wrap">
+              <div className="w-52">
                 <FormAction
                   onClick={handleSubmit(onSubmit)}
                   text="Entrar"
