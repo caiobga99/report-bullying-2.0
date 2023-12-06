@@ -13,18 +13,30 @@ const Profile = () => {
     pegarTema: string;
   };
   useEffect(() => {
-    api
-      .get("denuncia")
-      .then((response) => {
-        setIsLoading(false);
-        response.data <= 0 &&
-          showToastMessage("Nenhuma Denuncia foi Realizada ainda!", "info");
-        setDenuncias(response.data);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err.message);
-      });
+    if (localStorage.getItem("usuario_anonimo") !== "logado") {
+      api
+        .get("denuncia")
+        .then((response) => {
+          setIsLoading(false);
+          response.data <= 0 &&
+            showToastMessage("Nenhuma Denuncia foi Realizada ainda!", "info");
+          setDenuncias(response.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err.message);
+        });
+    } else {
+      const denuncias_anonimas = JSON.parse(
+        localStorage.getItem("denuncias_anonimas")
+      );
+      if (!localStorage.getItem("denuncias_anonimas")) {
+        setDenuncias([]);
+      } else {
+        setDenuncias(denuncias_anonimas);
+      }
+      setIsLoading(false);
+    }
   }, []);
   return (
     <div

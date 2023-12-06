@@ -18,17 +18,29 @@ const TimeLine = () => {
   };
   console.log(user + " user");
   useEffect(() => {
-    api
-      .get("/denuncia")
-      .then((response) => {
-        if (response.data.length <= 0) {
-          showToastMessage("Nenhuma denuncia foi realizada ainda!", "info");
-        }
-        setIsLoading(false);
-        setDenuncias(response.data);
-        console.log(response.data);
-      })
-      .catch((err) => console.log(err.message));
+    if (localStorage.getItem("usuario_anonimo") !== "logado") {
+      api
+        .get("/denuncia")
+        .then((response) => {
+          if (response.data.length <= 0) {
+            showToastMessage("Nenhuma denuncia foi realizada ainda!", "info");
+          }
+          setIsLoading(false);
+          setDenuncias(response.data);
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err.message));
+    } else {
+      const denuncias_anonimas = JSON.parse(
+        localStorage.getItem("denuncias_anonimas")
+      );
+      if (!localStorage.getItem("denuncias_anonimas")) {
+        setDenuncias([]);
+      } else {
+        setDenuncias(denuncias_anonimas);
+      }
+      setIsLoading(false);
+    }
     api
       .get("/usuario")
       .then((response) => {

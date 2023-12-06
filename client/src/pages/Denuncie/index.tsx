@@ -9,7 +9,7 @@ import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTema } from "../../common/Tema";
-import { is } from "date-fns/locale";
+import useDenuncia from "../../common/Denuncia";
 const Denuncie: React.FC = () => {
   const fields = reportFields;
   const fieldsState: any = {};
@@ -18,10 +18,14 @@ const Denuncie: React.FC = () => {
     pegarTema: string;
   };
   const navigate = useNavigate();
-  const { setIsLogged, isAnonymous } = useUser() as {
+  const { setIsLogged } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isAdmin: boolean;
     isAnonymous: boolean;
+  };
+  const { setDenuncias, setRespostas } = useDenuncia() as {
+    setDenuncias: (value: object) => void;
+    setRespostas: (value: object) => void;
   };
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
@@ -51,13 +55,36 @@ const Denuncie: React.FC = () => {
               console.log("e usuario anonimo");
               const denunciasLocalStorage: any =
                 localStorage.getItem("denuncias_anonimas");
+              const respostasLocalStorage: any =
+                localStorage.getItem("respostas_anonimas");
               if (!denunciasLocalStorage) {
-                const arr: any = [res.data.denuncia];
-                localStorage.setItem("denuncias_anonimas", JSON.stringify(arr));
+                const arrDenuncias: any = [res.data.denuncia];
+                const arrRespostas: any = [res.data.resposta.denuncia];
+                localStorage.setItem(
+                  "denuncias_anonimas",
+                  JSON.stringify(arrDenuncias)
+                );
+                setDenuncias(arrDenuncias);
+                localStorage.setItem(
+                  "respostas_anonimas",
+                  JSON.stringify(arrRespostas)
+                );
+                setDenuncias(arrDenuncias);
               } else {
-                const arr = JSON.parse(denunciasLocalStorage);
-                arr.push(res.data.denuncia);
-                localStorage.setItem("denuncias_anonimas", JSON.stringify(arr));
+                const arrDenuncias = JSON.parse(denunciasLocalStorage);
+                const arrRespostas = JSON.parse(denunciasLocalStorage);
+                arrDenuncias.push(res.data.denuncia);
+                arrRespostas.push(res.data.resposta.denuncia);
+                localStorage.setItem(
+                  "denuncias_anonimas",
+                  JSON.stringify(arrDenuncias)
+                );
+                localStorage.setItem(
+                  "respostas_anonimas",
+                  JSON.stringify(arrRespostas)
+                );
+                setDenuncias(arrDenuncias);
+                setRespostas(arrDenuncias);
               }
             }
             setIsLoading(false);
