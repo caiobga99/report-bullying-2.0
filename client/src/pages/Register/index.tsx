@@ -21,16 +21,16 @@ const Register = () => {
     pegarTema: string;
   };
   const navigate = useNavigate();
-  const { setIsLogged, setIsAdmin, setToken } = useUser() as {
+  const { setIsLogged, setIsAdmin, setToken, isLogged } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isLogged: boolean;
     isAdmin: boolean;
-    setViewReport: (value: boolean) => void;
-    setIsAnonymous: (value: boolean) => void;
     setIsAdmin: (value: boolean) => void;
     setToken: (value: string) => void;
   };
-
+  if (isLogged) {
+    navigate("/");
+  }
   const {
     register,
     formState: { errors },
@@ -46,7 +46,6 @@ const Register = () => {
         nome: nome,
       })
       .then((res) => {
-        console.log(res + " POST");
         setToken(res.data.token);
         {
           if (
@@ -56,7 +55,6 @@ const Register = () => {
           }
           showToastMessage(res.data.message, "sucess");
           setIsLogged(true);
-          console.log(res.data);
           navigate("/");
         }
       })
@@ -72,7 +70,7 @@ const Register = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500"
+          ? "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light"
           : "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >

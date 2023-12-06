@@ -50,7 +50,6 @@ const Login = () => {
 
   const onSubmit = async (data: FormData) => {
     api.post(`/login`, data).then((res) => {
-      console.log(res.data);
       setUser(res.data.user);
       setToken(res.data.token);
       switch (res.data.message) {
@@ -78,7 +77,6 @@ const Login = () => {
 
         default:
           showToastMessage(res.data.message, "error");
-          console.log(res.data.message);
           break;
       }
     });
@@ -88,7 +86,7 @@ const Login = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light"
           : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >

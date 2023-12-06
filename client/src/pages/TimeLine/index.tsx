@@ -16,7 +16,6 @@ const TimeLine = () => {
   const { pegarTema } = useTema() as {
     pegarTema: string;
   };
-  console.log(user + " user");
   useEffect(() => {
     if (localStorage.getItem("usuario_anonimo") !== "logado") {
       api
@@ -27,7 +26,6 @@ const TimeLine = () => {
           }
           setIsLoading(false);
           setDenuncias(response.data);
-          console.log(response.data);
         })
         .catch((err) => console.log(err.message));
     } else {
@@ -46,7 +44,6 @@ const TimeLine = () => {
       .then((response) => {
         setIsLoadingUser(false);
         setUser(response.data[0]);
-        console.log(response.data[0]);
       })
       .catch((err) => console.log(err.message));
   }, []);
@@ -54,8 +51,8 @@ const TimeLine = () => {
     <div
       className={
         pegarTema === "dark"
-          ? "bg-black text-white py-8 min-h-screen font-dm transition-all duration-500"
-          : "bg-white text-black py-8 min-h-screen font-dm transition-all duration-500"
+          ? "bg-dark text-white py-8 min-h-screen font-dm transition-all duration-500"
+          : "bg-light text-black py-8 min-h-screen font-dm transition-all duration-500"
       }
     >
       <div className="container mx-auto flex flex-col items-start md:flex-row my-12 md:my-24">

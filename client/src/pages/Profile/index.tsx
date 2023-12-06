@@ -42,9 +42,9 @@ const Profile = () => {
     <div
       className={
         isLoading
-          ? "container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen"
+          ? "container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen bg-light min-w-full"
           : pegarTema === "light"
-          ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500"
+          ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500 bg-light"
           : "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white transition-all duration-500"
       }
     >

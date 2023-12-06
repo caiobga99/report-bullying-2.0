@@ -52,7 +52,6 @@ const Denuncie: React.FC = () => {
         .then((res) => {
           {
             if (localStorage.getItem("usuario_anonimo") === "logado") {
-              console.log("e usuario anonimo");
               const denunciasLocalStorage: any =
                 localStorage.getItem("denuncias_anonimas");
               const respostasLocalStorage: any =
@@ -89,7 +88,6 @@ const Denuncie: React.FC = () => {
             }
             setIsLoading(false);
             setIsLogged(true);
-            console.log(res.data);
             navigate("/profile");
           }
         })
@@ -103,7 +101,7 @@ const Denuncie: React.FC = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8  transition-all duration-500"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8  transition-all duration-500 bg-light"
           : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >

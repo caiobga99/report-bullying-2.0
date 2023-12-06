@@ -7,7 +7,6 @@ interface ProtectedRoutesProps {
 }
 
 const ProtectedRoute = ({ token, children }: ProtectedRoutesProps) => {
-  console.log(token);
   if (!token) {
     showToastMessage(
       "Voce precisa estar logado para acessar essa rota!",
