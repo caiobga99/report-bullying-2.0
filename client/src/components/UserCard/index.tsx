@@ -57,7 +57,7 @@ const UserCard = ({
                 : "text-lg font-medium text-gray-900 dark:text-white"
             }
           >
-            {email}
+            {nome === "Anonimo" ? "**********" : email}
           </span>
         </div>
         <div className="flex flex-col items-start justify-between mb-6">
@@ -77,7 +77,7 @@ const UserCard = ({
                 : "text-lg font-medium text-gray-900 dark:text-white"
             }
           >
-            {nome}
+            {nome === "Anonimo" ? "**********" : nome}
           </span>
         </div>
         <div className="flex flex-row items-center justify-between mb-6">
@@ -98,7 +98,7 @@ const UserCard = ({
                   : "text-lg font-medium text-gray-900 dark:text-white"
               }
             >
-              {nome === "Anonimo" ? "00/00/0000" : created_at}
+              {nome === "Anonimo" ? "**********" : created_at}
             </span>
           </div>
           <div className="flex flex-col items-start">
@@ -140,7 +140,7 @@ const UserCard = ({
                   : "text-lg font-medium text-gray-900 dark:text-white"
               }
             >
-              {ra}
+              {nome === "Anonimo" ? "**********" : ra}
             </span>
           </div>
           <div className="flex flex-col items-start">

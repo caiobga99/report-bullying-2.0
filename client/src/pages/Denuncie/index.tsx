@@ -9,6 +9,7 @@ import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTema } from "../../common/Tema";
+import { is } from "date-fns/locale";
 const Denuncie: React.FC = () => {
   const fields = reportFields;
   const fieldsState: any = {};
@@ -17,13 +18,10 @@ const Denuncie: React.FC = () => {
     pegarTema: string;
   };
   const navigate = useNavigate();
-  const { setIsLogged } = useUser() as {
+  const { setIsLogged, isAnonymous } = useUser() as {
     setIsLogged: (value: boolean) => void;
-    isLogged: boolean;
     isAdmin: boolean;
-    setViewReport: (value: boolean) => void;
-    setIsAnonymous: (value: boolean) => void;
-    setIsAdmin: (value: boolean) => void;
+    isAnonymous: boolean;
   };
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
@@ -49,6 +47,19 @@ const Denuncie: React.FC = () => {
         })
         .then((res) => {
           {
+            if (localStorage.getItem("usuario_anonimo") === "logado") {
+              console.log("e usuario anonimo");
+              const denunciasLocalStorage: any =
+                localStorage.getItem("denuncias_anonimas");
+              if (!denunciasLocalStorage) {
+                const arr: any = [res.data.denuncia];
+                localStorage.setItem("denuncias_anonimas", JSON.stringify(arr));
+              } else {
+                const arr = JSON.parse(denunciasLocalStorage);
+                arr.push(res.data.denuncia);
+                localStorage.setItem("denuncias_anonimas", JSON.stringify(arr));
+              }
+            }
             setIsLoading(false);
             setIsLogged(true);
             console.log(res.data);

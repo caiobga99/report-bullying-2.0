@@ -1,9 +1,9 @@
 interface FormActionProps {
   onClick: () => void;
-  type: string;
+  type?: string;
   action: "button" | "submit";
   text: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export default function FormAction({

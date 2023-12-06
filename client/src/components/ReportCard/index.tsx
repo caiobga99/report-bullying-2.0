@@ -11,6 +11,7 @@ interface ReportCardProps {
   data: string;
   id_denuncia: string;
   id_usuario: string;
+  theme: string;
 }
 import ModalComponent from "../../components/ModalComponent";
 
@@ -21,21 +22,50 @@ const ReportCard = ({
   data,
   id_denuncia,
   id_usuario,
+  theme,
 }: ReportCardProps) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="max-w-sm w-full lg:max-w-fit lg:flex items-center justify-center font-dm">
-      <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+    <div className="max-w-sm bg-pink-800 w-full lg:max-w-fit lg:flex items-center justify-center font-dm">
+      <div
+        className={
+          theme === "light"
+            ? "border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+            : "border-r border-b border-l border-gray-50 lg:border-l-0 lg:border-t lg:border-gray-50 bg-dark rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+        }
+      >
         <div className="mb-8">
-          <p className="text-sm text-gray-600 flex items-center gap-2">
+          <p
+            className={
+              theme === "light"
+                ? "text-sm text-gray-600 flex items-center gap-2"
+                : "text-sm text-gray-100 flex items-center gap-2"
+            }
+          >
             <ChatBubbleBottomCenterIcon width={27} height={27} />
             <button onClick={() => setOpenModal(true)}>
               Visualize sua resposta
             </button>
           </p>
-          <div className="text-gray-900 font-bold text-xl mb-2">{titulo}</div>
-          <p className="text-gray-700 text-base">{mensagem}</p>
+          <div
+            className={
+              theme === "light"
+                ? "text-gray-900 font-bold text-xl mb-2"
+                : "text-white font-bold text-xl mb-2"
+            }
+          >
+            {titulo}
+          </div>
+          <p
+            className={
+              theme === "light"
+                ? "text-gray-700 text-base"
+                : "text-gray-100 text-base"
+            }
+          >
+            {mensagem}
+          </p>
         </div>
         <div className="flex items-center">
           {nome !== "Anonimo" ? (
@@ -49,8 +79,18 @@ const ReportCard = ({
             alt="Avatar of Jonathan Reinink"
           /> */}
           <div className="text-sm">
-            <p className="text-gray-900 leading-none">{nome}</p>
-            <p className="text-gray-600">{data}</p>
+            <p
+              className={
+                theme === "light"
+                  ? "text-gray-900 leading-none"
+                  : "text-gray-200 leading-none"
+              }
+            >
+              {nome}
+            </p>
+            <p className={theme === "light" ? "text-gray-600" : "text-gray-50"}>
+              {data}
+            </p>
           </div>
         </div>
       </div>

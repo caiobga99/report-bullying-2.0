@@ -35,10 +35,10 @@ function classNames(...classes: Object[]) {
 }
 
 export default function Navbar() {
-    const { pegarTema, setPegarTema } = useTema() as {
-      setPegarTema: (value: string) => void;
-      pegarTema: string;
-    };
+  const { pegarTema, setPegarTema } = useTema() as {
+    setPegarTema: (value: string) => void;
+    pegarTema: string;
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -62,6 +62,7 @@ export default function Navbar() {
 
   const logout = () => {
     api.post("/logout").then((res) => {
+      localStorage.removeItem("usuario_anonimo");
       if (!lembrarMe) {
         localStorage.removeItem("ACCESS_TOKEN");
       }

@@ -37,6 +37,7 @@ export const UserProvider = ({ children }: any) => {
       localStorage.removeItem("ACCESS_TOKEN");
     }
   };
+  console.log(isAnonymous + " usuario anonimo");
   return (
     <UserContext.Provider
       value={{
@@ -53,8 +54,7 @@ export const UserProvider = ({ children }: any) => {
         user,
         setUser,
         lembrarMe,
-        setLembrarMe
-
+        setLembrarMe,
       }}
     >
       {children}

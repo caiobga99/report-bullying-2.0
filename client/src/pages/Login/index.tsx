@@ -62,6 +62,7 @@ const Login = () => {
           break;
         case "Usuario Anonimo Logado com Sucesso!":
           showToastMessage(res.data.message, "sucess");
+          localStorage.setItem("usuario_anonimo", "logado");
           setViewReport(false);
           setIsAnonymous(true);
           setIsLogged(true);
@@ -114,7 +115,7 @@ const Login = () => {
                   required: field.isRequired,
                   validate:
                     field.name === "email"
-                      ? (value) => val.default.isEmail(value)
+                      ? (value: string) => val.default.isEmail(value)
                       : undefined,
                 })}
                 errors={errors[field.name]?.ref?.type === field.name}
@@ -123,7 +124,11 @@ const Login = () => {
             ))}
             <div className="w-full flex items-center justify-between flex-wrap">
               <div className="w-52 ">
-                <FormAction onClick={handleSubmit(onSubmit)} text="Entrar" />
+                <FormAction
+                  onClick={handleSubmit(onSubmit)}
+                  text="Entrar"
+                  action="submit"
+                />
               </div>
               <div className="w-52 ">
                 <FormAction

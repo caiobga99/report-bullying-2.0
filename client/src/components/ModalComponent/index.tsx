@@ -48,7 +48,11 @@ const ModalComponent = ({
     }
   }, [id_denuncia, id_usuario, openModal]);
   return (
-    <Modal show={openModal} onClose={() => setOpenModal(false)}>
+    <Modal
+      show={openModal}
+      onClose={() => setOpenModal(false)}
+      className="font-dm"
+    >
       <Modal.Header>{titulo}</Modal.Header>
       <Modal.Body>
         {isLoading ? (
@@ -57,7 +61,7 @@ const ModalComponent = ({
           </div>
         ) : (
           <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 font-dm">
+            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 ">
               {resposta!.conselho}
             </p>
           </div>
