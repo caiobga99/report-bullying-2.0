@@ -40,8 +40,8 @@ class DenunciaController extends Controller
 
 
 
-        $id = Denuncia::create($request->all())->id_denuncia;
-        $request["id_denuncia"] = $id;
+        $denuncia= Denuncia::create($request->all());
+        $request["id_denuncia"] = $denuncia->id_denuncia;
         app("App\Http\Controllers\RespostaController")->store($request);
         // $email = new DenunciasCreated($request["titulo"], $request["mensagem"]);
         // $email = new DenunciasCreated(
@@ -51,7 +51,11 @@ class DenunciaController extends Controller
         // \Mail::to(Auth::user())->send($email);
         // return "Denuncia Criada com sucesso!";
         // Denuncia::query("INSERT INTO denuncias (conselho) VALUES $mensagemChat");
-        return "Denuncia Criada com Sucesso!";
+        return response()->json([
+            "status" => "success",
+            "message" => "Denuncia Criada com Sucesso!",
+            "denuncia" => $denuncia,
+        ]);
     }
 
     /**
