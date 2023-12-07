@@ -24,7 +24,7 @@ const Home: React.FC = () => {
               isLogged && "hover:text-blue-600"
             }`}
           >
-            {!isLogged ? "Denuncia" : <Link to={"/denuncie"}>Denuncia!</Link>}
+            {!isLogged ? "Denuncia!" : <Link to={"/denuncie"}>Denuncia!</Link>}
           </h1>
         </div>
         <div className="text-center text-lg 2xl:text-2xl">
