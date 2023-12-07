@@ -24,10 +24,12 @@ const navigation: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Login", href: "/login" },
   { name: "Register", href: "/register" },
+  { name: "FAQ", href: "/faq" },
 ];
 const navigationLogged: Navigation[] = [
   { name: "Home", href: "/" },
   { name: "Denuncie", href: "/denuncie" },
+  { name: "FAQ", href: "/faq" },
 ];
 
 function classNames(...classes: Object[]) {
@@ -39,6 +41,9 @@ export default function Navbar() {
     setPegarTema: (value: string) => void;
     pegarTema: string;
   };
+  pegarTema === "dark"
+    ? document.documentElement.classList.add("dark")
+    : document.documentElement.classList.remove("dark");
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -102,11 +107,13 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src={reportBullyingLogo}
-                    alt="Report Bullying Logo"
-                  />
+                  <Link to={"/"}>
+                    <img
+                      className="h-8 w-auto"
+                      src={reportBullyingLogo}
+                      alt="Report Bullying Logo"
+                    />
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -118,7 +125,7 @@ export default function Navbar() {
                             className={classNames(
                               item.href === location.pathname
                                 ? pegarTema === "dark"
-                                  ? "bg-gray-900 text-white"
+                                  ? "bg-[#1f2937] text-white"
                                   : "text-blue-700 bg-branco"
                                 : pegarTema === "light"
                                 ? "hover:bg-gray-300 hover:text-blue-900"
@@ -141,7 +148,7 @@ export default function Navbar() {
                             className={classNames(
                               item.href === location.pathname
                                 ? pegarTema === "dark"
-                                  ? "bg-gray-900 text-white"
+                                  ? "bg-[#1f2937] text-white"
                                   : "text-blue-700 bg-branco"
                                 : pegarTema === "light"
                                 ? "hover:bg-gray-300 hover:text-blue-900"

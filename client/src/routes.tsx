@@ -9,6 +9,7 @@ import useUser from "./common/User";
 import { useEffect } from "react";
 import TimeLine from "./pages/TimeLine";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import FAQ from "./pages/FAQ";
 
 const MyRoutes = () => {
   const { setIsLogged } = useUser() as {
@@ -48,6 +49,7 @@ const MyRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );

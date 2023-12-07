@@ -27,12 +27,12 @@ const ReportCard = ({
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="max-w-sm bg-pink-800 w-full lg:max-w-fit lg:flex items-center justify-center font-dm">
+    <div className="max-w-sm bg-pink-800 w-full lg:max-w-fit lg:flex items-center justify-center font-dm ">
       <div
         className={
           theme === "light"
-            ? "border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
-            : "border-r border-b border-l border-gray-50 lg:border-l-0 lg:border-t lg:border-gray-50 bg-dark rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
+            ? "border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal transition-all duration-500"
+            : "border-r border-b border-l border-gray-50 lg:border-l-0 lg:border-t lg:border-gray-50 bg-dark rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal transition-all duration-500"
         }
       >
         <div className="mb-8">

@@ -42,14 +42,20 @@ const Profile = () => {
     <div
       className={
         isLoading
-          ? "container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen bg-light min-w-full"
+          ? `container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen min-w-full ${
+              pegarTema === "dark" ? "bg-dark" : "bg-light"
+            }`
           : pegarTema === "light"
           ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500 bg-light"
           : "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white transition-all duration-500"
       }
     >
       {isLoading ? (
-        <div className="flex items-center justify-center">
+        <div
+          className={`flex items-center justify-center ${
+            pegarTema === "dark" && "bg-dark w-screen h-screen"
+          }`}
+        >
           <Spinner />
         </div>
       ) : denuncias.length <= 0 ? (

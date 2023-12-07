@@ -51,7 +51,8 @@ const ModalComponent = ({
     <Modal
       show={openModal}
       onClose={() => setOpenModal(false)}
-      className="font-dm"
+      className="font-dm "
+      
     >
       <Modal.Header>{titulo}</Modal.Header>
       <Modal.Body>

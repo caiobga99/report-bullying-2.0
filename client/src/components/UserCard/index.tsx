@@ -33,7 +33,7 @@ const UserCard = ({
           className={
             theme === "light"
               ? "text-lg font-bold text-white"
-              : "text-lg font-bold text-gray-900 dark:text-white"
+              : "text-lg font-bold text-gray-900"
           }
         >
           {nome}
@@ -54,7 +54,7 @@ const UserCard = ({
             className={
               theme === "light"
                 ? "text-lg font-medium text-white"
-                : "text-lg font-medium text-gray-900 dark:text-white"
+                : "text-lg font-medium text-gray-900"
             }
           >
             {nome === "Anonimo" ? "**********" : email}
@@ -74,7 +74,7 @@ const UserCard = ({
             className={
               theme === "light"
                 ? "text-lg font-medium text-white"
-                : "text-lg font-medium text-gray-900 dark:text-white"
+                : "text-lg font-medium text-gray-900"
             }
           >
             {nome === "Anonimo" ? "**********" : nome}
@@ -95,7 +95,7 @@ const UserCard = ({
               className={
                 theme === "light"
                   ? "text-lg font-medium text-white"
-                  : "text-lg font-medium text-gray-900 dark:text-white"
+                  : "text-lg font-medium text-gray-900"
               }
             >
               {nome === "Anonimo" ? "**********" : created_at}
@@ -115,7 +115,7 @@ const UserCard = ({
               className={
                 theme === "light"
                   ? "text-lg font-medium text-white"
-                  : "text-lg font-medium text-gray-900 dark:text-white"
+                  : "text-lg font-medium text-gray-900"
               }
             >
               {quantidade_denuncias}
@@ -137,7 +137,7 @@ const UserCard = ({
               className={
                 theme === "light"
                   ? "text-lg font-medium text-white"
-                  : "text-lg font-medium text-gray-900 dark:text-white"
+                  : "text-lg font-medium text-gray-900"
               }
             >
               {nome === "Anonimo" ? "**********" : ra}
@@ -157,7 +157,7 @@ const UserCard = ({
               className={
                 theme === "light"
                   ? "text-lg font-medium text-white"
-                  : "text-lg font-medium text-gray-900 dark:text-white"
+                  : "text-lg font-medium text-gray-900"
               }
             >
               {tipo_usuario}

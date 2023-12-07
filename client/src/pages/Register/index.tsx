@@ -46,12 +46,16 @@ const Register = () => {
         nome: nome,
       })
       .then((res) => {
+        console.log(res.data);
         setToken(res.data.token);
         {
           if (
-            res.data === "Usuario Administrador Criado e logado com sucesso!"
+            res.data.message ===
+            "Usuario Administrador Criado e logado com sucesso!"
           ) {
             setIsAdmin(true);
+            showToastMessage(res.data.message, "sucess");
+            setIsLogged(true);
           }
           showToastMessage(res.data.message, "sucess");
           setIsLogged(true);
@@ -74,7 +78,7 @@ const Register = () => {
           : "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
       }
     >
-      <div className="max-w-md w-full h-full space-y-8">
+      <div className="max-w-md w-full h-screen space-y-8">
         <FormHeader
           heading="Cadastre-se para criar uma conta"
           paragraph="Já tem uma conta? "

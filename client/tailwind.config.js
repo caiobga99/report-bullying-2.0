@@ -10,7 +10,7 @@ export default {
     extend: {
       colors: {
         light: "#f1f5f9",
-        dark: "#1f2937",
+        dark: "rgb(17 24 39)",
         azul: "rgb(99 102 241)",
         branco: "#e4e7eb",
         borderColor: "#FFC100",
