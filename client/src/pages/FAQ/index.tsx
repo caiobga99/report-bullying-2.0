@@ -1,6 +1,6 @@
 import { useTema } from "../../common/Tema";
 
-const FAQ = (): JSX.Element => {
+const Faq = (): JSX.Element => {
   const { pegarTema } = useTema() as {
     pegarTema: string;
   };
@@ -8,7 +8,7 @@ const FAQ = (): JSX.Element => {
     ? document.documentElement.classList.add("dark")
     : document.documentElement.classList.remove("dark");
   return (
-    <section className="bg-light dark:bg-gray-900 lg:h-screen h-full transition-all duration-500 font-dm">
+    <section className="bg-light dark:bg-gray-900 lg:h-full h-full transition-all duration-500 font-dm">
       <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <h2 className="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
           Perguntas frequentes
@@ -197,4 +197,4 @@ const FAQ = (): JSX.Element => {
   );
 };
 
-export default FAQ;
+export default Faq;

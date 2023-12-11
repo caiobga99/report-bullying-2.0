@@ -54,8 +54,6 @@ const Register = () => {
             "Usuario Administrador Criado e logado com sucesso!"
           ) {
             setIsAdmin(true);
-            showToastMessage(res.data.message, "sucess");
-            setIsLogged(true);
           }
           showToastMessage(res.data.message, "sucess");
           setIsLogged(true);

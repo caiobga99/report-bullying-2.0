@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@material-tailwind/react": "^2.1.5",
     "@moreiraste/react-vlibras": "^2.4.5",
     "@types/js-cookie": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",

@@ -1,14 +1,8 @@
 import { Modal, Spinner } from "flowbite-react";
 import api from "../../lib/api";
 import { useState, useEffect } from "react";
-interface Resposta {
-  conselho: string;
-  created_at?: string;
-  id_denuncia: string;
-  id_resposta?: string;
-  id_usuario: string;
-  updated_at?: string;
-}
+import { Resposta } from "../../utils/protocols";
+
 interface ModalComponentProps {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;

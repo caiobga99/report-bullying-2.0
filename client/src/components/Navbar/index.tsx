@@ -14,25 +14,21 @@ import { useTema } from "../../common/Tema";
 import useUser from "../../common/User";
 import api from "../../lib/api";
 import showToastMessage from "../../utils/showToastMessage";
+import { INavigation } from "../../utils/protocols";
 
-interface Navigation {
-  name: string;
-  href: string;
-}
-
-const navigation: Navigation[] = [
+const navigation: INavigation[] = [
   { name: "Home", href: "/" },
   { name: "Login", href: "/login" },
   { name: "Register", href: "/register" },
   { name: "FAQ", href: "/faq" },
 ];
-const navigationLogged: Navigation[] = [
+const navigationLogged: INavigation[] = [
   { name: "Home", href: "/" },
   { name: "Denuncie", href: "/denuncie" },
   { name: "FAQ", href: "/faq" },
 ];
 
-function classNames(...classes: Object[]) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -53,6 +49,7 @@ export default function Navbar() {
     setIsAdmin,
     setToken,
     lembrarMe,
+    isAdmin,
   } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isLogged: boolean;
@@ -68,6 +65,7 @@ export default function Navbar() {
   const logout = () => {
     api.post("/logout").then((res) => {
       localStorage.removeItem("usuario_anonimo");
+      localStorage.removeItem("admin");
       if (!lembrarMe) {
         localStorage.removeItem("ACCESS_TOKEN");
       }
@@ -164,6 +162,28 @@ export default function Navbar() {
                             {item.name}
                           </Link>
                         ))}
+                    {localStorage.getItem("admin") && isAdmin && (
+                      <Link
+                        to={"/dashboard"}
+                        className={classNames(
+                          "/dashboard" === location.pathname
+                            ? pegarTema === "dark"
+                              ? "bg-[#1f2937] text-white"
+                              : "text-blue-700 bg-branco"
+                            : pegarTema === "light"
+                            ? "hover:bg-gray-300 hover:text-blue-900"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
+                        )}
+                        aria-current={
+                          "/dashboard" !== location.pathname
+                            ? "page"
+                            : undefined
+                        }
+                      >
+                        {"Painel"}
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -182,7 +202,7 @@ export default function Navbar() {
                   }}
                 >
                   <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Change Theme</span>
+                  <span className="sr-only">Mudar Tema</span>
                   {pegarTema === "light" ? (
                     <MoonIcon className="h-6 w-6" aria-hidden="true" />
                   ) : (

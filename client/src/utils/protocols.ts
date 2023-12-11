@@ -19,3 +19,16 @@ export interface User {
   created_at: string;
   updated_at?: string;
 }
+export interface INavigation {
+  name: string;
+  href: string;
+}
+
+export interface Resposta {
+  conselho: string;
+  created_at?: string;
+  id_denuncia: string;
+  id_resposta?: string;
+  id_usuario: string;
+  updated_at?: string;
+}

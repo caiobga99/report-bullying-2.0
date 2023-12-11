@@ -1,4 +1,4 @@
-interface FormFiedls {
+interface FormFields {
   labelText: string;
   labelFor: string;
   id: string;
@@ -10,7 +10,7 @@ interface FormFiedls {
   inputType?: string;
 }
 
-const loginFields: FormFiedls[] = [
+const loginFields: FormFields[] = [
   {
     labelText: "Email addressstring",
     labelFor: "email-address",
@@ -33,7 +33,7 @@ const loginFields: FormFiedls[] = [
   },
 ];
 
-const signupFields: FormFiedls[] = [
+const signupFields: FormFields[] = [
   {
     labelText: "Nome",
     labelFor: "Nome",
@@ -86,7 +86,7 @@ const signupFields: FormFiedls[] = [
   },
 ];
 
-const reportFields: FormFiedls[] = [
+const reportFields: FormFields[] = [
   {
     labelText: "Titulo",
     labelFor: "Titulo",

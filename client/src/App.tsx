@@ -8,7 +8,7 @@ function App() {
     pegarTema: string;
   };
   return (
-    <div>
+    <div className={pegarTema === "dark" ? "bg-dark" : "bg-light"}>
       <VLibras forceOnload={true} />
       <Navbar />
       <div className={pegarTema === "dark" ? "bg-white" : "bg-white"}>

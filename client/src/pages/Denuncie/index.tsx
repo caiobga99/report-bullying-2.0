@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTema } from "../../common/Tema";
 import useDenuncia from "../../common/Denuncia";
+import { Denuncias } from "../../utils/protocols";
 const Denuncie: React.FC = () => {
   const fields = reportFields;
   const fieldsState: any = {};
@@ -52,13 +53,13 @@ const Denuncie: React.FC = () => {
         .then((res) => {
           {
             if (localStorage.getItem("usuario_anonimo") === "logado") {
-              const denunciasLocalStorage: any =
+              const denunciasLocalStorage: string | null =
                 localStorage.getItem("denuncias_anonimas");
-              const respostasLocalStorage: any =
-                localStorage.getItem("respostas_anonimas");
+              // const respostasLocalStorage: string | null =
+              //   localStorage.getItem("respostas_anonimas");
               if (!denunciasLocalStorage) {
-                const arrDenuncias: any = [res.data.denuncia];
-                const arrRespostas: any = [res.data.resposta.denuncia];
+                const arrDenuncias: Denuncias[] = [res.data.denuncia];
+                const arrRespostas: object[] = [res.data.resposta.denuncia];
                 localStorage.setItem(
                   "denuncias_anonimas",
                   JSON.stringify(arrDenuncias)
@@ -70,8 +71,12 @@ const Denuncie: React.FC = () => {
                 );
                 setDenuncias(arrDenuncias);
               } else {
-                const arrDenuncias = JSON.parse(denunciasLocalStorage);
-                const arrRespostas = JSON.parse(denunciasLocalStorage);
+                const arrDenuncias: Denuncias[] = JSON.parse(
+                  denunciasLocalStorage
+                );
+                const arrRespostas: object[] = JSON.parse(
+                  denunciasLocalStorage
+                );
                 arrDenuncias.push(res.data.denuncia);
                 arrRespostas.push(res.data.resposta.denuncia);
                 localStorage.setItem(

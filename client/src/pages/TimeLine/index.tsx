@@ -29,13 +29,12 @@ const TimeLine = () => {
         })
         .catch((err) => console.log(err.message));
     } else {
-      const denuncias_anonimas = JSON.parse(
-        localStorage.getItem("denuncias_anonimas")
-      );
-      if (!localStorage.getItem("denuncias_anonimas")) {
+      const denuncias_anonimas: string | null =
+        localStorage.getItem("denuncias_anonimas");
+      if (!denuncias_anonimas) {
         setDenuncias([]);
       } else {
-        setDenuncias(denuncias_anonimas);
+        setDenuncias(JSON.parse(denuncias_anonimas));
       }
       setIsLoading(false);
     }

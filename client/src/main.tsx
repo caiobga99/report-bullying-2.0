@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./common/User.tsx";
 import { DenunciaProvider } from "./common/Denuncia.tsx";
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Router>
     <UserProvider>

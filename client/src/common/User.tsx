@@ -29,6 +29,9 @@ export const UserProvider = ({ children }: any) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [token, _setToken] = useState(localStorage.getItem("ACESS_TOKEN"));
   const [user, setUser] = useState({});
+  if (isAdmin) {
+    localStorage.setItem("admin", "logado");
+  }
   const setToken = (token: string | null) => {
     _setToken(token);
     if (token) {
@@ -61,7 +64,7 @@ export const UserProvider = ({ children }: any) => {
   );
 };
 
-export const useUser = () => {
+const useUser = () => {
   const user = useContext(UserContext);
   return user;
 };

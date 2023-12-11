@@ -27,13 +27,13 @@ const Profile = () => {
           console.log(err.message);
         });
     } else {
-      const denuncias_anonimas = JSON.parse(
-        localStorage.getItem("denuncias_anonimas")
-      );
-      if (!localStorage.getItem("denuncias_anonimas")) {
+      const denuncias_anonimas: null | string =
+        localStorage.getItem("denuncias_anonimas");
+
+      if (!denuncias_anonimas) {
         setDenuncias([]);
       } else {
-        setDenuncias(denuncias_anonimas);
+        setDenuncias(JSON.parse(denuncias_anonimas));
       }
       setIsLoading(false);
     }

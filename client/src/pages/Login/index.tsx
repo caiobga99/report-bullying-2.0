@@ -72,7 +72,7 @@ const Login = () => {
           setViewReport(true);
           setIsAdmin(true);
           setIsLogged(true);
-          navigate("/");
+          navigate("/dashboard");
           break;
 
         default:
