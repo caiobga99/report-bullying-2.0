@@ -22,11 +22,18 @@ const ProtectedRoute = ({
 
     return <Navigate to={"/login"} replace />;
   }
-  if (pathName === "dashboard" && !isAdmin) {
+  if (
+    (pathName === "dashboard" || pathName === "user/:id_usuario") &&
+    !isAdmin
+  ) {
     showToastMessage(
       "Voce precisa ser um Administrador para acessar essa rota!",
       "error"
     );
+    return <Navigate to={"/"} replace />;
+  }
+  if ((pathName === "login" || pathName === "register") && token) {
+    showToastMessage("Você já está logado!", "error");
     return <Navigate to={"/"} replace />;
   }
   return children;
