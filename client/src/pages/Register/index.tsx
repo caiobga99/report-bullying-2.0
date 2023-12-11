@@ -21,16 +21,14 @@ const Register = () => {
     pegarTema: string;
   };
   const navigate = useNavigate();
-  const { setIsLogged, setIsAdmin, setToken, isLogged } = useUser() as {
+  const { setIsLogged, setIsAdmin, setToken } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isLogged: boolean;
     isAdmin: boolean;
     setIsAdmin: (value: boolean) => void;
     setToken: (value: string) => void;
   };
-  if (isLogged) {
-    navigate("/");
-  }
+  
   const {
     register,
     formState: { errors },

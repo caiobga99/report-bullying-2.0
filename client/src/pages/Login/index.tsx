@@ -22,7 +22,6 @@ const Login = () => {
   };
   const {
     setIsLogged,
-    isLogged,
     setViewReport,
     setIsAnonymous,
     setIsAdmin,
@@ -30,7 +29,6 @@ const Login = () => {
     setUser,
   } = useUser() as {
     setIsLogged: (value: boolean) => void;
-    isLogged: boolean;
     isAdmin: boolean;
     setViewReport: (value: boolean) => void;
     setIsAnonymous: (value: boolean) => void;
@@ -39,9 +37,6 @@ const Login = () => {
     setUser: (value: object) => void;
   };
 
-  if (isLogged) {
-    navigate("/");
-  }
   const {
     register,
     formState: { errors },

@@ -11,6 +11,7 @@ import TimeLine from "./pages/TimeLine";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Faq from "./pages/FAQ";
+import UserDetails from "./pages/UserDetails";
 
 const MyRoutes = () => {
   const { setIsLogged, setIsAdmin } = useUser() as {
@@ -64,9 +65,41 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/user/:id_usuario"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="user/:id_usuario"
+            isAdmin={localStorage.getItem("admin") === "logado"}
+          >
+            <UserDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="login"
+          >
+            <Login />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="register"
+          >
+            <Register />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
