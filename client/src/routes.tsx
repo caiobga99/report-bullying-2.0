@@ -9,17 +9,23 @@ import useUser from "./common/User";
 import { useEffect } from "react";
 import TimeLine from "./pages/TimeLine";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import FAQ from "./pages/FAQ";
+import Dashboard from "./pages/Dashboard";
+import Faq from "./pages/FAQ";
 
 const MyRoutes = () => {
-  const { setIsLogged } = useUser() as {
+  const { setIsLogged, setIsAdmin } = useUser() as {
     setIsLogged: (value: boolean) => void;
+    isAdmin: boolean;
+    setIsAdmin: (value: boolean) => void;
   };
   useEffect(() => {
     if (localStorage.getItem("ACCESS_TOKEN")) {
       setIsLogged(true);
     }
-  }, [setIsLogged]);
+    if (localStorage.getItem("admin")) {
+      setIsAdmin(true);
+    }
+  }, [setIsLogged, setIsAdmin]);
   return (
     <Routes>
       <Route
@@ -46,10 +52,22 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="dashboard"
+            isAdmin={localStorage.getItem("admin") === "logado"}
+          >
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/faq" element={<FAQ />} />
+      <Route path="/faq" element={<Faq />} />
       <Route path="*" element={<Notfound />} />
     </Routes>
   );
