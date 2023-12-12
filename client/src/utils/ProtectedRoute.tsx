@@ -14,16 +14,11 @@ const ProtectedRoute = ({
   isAdmin,
   pathName,
 }: ProtectedRoutesProps) => {
-  if (!token) {
-    showToastMessage(
-      "Voce precisa estar logado para acessar essa rota!",
-      "error"
-    );
-
-    return <Navigate to={"/login"} replace />;
-  }
   if (
-    (pathName === "dashboard" || pathName === "user/:id_usuario") &&
+    (pathName === "dashboard" ||
+      pathName === "user/:id_usuario" ||
+      pathName === "timeline/:id_usuario" ||
+      pathName === "profile/:id_usuario") &&
     !isAdmin
   ) {
     showToastMessage(
@@ -35,7 +30,18 @@ const ProtectedRoute = ({
   if ((pathName === "login" || pathName === "register") && token) {
     showToastMessage("Você já está logado!", "error");
     return <Navigate to={"/"} replace />;
+  } else {
+    return children;
   }
+  if (!token) {
+    showToastMessage(
+      "Voce precisa estar logado para acessar essa rota!",
+      "error"
+    );
+
+    return <Navigate to={"/login"} replace />;
+  }
+
   return children;
 };
 export default ProtectedRoute;

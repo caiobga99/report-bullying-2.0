@@ -99,6 +99,30 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/timeline/:id_usuario"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="timeline/:id_usuario"
+            isAdmin={localStorage.getItem("admin") === "logado"}
+          >
+            <TimeLine />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile/:id_usuario"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            pathName="profile/:id_usuario"
+            isAdmin={localStorage.getItem("admin") === "logado"}
+          >
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Home />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="*" element={<Notfound />} />

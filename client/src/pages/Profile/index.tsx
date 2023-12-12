@@ -1,19 +1,38 @@
 import { useEffect, useState } from "react";
 import ReportCard from "../../components/ReportCard";
 import api from "../../lib/api";
-import { Spinner } from "flowbite-react";
+import { Spinner, Tooltip } from "flowbite-react";
 import { Denuncias } from "../../utils/protocols";
 import { format } from "date-fns";
 import showToastMessage from "../../utils/showToastMessage";
 import { useTema } from "../../common/Tema";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Profile = () => {
+  const { id_usuario } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   const { pegarTema } = useTema() as {
     pegarTema: string;
   };
   useEffect(() => {
-    if (localStorage.getItem("usuario_anonimo") !== "logado") {
+    if (id_usuario) {
+      api
+        .get(`denuncia/${id_usuario}`)
+        .then((response) => {
+          setIsLoading(false);
+          response.data <= 0 &&
+            showToastMessage(
+              "Este usuario não realizou nenhuma denuncia ainda!",
+              "info"
+            );
+          setDenuncias(response.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err.message);
+        });
+    } else if (localStorage.getItem("usuario_anonimo") !== "logado") {
       api
         .get("denuncia")
         .then((response) => {
@@ -37,19 +56,33 @@ const Profile = () => {
       }
       setIsLoading(false);
     }
-  }, []);
+  }, [id_usuario]);
   return (
     <div
       className={
         isLoading
-          ? `container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen min-w-full ${
+          ? `container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen font-dm  min-w-full ${
               pegarTema === "dark" ? "bg-dark" : "bg-light"
             }`
           : pegarTema === "light"
-          ? "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500 bg-light"
-          : "container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white transition-all duration-500"
+          ? "font-dm container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500 bg-light"
+          : "font-dm container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center bg-dark text-white transition-all duration-500"
       }
     >
+      {id_usuario && (
+        <div className="absolute top-[10vh] right-[10vh]">
+          <Tooltip
+            content="Navegue para a pagina de TimeLine deste usuario!"
+            animation="duration-500"
+          >
+            <Link to={`/timeline/${id_usuario}`}>
+              <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
+                Ir para a TimeLine
+              </span>
+            </Link>
+          </Tooltip>
+        </div>
+      )}
       {isLoading ? (
         <div
           className={`flex items-center justify-center ${

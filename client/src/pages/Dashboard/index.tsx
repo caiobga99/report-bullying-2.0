@@ -3,11 +3,11 @@ import reportBullyingLogo from "../../assets/logo.svg";
 import api from "../../lib/api";
 import { User } from "../../utils/protocols";
 import { Spinner } from "flowbite-react";
-import { Dropdown, Alert } from "flowbite-react";
+import { Dropdown, Alert, Tooltip } from "flowbite-react";
 import {
-  EllipsisHorizontalCircleIcon,
   IdentificationIcon,
   CalendarDaysIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import {
   Popover,
@@ -18,7 +18,7 @@ import {
   List,
   ListItem,
   Typography,
-  Tooltip,
+  Tooltip as TooltipMaterial,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
@@ -36,7 +36,6 @@ const Dashboard = () => {
       .then((res) => {
         setIsLoading(false);
         setUsers(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err.message));
   }, []);
@@ -105,11 +104,18 @@ const Dashboard = () => {
                 </Dropdown.Item>
               </Dropdown>
               <Tooltip
-                content="Selecione a forma do filtro de pesquisa!"
-                animate={{
-                  mount: { scale: 1, y: 0 },
-                  unmount: { scale: 0, y: 25 },
+                theme={{
+                  style: {
+                    dark: "bg-gray-900 text-white dark:bg-gray-600",
+                  },
+                  arrow: {
+                    style: {
+                      dark: "bg-gray-900 dark:bg-gray-600",
+                    },
+                  },
                 }}
+                animation="duration-500"
+                content="Selecione a forma do filtro de pesquisa!"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -177,8 +183,39 @@ const Dashboard = () => {
                 <th scope="col" className="px-6 py-3">
                   Tipo
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 flex items-center gap-2">
                   Ação
+                  <Tooltip
+                    theme={{
+                      style: {
+                        dark: "bg-gray-900 text-white dark:bg-gray-600",
+                      },
+                      arrow: {
+                        style: {
+                          dark: "bg-gray-900 dark:bg-gray-600",
+                        },
+                      },
+                    }}
+                    animation="duration-500"
+                    content="Clique em 'Visualizar Usuario' para abrir um popover!"
+                  >
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        className="h-5 w-5 cursor-pointer text-blue-gray-500"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                        />
+                      </svg>
+                    </div>
+                  </Tooltip>
                 </th>
               </tr>
             </thead>
@@ -236,37 +273,11 @@ const Dashboard = () => {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="flex items-center gap-4">
-                              <PopoverHandler>
-                                <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
-                                  Visualizar Usuario
-                                </span>
-                              </PopoverHandler>
-                              <Tooltip
-                                content="Clique em 'Visualizar Usuario' para abrir um popover!"
-                                animate={{
-                                  mount: { scale: 1, y: 0 },
-                                  unmount: { scale: 0, y: 25 },
-                                }}
-                              >
-                                <div>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    className="h-5 w-5 cursor-pointer text-blue-gray-500"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                                    />
-                                  </svg>
-                                </div>
-                              </Tooltip>
-                            </div>
+                            <PopoverHandler>
+                              <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
+                                Visualizar Usuario
+                              </span>
+                            </PopoverHandler>
                           </td>
                         </tr>
                         <PopoverContent className="w-72">
@@ -292,7 +303,18 @@ const Dashboard = () => {
                             <ListItem
                               className="hover:bg-white hover:text-gray-600 hover:cursor-default"
                               ripple={false}
-                              selected={false}
+                            >
+                              <ListItemPrefix>
+                                <CalendarDaysIcon width={20} height={20} />
+                              </ListItemPrefix>
+                              {format(
+                                new Date(user.created_at),
+                                "dd/MM/yyyy"
+                              ).toString()}
+                            </ListItem>{" "}
+                            <ListItem
+                              className="hover:bg-white hover:text-gray-600 hover:cursor-default"
+                              ripple={false}
                             >
                               <ListItemPrefix>
                                 <IdentificationIcon
@@ -303,10 +325,168 @@ const Dashboard = () => {
                               </ListItemPrefix>
                               {user.id_usuario}
                             </ListItem>
+                            <TooltipMaterial
+                              animate={{
+                                mount: { scale: 1, y: 0 },
+                                unmount: { scale: 0, y: 25 },
+                              }}
+                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              content="Clique em 'Perfil' para ir à uma nova pagina!"
+                            >
+                              <Link to={`/profile/${user.id_usuario}`}>
+                                <ListItem
+                                  color="blue"
+                                  className="hover:bg-blue-300 hover:text-black w-full"
+                                >
+                                  <ListItemPrefix>
+                                    <UserCircleIcon
+                                      width="20"
+                                      height="20"
+                                      fill="none"
+                                    />
+                                  </ListItemPrefix>
+                                  Perfil
+                                </ListItem>
+                              </Link>
+                            </TooltipMaterial>
+                            <TooltipMaterial
+                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              animate={{
+                                mount: { scale: 1, y: 0 },
+                                unmount: { scale: 0, y: 25 },
+                              }}
+                              content="Clique em 'TimeLine' para ir à uma nova pagina!"
+                            >
+                              <Link to={`/timeline/${user.id_usuario}`}>
+                                <ListItem
+                                  color="blue"
+                                  className="hover:bg-blue-300 hover:text-black"
+                                >
+                                  <svg
+                                    id="Timeline"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                                  >
+                                    <rect
+                                      width="24"
+                                      height="24"
+                                      stroke="none"
+                                      fill="#000000"
+                                      opacity="0"
+                                    />
+
+                                    <g transform="matrix(0.48 0 0 0.48 12 12)">
+                                      <path
+                                        fill="rgb(0,0,0)"
+                                        stroke="none"
+                                        strokeWidth={1}
+                                        strokeDasharray="none"
+                                        strokeLinecap="butt"
+                                        strokeDashoffset={0}
+                                        strokeLinejoin="miter"
+                                        strokeMiterlimit={4}
+                                        fillRule="nonzero"
+                                        opacity={1}
+                                        transform=" translate(-25, -25)"
+                                        d="M 4.984375 3.9863281 C 4.432858843006732 3.99494917319965 3.992447335556201 4.448468177176025 4 4.999999999999999 L 4 9.8320312 C 3.9821509739847603 9.940022572157691 3.98215097398476 10.050211627842309 4 10.158203 L 4 24.832031 C 3.9821509519471583 24.940022437464606 3.9821509519471583 25.050211562535395 4 25.158203 L 4 39.832031 C 3.9821509519471583 39.940022437464606 3.9821509519471583 40.050211562535395 4 40.158203 L 4 45 C 3.994899710454515 45.36063591657757 4.184375296169332 45.696081364571604 4.495872849714331 45.877887721486516 C 4.80737040325933 46.05969407840143 5.192629596740671 46.05969407840143 5.50412715028567 45.877887721486516 C 5.815624703830668 45.696081364571604 6.005100289545485 45.36063591657757 6 45 L 6 41 L 8.1445312 41 C 8.5944085 42.715786 10.149698 44 12 44 C 13.850301 44 15.405591 42.715786 15.855469 41 L 45 41 C 45.36063591657757 41.00510028954548 45.696081364571604 40.81562470383067 45.877887721486516 40.50412715028567 C 46.05969407840143 40.19262959674067 46.05969407840143 39.80737040325933 45.877887721486516 39.49587284971433 C 45.696081364571604 39.184375296169335 45.36063591657757 38.99489971045452 45 39 L 15.855469 39 C 15.405591 37.284214 13.850301 36 12 36 C 10.149698 36 8.5944085 37.284214 8.1445312 39 L 6 39 L 6 26 L 33.144531 26 C 33.594409 27.715786 35.149699 29 37 29 C 38.850301 29 40.405591 27.715786 40.855469 26 L 45 26 C 45.36063591657757 26.005100289545485 45.696081364571604 25.815624703830668 45.877887721486516 25.50412715028567 C 46.05969407840143 25.19262959674067 46.05969407840143 24.80737040325933 45.877887721486516 24.49587284971433 C 45.696081364571604 24.184375296169332 45.36063591657757 23.994899710454515 45 24 L 40.855469 24 C 40.405591 22.284214 38.850301 21 37 21 C 35.149699 21 33.594409 22.284214 33.144531 24 L 6 24 L 6 11 L 19.144531 11 C 19.594409 12.715786 21.149699 14 23 14 C 24.850301 14 26.405591 12.715786 26.855469 11 L 45 11 C 45.36063591657757 11.005100289545485 45.696081364571604 10.815624703830668 45.877887721486516 10.504127150285669 C 46.05969407840143 10.192629596740671 46.05969407840143 9.80737040325933 45.877887721486516 9.495872849714331 C 45.696081364571604 9.184375296169332 45.36063591657757 8.994899710454515 45 9 L 26.855469 9 C 26.405591 7.2842135 24.850301 6 23 6 C 21.149699 6 19.594409 7.2842135 19.144531 9 L 6 9 L 6 5 C 6.003701433733636 4.729699684396449 5.897823285435063 4.4694133893859505 5.706490296584608 4.278448343881243 C 5.515157307734153 4.087483298376533 5.25466768994374 3.982106371676088 4.984375 3.9863281 z M 23 8 C 24.085528 8 24.943181 8.837639 24.990234 9.9101562 C 24.984724270348547 9.970577787922918 24.984724270348547 10.03137541207708 24.990234 10.091797 C 24.94221 11.163368 24.084864 12 23 12 C 21.914472 12 21.056819 11.162361 21.009766 10.089844 C 21.01527573573066 10.029422378951342 21.01527573573066 9.968624721048657 21.009766 9.9082031 C 21.05779 8.8366323 21.915136 8 23 8 z M 37 23 C 38.085528 23 38.943181 23.837639 38.990234 24.910156 C 38.98472425819013 24.970577654174395 38.98472425819013 25.031375345825605 38.990234 25.091797 C 38.94221 26.163368 38.084864 27 37 27 C 35.914472 27 35.056819 26.162361 35.009766 25.089844 C 35.01527574180987 25.029422345825605 35.01527574180987 24.968624654174395 35.009766 24.908203 C 35.05779 23.836632 35.915136 23 37 23 z M 12 38 C 13.085528 38 13.943181 38.837639 13.990234 39.910156 C 13.984724258190125 39.9705776541744 13.984724258190125 40.0313753458256 13.990234 40.091797 C 13.94221 41.163368 13.084864 42 12 42 C 10.914472 42 10.056819 41.162361 10.009766 40.089844 C 10.015275741809875 40.0294223458256 10.015275741809875 39.9686246541744 10.009766 39.908203 C 10.05779 38.836632 10.915136 38 12 38 z"
+                                        stroke-linecap="round"
+                                      />
+                                    </g>
+                                  </svg>
+                                  TimeLine
+                                </ListItem>
+                              </Link>
+                            </TooltipMaterial>
+                          </List>
+                        </PopoverContent>
+                      </Popover>
+                    );
+                  })
+                : filteredUsers?.map((user) => {
+                    return (
+                      <Popover
+                        placement="bottom-end"
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
+                        key={user.id_usuario}
+                      >
+                        <tr
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          key={user.id_usuario}
+                        >
+                          <th
+                            scope="row"
+                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            <img
+                              className="w-10 h-10 rounded-full"
+                              src={reportBullyingLogo}
+                              alt="User Image"
+                            />
+                            <div className="ps-3">
+                              <div className="text-base font-semibold">
+                                {user?.nome}
+                              </div>
+                              <div className="font-normal text-gray-500">
+                                {user?.email}
+                              </div>
+                            </div>
+                          </th>
+                          <td className="px-6 py-4">{user?.RA}</td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center">
+                              <div
+                                className={`h-2.5 w-2.5 rounded-full me-2 ${
+                                  user?.tipo_usuario
+                                    ? "bg-green-500"
+                                    : user?.RA === "Anonimo"
+                                    ? "bg-brown-500"
+                                    : "bg-gray-500"
+                                }`}
+                              ></div>
+                              {user?.tipo_usuario
+                                ? "Admin"
+                                : user?.RA === "Anonimo"
+                                ? "Anonimo"
+                                : "Comum"}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <PopoverHandler>
+                              <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
+                                Visualizar Usuario
+                              </span>
+                            </PopoverHandler>
+                          </td>
+                        </tr>
+                        <PopoverContent className="w-72">
+                          <div className="mb-4 flex items-center gap-4 border-b border-blue-gray-50 pb-4">
+                            <Avatar
+                              src={reportBullyingLogo}
+                              alt="Report Bullying Logo"
+                            />
+                            <div>
+                              <Typography variant="h6" color="blue-gray">
+                                {user.nome}
+                              </Typography>
+                              <Typography
+                                variant="small"
+                                color="gray"
+                                className="font-medium text-blue-gray-500"
+                              >
+                                {user.email}
+                              </Typography>
+                            </div>
+                          </div>
+                          <List>
                             <ListItem
                               className="hover:bg-white hover:text-gray-600 hover:cursor-default"
                               ripple={false}
-                              selected={false}
                             >
                               <ListItemPrefix>
                                 <CalendarDaysIcon width={20} height={20} />
@@ -315,198 +495,99 @@ const Dashboard = () => {
                                 new Date(user.created_at),
                                 "dd/MM/yyyy"
                               ).toString()}
+                            </ListItem>{" "}
+                            <ListItem
+                              className="hover:bg-white hover:text-gray-600 hover:cursor-default"
+                              ripple={false}
+                            >
+                              <ListItemPrefix>
+                                <IdentificationIcon
+                                  width="20"
+                                  height="20"
+                                  fill="none"
+                                />
+                              </ListItemPrefix>
+                              {user.id_usuario}
                             </ListItem>
-                            <Tooltip
-                              content="Clique em 'Mais detalhes' para à uma nova pagina!"
+                            <TooltipMaterial
                               animate={{
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
                               }}
+                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              content="Clique em 'Perfil' para ir à uma nova pagina!"
                             >
-                              <Link to={`/user/${user.id_usuario}`}>
+                              <Link to={`/profile/${user.id_usuario}`}>
                                 <ListItem
                                   color="blue"
-                                  selected={true}
-                                  defaultChecked={true}
-                                  className="hover:bg-blue-300 hover:text-black"
+                                  className="hover:bg-blue-300 hover:text-black w-full"
                                 >
                                   <ListItemPrefix>
-                                    <EllipsisHorizontalCircleIcon
+                                    <UserCircleIcon
                                       width="20"
                                       height="20"
                                       fill="none"
                                     />
                                   </ListItemPrefix>
-                                  Mais detalhes
+                                  Perfil
                                 </ListItem>
                               </Link>
-                            </Tooltip>
-                          </List>
-                        </PopoverContent>
-                      </Popover>
-                    );
-                  })
-                : filteredUsers?.map((user) => {
-                  return (
-                    <Popover
-                      placement="bottom-end"
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      key={user.id_usuario}
-                    >
-                      <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={user.id_usuario}
-                      >
-                        <th
-                          scope="row"
-                          className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          <img
-                            className="w-10 h-10 rounded-full"
-                            src={reportBullyingLogo}
-                            alt="User Image"
-                          />
-                          <div className="ps-3">
-                            <div className="text-base font-semibold">
-                              {user?.nome}
-                            </div>
-                            <div className="font-normal text-gray-500">
-                              {user?.email}
-                            </div>
-                          </div>
-                        </th>
-                        <td className="px-6 py-4">{user?.RA}</td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center">
-                            <div
-                              className={`h-2.5 w-2.5 rounded-full me-2 ${
-                                user?.tipo_usuario
-                                  ? "bg-green-500"
-                                  : user?.RA === "Anonimo"
-                                  ? "bg-brown-500"
-                                  : "bg-gray-500"
-                              }`}
-                            ></div>
-                            {user?.tipo_usuario
-                              ? "Admin"
-                              : user?.RA === "Anonimo"
-                              ? "Anonimo"
-                              : "Comum"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-4">
-                            <PopoverHandler>
-                              <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
-                                Visualizar Usuario
-                              </span>
-                            </PopoverHandler>
-                            <Tooltip
-                              content="Clique em 'Visualizar Usuario' para abrir um popover!"
+                            </TooltipMaterial>
+                            <TooltipMaterial
+                              className="bg-gray-900 text-white dark:bg-gray-600"
                               animate={{
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
                               }}
+                              content="Clique em 'TimeLine' para ir à uma nova pagina!"
                             >
-                              <div>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={2}
-                                  className="h-5 w-5 cursor-pointer text-blue-gray-500"
+                              <Link to={`/timeline/${user.id_usuario}`}>
+                                <ListItem
+                                  color="blue"
+                                  className="hover:bg-blue-300 hover:text-black"
                                 >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                                  />
-                                </svg>
-                              </div>
-                            </Tooltip>
-                          </div>
-                        </td>
-                      </tr>
-                      <PopoverContent className="w-72">
-                        <div className="mb-4 flex items-center gap-4 border-b border-blue-gray-50 pb-4">
-                          <Avatar
-                            src={reportBullyingLogo}
-                            alt="Report Bullying Logo"
-                          />
-                          <div>
-                            <Typography variant="h6" color="blue-gray">
-                              {user.nome}
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="gray"
-                              className="font-medium text-blue-gray-500"
-                            >
-                              {user.email}
-                            </Typography>
-                          </div>
-                        </div>
-                        <List>
-                          <ListItem
-                            className="hover:bg-white hover:text-gray-600 hover:cursor-default"
-                            ripple={false}
-                            selected={false}
-                          >
-                            <ListItemPrefix>
-                              <IdentificationIcon
-                                width="20"
-                                height="20"
-                                fill="none"
-                              />
-                            </ListItemPrefix>
-                            {user.id_usuario}
-                          </ListItem>
-                          <ListItem
-                            className="hover:bg-white hover:text-gray-600 hover:cursor-default"
-                            ripple={false}
-                            selected={false}
-                          >
-                            <ListItemPrefix>
-                              <CalendarDaysIcon width={20} height={20} />
-                            </ListItemPrefix>
-                            {format(
-                              new Date(user.created_at),
-                              "dd/MM/yyyy"
-                            ).toString()}
-                          </ListItem>
-                          <Tooltip
-                            content="Clique em 'Mais detalhes' para à uma nova pagina!"
-                            animate={{
-                              mount: { scale: 1, y: 0 },
-                              unmount: { scale: 0, y: 25 },
-                            }}
-                          >
-                            <Link to={`/user/${user.id_usuario}`}>
-                              <ListItem
-                                color="blue"
-                                selected={true}
-                                defaultChecked={true}
-                                className="hover:bg-blue-300 hover:text-black"
-                              >
-                                <ListItemPrefix>
-                                  <EllipsisHorizontalCircleIcon
-                                    width="20"
-                                    height="20"
-                                    fill="none"
-                                  />
-                                </ListItemPrefix>
-                                Mais detalhes
-                              </ListItem>
-                            </Link>
-                          </Tooltip>
-                        </List>
-                      </PopoverContent>
-                    </Popover>
-                  );
+                                  <svg
+                                    id="Timeline"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                                  >
+                                    <rect
+                                      width="24"
+                                      height="24"
+                                      stroke="none"
+                                      fill="#000000"
+                                      opacity="0"
+                                    />
+
+                                    <g transform="matrix(0.48 0 0 0.48 12 12)">
+                                      <path
+                                        fill="rgb(0,0,0)"
+                                        stroke="none"
+                                        strokeWidth={1}
+                                        strokeDasharray="none"
+                                        strokeLinecap="butt"
+                                        strokeDashoffset={0}
+                                        strokeLinejoin="miter"
+                                        strokeMiterlimit={4}
+                                        fillRule="nonzero"
+                                        opacity={1}
+                                        transform=" translate(-25, -25)"
+                                        d="M 4.984375 3.9863281 C 4.432858843006732 3.99494917319965 3.992447335556201 4.448468177176025 4 4.999999999999999 L 4 9.8320312 C 3.9821509739847603 9.940022572157691 3.98215097398476 10.050211627842309 4 10.158203 L 4 24.832031 C 3.9821509519471583 24.940022437464606 3.9821509519471583 25.050211562535395 4 25.158203 L 4 39.832031 C 3.9821509519471583 39.940022437464606 3.9821509519471583 40.050211562535395 4 40.158203 L 4 45 C 3.994899710454515 45.36063591657757 4.184375296169332 45.696081364571604 4.495872849714331 45.877887721486516 C 4.80737040325933 46.05969407840143 5.192629596740671 46.05969407840143 5.50412715028567 45.877887721486516 C 5.815624703830668 45.696081364571604 6.005100289545485 45.36063591657757 6 45 L 6 41 L 8.1445312 41 C 8.5944085 42.715786 10.149698 44 12 44 C 13.850301 44 15.405591 42.715786 15.855469 41 L 45 41 C 45.36063591657757 41.00510028954548 45.696081364571604 40.81562470383067 45.877887721486516 40.50412715028567 C 46.05969407840143 40.19262959674067 46.05969407840143 39.80737040325933 45.877887721486516 39.49587284971433 C 45.696081364571604 39.184375296169335 45.36063591657757 38.99489971045452 45 39 L 15.855469 39 C 15.405591 37.284214 13.850301 36 12 36 C 10.149698 36 8.5944085 37.284214 8.1445312 39 L 6 39 L 6 26 L 33.144531 26 C 33.594409 27.715786 35.149699 29 37 29 C 38.850301 29 40.405591 27.715786 40.855469 26 L 45 26 C 45.36063591657757 26.005100289545485 45.696081364571604 25.815624703830668 45.877887721486516 25.50412715028567 C 46.05969407840143 25.19262959674067 46.05969407840143 24.80737040325933 45.877887721486516 24.49587284971433 C 45.696081364571604 24.184375296169332 45.36063591657757 23.994899710454515 45 24 L 40.855469 24 C 40.405591 22.284214 38.850301 21 37 21 C 35.149699 21 33.594409 22.284214 33.144531 24 L 6 24 L 6 11 L 19.144531 11 C 19.594409 12.715786 21.149699 14 23 14 C 24.850301 14 26.405591 12.715786 26.855469 11 L 45 11 C 45.36063591657757 11.005100289545485 45.696081364571604 10.815624703830668 45.877887721486516 10.504127150285669 C 46.05969407840143 10.192629596740671 46.05969407840143 9.80737040325933 45.877887721486516 9.495872849714331 C 45.696081364571604 9.184375296169332 45.36063591657757 8.994899710454515 45 9 L 26.855469 9 C 26.405591 7.2842135 24.850301 6 23 6 C 21.149699 6 19.594409 7.2842135 19.144531 9 L 6 9 L 6 5 C 6.003701433733636 4.729699684396449 5.897823285435063 4.4694133893859505 5.706490296584608 4.278448343881243 C 5.515157307734153 4.087483298376533 5.25466768994374 3.982106371676088 4.984375 3.9863281 z M 23 8 C 24.085528 8 24.943181 8.837639 24.990234 9.9101562 C 24.984724270348547 9.970577787922918 24.984724270348547 10.03137541207708 24.990234 10.091797 C 24.94221 11.163368 24.084864 12 23 12 C 21.914472 12 21.056819 11.162361 21.009766 10.089844 C 21.01527573573066 10.029422378951342 21.01527573573066 9.968624721048657 21.009766 9.9082031 C 21.05779 8.8366323 21.915136 8 23 8 z M 37 23 C 38.085528 23 38.943181 23.837639 38.990234 24.910156 C 38.98472425819013 24.970577654174395 38.98472425819013 25.031375345825605 38.990234 25.091797 C 38.94221 26.163368 38.084864 27 37 27 C 35.914472 27 35.056819 26.162361 35.009766 25.089844 C 35.01527574180987 25.029422345825605 35.01527574180987 24.968624654174395 35.009766 24.908203 C 35.05779 23.836632 35.915136 23 37 23 z M 12 38 C 13.085528 38 13.943181 38.837639 13.990234 39.910156 C 13.984724258190125 39.9705776541744 13.984724258190125 40.0313753458256 13.990234 40.091797 C 13.94221 41.163368 13.084864 42 12 42 C 10.914472 42 10.056819 41.162361 10.009766 40.089844 C 10.015275741809875 40.0294223458256 10.015275741809875 39.9686246541744 10.009766 39.908203 C 10.05779 38.836632 10.915136 38 12 38 z"
+                                        stroke-linecap="round"
+                                      />
+                                    </g>
+                                  </svg>
+                                  TimeLine
+                                </ListItem>
+                              </Link>
+                            </TooltipMaterial>
+                          </List>
+                        </PopoverContent>
+                      </Popover>
+                    );
                   })}
             </tbody>
           </table>

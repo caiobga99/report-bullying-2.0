@@ -3,12 +3,13 @@ import TimeLineComponent from "../../components/TimeLineComponent";
 import api from "../../lib/api";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Denuncias, User } from "../../utils/protocols";
 import showToastMessage from "../../utils/showToastMessage";
 import UserCard from "../../components/UserCard";
 import { useTema } from "../../common/Tema";
 const TimeLine = () => {
+  const { id_usuario } = useParams();
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
@@ -17,7 +18,23 @@ const TimeLine = () => {
     pegarTema: string;
   };
   useEffect(() => {
-    if (localStorage.getItem("usuario_anonimo") !== "logado") {
+    if (id_usuario) {
+      api
+        .get(`denuncia/${id_usuario}`)
+        .then((response) => {
+          setIsLoading(false);
+          response.data <= 0 &&
+            showToastMessage(
+              "Este usuario não realizou nenhuma denuncia ainda!",
+              "info"
+            );
+          setDenuncias(response.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err.message);
+        });
+    } else if (localStorage.getItem("usuario_anonimo") !== "logado") {
       api
         .get("/denuncia")
         .then((response) => {
@@ -38,14 +55,24 @@ const TimeLine = () => {
       }
       setIsLoading(false);
     }
-    api
-      .get("/usuario")
-      .then((response) => {
-        setIsLoadingUser(false);
-        setUser(response.data[0]);
-      })
-      .catch((err) => console.log(err.message));
-  }, []);
+    if (id_usuario) {
+      api
+        .get(`/usuario/${id_usuario}`)
+        .then((response) => {
+          setIsLoadingUser(false);
+          setUser(response.data[0]);
+        })
+        .catch((err) => console.log(err.message));
+    } else {
+      api
+        .get("/usuario")
+        .then((response) => {
+          setIsLoadingUser(false);
+          setUser(response.data[0]);
+        })
+        .catch((err) => console.log(err.message));
+    }
+  }, [id_usuario]);
   return (
     <div
       className={
@@ -69,14 +96,27 @@ const TimeLine = () => {
                 : "text-sm md:text-base text-gray-600 mb-4"
             }
           >
-            Aqui está todas as suas denuncias divididas em uma linha do tempo,
-            ordenada de forma decrescente.
+            {id_usuario
+              ? !isLoadingUser &&
+                `Aqui está todas as denuncias do ${user?.nome} divididas em uma linha do tempo, de forma decrescente.`
+              : "Aqui está todas as suas denuncias divididas em uma linha do tempo, ordenada de forma decrescente."}
           </p>
-          <Link to={"/denuncie"}>
-            <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
-              Denuncie Agora
-            </span>
-          </Link>
+          {id_usuario ? (
+            !isLoadingUser && (
+              <Link to={`/profile/${id_usuario}`}>
+                <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
+                  Visualize o Perfil do {user!.nome}
+                </span>
+              </Link>
+            )
+          ) : (
+            <Link to={"/denuncie"}>
+              <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
+                Denuncie Agora
+              </span>
+            </Link>
+          )}
+
           <div>
             {isLoadingUser ? (
               <div className="flex items-center justify-center h-80">
