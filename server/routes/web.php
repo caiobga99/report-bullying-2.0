@@ -62,7 +62,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
         Route::get("/denuncias", [DenunciaController::class, "index"]);
         Route::patch("/denuncias", [DenunciaController::class, "update"]); // arrumar
         Route::delete("/denuncias", [DenunciaController::class, "destroy"]);
-
+        Route::get("/usuario/{id_usuario}", [UsuarioController::class, "getUserById"]);
+        Route::get("/denuncia/{id_usuario}", [DenunciaController::class, "getDenunciaById"]);
         //  Route::resource("denuncias", DenunciaController::class); 
     });
 });

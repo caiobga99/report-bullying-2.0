@@ -68,8 +68,7 @@ class UsuarioController extends Controller
             "status" => "success",
             "message" => "Usuario Criado com sucesso!",
             "token" => $token,
-        ]);
-        ;
+        ]);;
         // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
         // ->withSuccess('You have successfully registered & logged in!');
     }
@@ -148,4 +147,9 @@ class UsuarioController extends Controller
     //     echo $token . "\n token telaLogin usuario conjtroller";
     //     return "Tela Login!";
     // }
+    public function getUserById(string $is_usuario)
+    {
+        $usuario = User::all()->where('id_usuario', $is_usuario)->values();
+        return $usuario;
+    }
 }
