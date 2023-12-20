@@ -7,6 +7,7 @@ use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsuarioController extends Controller
 {
@@ -37,10 +38,17 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        //$request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required|min:6',
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        // ]);
         if (Auth::check() && Auth::user()->tipo_usuario != 1) {
             return "esta logado e nao e admin";
         }
-        $data = $request->except("password");
+
+        $data = $request->except(["password", "image"]);
         $password = $request->input("password");
         $data["tipo_usuario"] = 0;
         $email = $request->input("email");
@@ -49,11 +57,20 @@ class UsuarioController extends Controller
         }
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
+        if ($request->hasFile("image")) {
+            $data["image"] = $request->file('image')->store('image_profile', 'public');
+        } else {
+            $data["image"] = "image_profile/logo.svg";
+        }
         $user = User::create($data);
         $token = $user->createToken('main')->plainTextToken;
         if ($email == "adm@adm.com") {
             app("App\Http\Controllers\LoginController")->authenticate($request);
-            return "Usuario Administrador Criado e logado com sucesso!";
+            return response()->json([
+                "status" => "success",
+                "message" => "Usuario Administrador Criado e logado com sucesso!",
+                "token" => $token,
+            ]);
         }
         if (!Auth::check()) {
             app("App\Http\Controllers\LoginController")->authenticate($request);
@@ -68,9 +85,7 @@ class UsuarioController extends Controller
             "status" => "success",
             "message" => "Usuario Criado com sucesso!",
             "token" => $token,
-        ]);;
-        // return redirect()->route('dashboard')  dashboard e a tela de visualização das denuncias exemplo
-        // ->withSuccess('You have successfully registered & logged in!');
+        ]);
     }
 
     /**

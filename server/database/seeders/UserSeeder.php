@@ -3,7 +3,7 @@
 
 namespace Database\Seeders;
 
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'RA' => "Anonimo",
             'tipo_usuario' => false,
             'id_usuario' => "Anonimo",
+            'image' => "image_profile/anonimo.png"
         ]);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 class User extends Authenticatable
 {
     use HasUuids;
@@ -22,6 +23,7 @@ class User extends Authenticatable
         "tipo_usuario",
         "id_usuario",
         "password",
+        "image"
     ];
 
 
