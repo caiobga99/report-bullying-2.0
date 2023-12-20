@@ -9,6 +9,7 @@ import api from "../../lib/api";
 import useUser from "../../common/User";
 import { useNavigate } from "react-router-dom";
 import { useTema } from "../../common/Tema";
+
 const Register = () => {
   const fields = signupFields;
   interface FormData {
@@ -16,46 +17,53 @@ const Register = () => {
     email: string;
     senha: string;
     ra: string;
+    imagem: HTMLInputElement;
   }
   const { pegarTema } = useTema() as {
     pegarTema: string;
   };
   const navigate = useNavigate();
-  const { setIsLogged, setIsAdmin, setToken } = useUser() as {
+  const { setIsLogged, setIsAdmin, setToken, setUser } = useUser() as {
     setIsLogged: (value: boolean) => void;
     isLogged: boolean;
     isAdmin: boolean;
     setIsAdmin: (value: boolean) => void;
     setToken: (value: string) => void;
+    setUser: (value: string) => void;
   };
-  
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
   } = useForm<FormData>();
-  const onSubmit = ({ nome, email, senha, ra }: FormData) => {
+  const onSubmit = ({ nome, email, senha, ra, imagem }: FormData) => {
+    const formData = new FormData();
+
+    formData.append("image", imagem[0]);
+    formData.append("email", email);
+    formData.append("password", senha);
+    formData.append("RA", ra);
+    formData.append("nome", nome);
+    console.log(formData);
     api
-      .post(`/usuarios`, {
-        email: email,
-        password: senha,
-        RA: ra,
-        nome: nome,
-      })
+      .post(`/usuarios`, formData)
       .then((res) => {
-        console.log(res.data);
-        setToken(res.data.token);
         {
+          showToastMessage(res.data.message, "sucess");
+          setIsLogged(true);
+          setUser(res.data.user);
+          setToken(res.data.token);
           if (
             res.data.message ===
             "Usuario Administrador Criado e logado com sucesso!"
           ) {
             setIsAdmin(true);
+            navigate("/dashboard");
+          } else {
+            navigate("/");
           }
-          showToastMessage(res.data.message, "sucess");
-          setIsLogged(true);
-          navigate("/");
         }
       })
       .catch((error) => {
@@ -70,11 +78,11 @@ const Register = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light"
-          : "min-h-full h-full sm:h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
+          ? "h-full lg:h-full md:h-full sm:h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light font-dm"
+          : "h-full lg:h-full md:h-full sm:h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500 font-dm"
       }
     >
-      <div className="max-w-md w-full h-screen space-y-8">
+      <div className="max-w-md w-full min-h-full space-y-8">
         <FormHeader
           heading="Cadastre-se para criar uma conta"
           paragraph="Já tem uma conta? "
@@ -101,10 +109,28 @@ const Register = () => {
                       return value === watchPassword;
                     } else if (field.name === "email") {
                       return val.default.isEmail(value);
+                    } else if (field.name === "imagem") {
+                      if (value.length === 0) {
+                        return true;
+                      }
+                      const acceptedFormats: string[] = [
+                        "jpeg",
+                        "png",
+                        "jpg",
+                        "gif",
+                        "svg",
+                      ];
+                      const fileExtension: string = value[0]?.name
+                        .split(".")
+                        .pop()
+                        .toLowerCase();
+                      if (!acceptedFormats.includes(fileExtension)) {
+                        return false;
+                      }
+                      return true;
                     }
                   },
                 })}
-                errors={errors[field.name]?.ref?.type === field.name}
                 typeError={errors[field.name]?.type}
               />
             ))}

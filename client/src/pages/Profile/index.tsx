@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ReportCard from "../../components/ReportCard";
 import api from "../../lib/api";
 import { Spinner, Tooltip } from "flowbite-react";
-import { Denuncias } from "../../utils/protocols";
 import { format } from "date-fns";
 import showToastMessage from "../../utils/showToastMessage";
 import { useTema } from "../../common/Tema";
@@ -11,12 +10,22 @@ import { Link } from "react-router-dom";
 const Profile = () => {
   const { id_usuario } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
+  const [denuncias, setDenuncias] = useState<Denncias[]>([]);
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
   const { pegarTema } = useTema() as {
     pegarTema: string;
   };
+
   useEffect(() => {
     if (id_usuario) {
+      api
+        .get(`/usuario/${id_usuario}`)
+        .then((response) => {
+          setIsLoadingUser(false);
+          setUser(response.data[0]);
+        })
+        .catch((err) => console.log(err.message));
       api
         .get(`denuncia/${id_usuario}`)
         .then((response) => {
@@ -34,6 +43,13 @@ const Profile = () => {
         });
     } else if (localStorage.getItem("usuario_anonimo") !== "logado") {
       api
+        .get("/usuario")
+        .then((response) => {
+          setIsLoadingUser(false);
+          setUser(response.data[0]);
+        })
+        .catch((err) => console.log(err.message));
+      api
         .get("denuncia")
         .then((response) => {
           setIsLoading(false);
@@ -46,6 +62,13 @@ const Profile = () => {
           console.log(err.message);
         });
     } else {
+      api
+        .get("/usuario")
+        .then((response) => {
+          setIsLoadingUser(false);
+          setUser(response.data[0]);
+        })
+        .catch((err) => console.log(err.message));
       const denuncias_anonimas: null | string =
         localStorage.getItem("denuncias_anonimas");
 
@@ -83,7 +106,7 @@ const Profile = () => {
           </Tooltip>
         </div>
       )}
-      {isLoading ? (
+      {isLoading | isLoadingUser? (
         <div
           className={`flex items-center justify-center ${
             pegarTema === "dark" && "bg-dark w-screen h-screen"
@@ -112,6 +135,7 @@ const Profile = () => {
               id_denuncia={denuncia.id_denuncia}
               id_usuario={denuncia.id_usuario}
               theme={pegarTema}
+              image={user?.image}
             />
           );
         })

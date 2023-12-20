@@ -16,6 +16,7 @@ export interface User {
   RA?: string;
   id_usuario?: string;
   tipo_usuario?: boolean;
+  image?: string;
   created_at: string;
   updated_at?: string;
 }

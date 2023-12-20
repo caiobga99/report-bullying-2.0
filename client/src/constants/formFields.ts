@@ -5,7 +5,7 @@ interface FormFields {
   name: string;
   type: string;
   autoComplete: string;
-  isRequired: true;
+  isRequired: boolean;
   placeholder: string;
   inputType?: string;
 }
@@ -83,6 +83,16 @@ const signupFields: FormFields[] = [
     autoComplete: "confirmar-senha",
     isRequired: true,
     placeholder: "Confirmar Senha",
+  },
+  {
+    labelText: "Imagem de Perfil",
+    labelFor: "imagem-perfil",
+    id: "imagem",
+    name: "imagem",
+    type: "file",
+    autoComplete: "imagem-perfil",
+    isRequired: false,
+    placeholder: "Imagem de Perfil",
   },
 ];
 

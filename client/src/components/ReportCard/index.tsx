@@ -1,7 +1,5 @@
 import {
-  UserCircleIcon,
   ChatBubbleBottomCenterIcon,
-  EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 interface ReportCardProps {
@@ -12,6 +10,7 @@ interface ReportCardProps {
   id_denuncia: string;
   id_usuario: string;
   theme: string;
+  image: string;
 }
 import ModalComponent from "../../components/ModalComponent";
 
@@ -23,6 +22,7 @@ const ReportCard = ({
   id_denuncia,
   id_usuario,
   theme,
+  image,
 }: ReportCardProps) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -68,16 +68,13 @@ const ReportCard = ({
           </p>
         </div>
         <div className="flex items-center">
-          {nome !== "Anonimo" ? (
-            <UserCircleIcon width={50} height={50} />
-          ) : (
-            <EyeSlashIcon width={35} height={35} />
-          )}
-          {/* <img
+          <img
             className="w-10 h-10 rounded-full mr-4"
-            src="/img/jonathan.jpg"
-            alt="Avatar of Jonathan Reinink"
-          /> */}
+            src={`http://127.0.0.1:8000/storage/image_profile/${
+              image.split("/")[1]
+            }`}
+            alt="User Image"
+          />
           <div className="text-sm">
             <p
               className={

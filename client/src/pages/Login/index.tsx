@@ -81,8 +81,8 @@ const Login = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light"
-          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light font-dm"
+          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500 font-dm"
       }
     >
       <div className="max-w-md w-full space-y-8 ">

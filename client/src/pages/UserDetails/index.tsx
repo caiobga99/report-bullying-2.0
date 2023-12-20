@@ -45,6 +45,7 @@ const UserDetails = () => {
       .get(`/usuario/${id_usuario}`)
       .then((res) => {
         setUser(res.data[0]);
+        console.log(res.data[0].image);
         setIsLoadingUser(false);
       })
       .catch((err) => {
@@ -58,6 +59,11 @@ const UserDetails = () => {
         <Spinner />
       ) : (
         <div className="min-w-full min-h-full">
+          <img
+            src={`http://127.0.0.1:8000/storage/image_profile/${
+              user?.image.split("/")[1]
+            }`}
+          />
           <UserCard
             created_at={format(
               new Date(user!.created_at),
