@@ -10,7 +10,7 @@ interface ReportCardProps {
   id_denuncia: string;
   id_usuario: string;
   theme: string;
-  image: string;
+  image?: string;
 }
 import ModalComponent from "../../components/ModalComponent";
 
@@ -71,7 +71,7 @@ const ReportCard = ({
           <img
             className="w-10 h-10 rounded-full mr-4"
             src={`http://127.0.0.1:8000/storage/image_profile/${
-              image.split("/")[1]
+              image?.split("/")[1]
             }`}
             alt="User Image"
           />

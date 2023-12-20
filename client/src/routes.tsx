@@ -45,6 +45,7 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/denuncie"
         element={
@@ -123,6 +124,7 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
+
       <Route path="/" element={<Home />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="*" element={<Notfound />} />

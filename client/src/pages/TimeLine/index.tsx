@@ -1,4 +1,4 @@
-import { Spinner } from "flowbite-react";
+import { Spinner, Tooltip } from "flowbite-react";
 import TimeLineComponent from "../../components/TimeLineComponent";
 import api from "../../lib/api";
 import { format } from "date-fns";
@@ -103,11 +103,16 @@ const TimeLine = () => {
           </p>
           {id_usuario ? (
             !isLoadingUser && (
-              <Link to={`/profile/${id_usuario}`}>
-                <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
-                  Visualize o Perfil do {user!.nome}
-                </span>
-              </Link>
+              <Tooltip
+                content={`Navegue para a pagina de Perfil do ${user?.nome}!`}
+                animation="duration-500"
+              >
+                <Link to={`/profile/${id_usuario}`}>
+                  <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
+                    Navegue para a pagina de Perfil!
+                  </span>
+                </Link>
+              </Tooltip>
             )
           ) : (
             <Link to={"/denuncie"}>
