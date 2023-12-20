@@ -269,6 +269,7 @@ export default function Navbar() {
                             </Link>
                           )}
                         </Menu.Item>
+
                         <Menu.Item>
                           {() => (
                             <button
@@ -334,6 +335,28 @@ export default function Navbar() {
                       {item.name}
                     </Disclosure.Button>
                   ))}
+              {localStorage.getItem("admin") && isAdmin && (
+                <>
+                  <Disclosure.Button
+                    as="a"
+                    href={"/dashboard"}
+                    className={classNames(
+                      "/dashboard" === location.pathname
+                        ? "bg-gray-900 text-white"
+                        : pegarTema === "light"
+                        ? "hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "rounded-md px-3 py-2 text-sm font-medium",
+                      "block rounded-md px-3 py-2 text-base font-medium"
+                    )}
+                    aria-current={
+                      "/dashboard" !== location.pathname ? "page" : undefined
+                    }
+                  >
+                    {"Painel"}
+                  </Disclosure.Button>
+                </>
+              )}
             </div>
           </Disclosure.Panel>
         </>
