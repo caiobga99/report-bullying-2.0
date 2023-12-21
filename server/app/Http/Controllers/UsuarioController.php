@@ -111,20 +111,38 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, string $id_usuario)
     {
-        $usuario->fill($request->all());
-        $usuario->save();
-        return "Usuario Atualizado com Sucesso!";
+        $data = $request->except(["password", "image", "_method", "deletedImage"]);
+        $password = $request->input("password");
+        $passwordHash = Hash::make($password);
+        $data["password"] = $passwordHash;
+        if ($request->hasFile("image")) {
+            $data["image"] = $request->file('image')->store('image_profile', 'public');
+            // $deletedImage = $request->input("deletedImage");
+            // if ($deletedImage !== "image_profile/logo.svg" || $deletedImage !== "image_profile/anonimo.png") {
+            //     Storage::delete($request->input("deletedImage"));
+            // }
+        }
+        User::where('id_usuario', $id_usuario)->update($data);
+        $user = User::findOrFail($id_usuario);
+        return response()->json([
+            "status" => "success",
+            "message" => "Usuario Atualizado com Sucesso!",
+            "user" => $user,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id_usuario)
     {
-        User::destroy($id);
-        return "Usuario Deletado com Sucesso!";
+        User::destroy($id_usuario);
+        return response()->json([
+            "status" => "success",
+            "message" => "Usuario Deletado com Sucesso!",
+        ]);
     }
     // public function login(Request $request)
     // {

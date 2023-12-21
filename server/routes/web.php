@@ -51,6 +51,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get("/resposta/{id_denuncia}/{id_usuario}", [RespostaController::class, "show"]);
     Route::get("/usuario", [UsuarioController::class, "show"]);
     Route::get("/usuarios", [UsuarioController::class, "index"])->block();
+    Route::patch("/usuarios/{id_usuario}", [UsuarioController::class, "update"]);
+    Route::delete("/usuarios/{id_usuario}", [UsuarioController::class, "destroy"]);
     Route::get("/denuncia", [DenunciaController::class, "show"]);
     Route::post("/denuncias", [DenunciaController::class, "store"]);
     Route::resource("respostas", RespostaController::class);
