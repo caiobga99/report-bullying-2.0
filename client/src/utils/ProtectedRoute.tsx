@@ -5,40 +5,32 @@ interface ProtectedRoutesProps {
   token: string | null;
   children: JSX.Element;
   isAdmin?: boolean;
-  pathName?: string;
+  pathName: string;
+  type?: string;
 }
 
 const ProtectedRoute = ({
   token,
   children,
   isAdmin,
-  pathName,
+  type,
 }: ProtectedRoutesProps) => {
-  if (
-    (pathName === "dashboard" ||
-      pathName === "user/:id_usuario" ||
-      pathName === "timeline/:id_usuario" ||
-      pathName === "profile/:id_usuario") &&
-    !isAdmin
-  ) {
+  if (type === "admin" && !isAdmin) {
     showToastMessage(
       "Voce precisa ser um Administrador para acessar essa rota!",
       "error"
     );
     return <Navigate to={"/"} replace />;
   }
-  if ((pathName === "login" || pathName === "register") && token) {
+  if (type === "deslogado" && token) {
     showToastMessage("Você já está logado!", "error");
     return <Navigate to={"/"} replace />;
-  } else {
-    return children;
   }
-  if (!token) {
+  if (!token && type === "logado") {
     showToastMessage(
       "Voce precisa estar logado para acessar essa rota!",
       "error"
     );
-
     return <Navigate to={"/login"} replace />;
   }
 

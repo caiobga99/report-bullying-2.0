@@ -32,7 +32,10 @@ const MyRoutes = () => {
       <Route
         path="/timeLine"
         element={
-          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            type="logado"
+          >
             <TimeLine />
           </ProtectedRoute>
         }
@@ -40,7 +43,10 @@ const MyRoutes = () => {
       <Route
         path="/profile"
         element={
-          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            type="logado"
+          >
             <Profile />
           </ProtectedRoute>
         }
@@ -49,7 +55,10 @@ const MyRoutes = () => {
       <Route
         path="/denuncie"
         element={
-          <ProtectedRoute token={localStorage.getItem("ACCESS_TOKEN")}>
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            type="logado"
+          >
             <Denuncie />
           </ProtectedRoute>
         }
@@ -59,8 +68,8 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="dashboard"
             isAdmin={localStorage.getItem("admin") === "logado"}
+            type="admin"
           >
             <Dashboard />
           </ProtectedRoute>
@@ -71,8 +80,8 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="user/:id_usuario"
             isAdmin={localStorage.getItem("admin") === "logado"}
+            type="admin"
           >
             <UserDetails />
           </ProtectedRoute>
@@ -83,7 +92,7 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="login"
+            type="deslogado"
           >
             <Login />
           </ProtectedRoute>
@@ -94,7 +103,7 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="register"
+            type="deslogado"
           >
             <Register />
           </ProtectedRoute>
@@ -105,8 +114,8 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="timeline/:id_usuario"
             isAdmin={localStorage.getItem("admin") === "logado"}
+            type="admin"
           >
             <TimeLine />
           </ProtectedRoute>
@@ -117,8 +126,8 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute
             token={localStorage.getItem("ACCESS_TOKEN")}
-            pathName="profile/:id_usuario"
             isAdmin={localStorage.getItem("admin") === "logado"}
+            type="admin"
           >
             <Profile />
           </ProtectedRoute>
