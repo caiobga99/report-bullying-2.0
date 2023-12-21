@@ -96,6 +96,59 @@ const signupFields: FormFields[] = [
   },
 ];
 
+const updateFields: FormFields[] = [
+  {
+    labelText: "Nome",
+    labelFor: "Nome",
+    id: "nome",
+    name: "nome",
+    type: "text",
+    autoComplete: "Nome",
+    isRequired: true,
+    placeholder: "Nome",
+  },
+  {
+    labelText: "RA",
+    labelFor: "RA",
+    id: "ra",
+    name: "ra",
+    type: "text",
+    autoComplete: "RA",
+    isRequired: true,
+    placeholder: "RA",
+  },
+  {
+    labelText: "senha",
+    labelFor: "senha",
+    id: "senha",
+    name: "senha",
+    type: "password",
+    autoComplete: "current-password",
+    isRequired: true,
+    placeholder: "Senha",
+  },
+  {
+    labelText: "Confirmar Senha",
+    labelFor: "confirmar-senha",
+    id: "confirmar-senha",
+    name: "confirmar-senha",
+    type: "password",
+    autoComplete: "confirmar-senha",
+    isRequired: true,
+    placeholder: "Confirmar Senha",
+  },
+  {
+    labelText: "Imagem de Perfil",
+    labelFor: "imagem-perfil",
+    id: "imagem",
+    name: "imagem",
+    type: "file",
+    autoComplete: "imagem-perfil",
+    isRequired: false,
+    placeholder: "Imagem de Perfil",
+  },
+];
+
 const reportFields: FormFields[] = [
   {
     labelText: "Titulo",
@@ -120,4 +173,4 @@ const reportFields: FormFields[] = [
   },
 ];
 
-export { loginFields, signupFields, reportFields };
+export { loginFields, signupFields, reportFields, updateFields };
