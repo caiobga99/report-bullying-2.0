@@ -22,24 +22,65 @@ import {
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import showToastMessage from "../../utils/showToastMessage";
+import axios from "axios";
+interface Links {
+  url: string;
+  active: boolean;
+  label: string;
+}
+interface PageDetails {
+  to: number;
+  total: number;
+}
 const Dashboard = () => {
   const [users, setUsers] = useState<User[] | null>(null);
+  const [respostasLength, setRespostasLength] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [denunciasIsLoading, setDenunciasIsLoading] = useState<boolean>(true);
+  const [respostasIsLoading, setRespostasIsLoading] = useState<boolean>(true);
   const [show, setShow] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<string>(
+    "http://127.0.0.1:8000/usuarios?page=1"
+  );
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
+  const [pageDetails, setPageDetails] = useState<PageDetails>({
+    total: 0,
+    to: 0,
+  });
+  const [links, setLinks] = useState<Links[]>([]);
+
   const [searchType, setSearchType] = useState<
     "email" | "RA" | "id_usuario" | "nome"
   >("email");
   useEffect(() => {
-    api
-      .get("/usuarios")
-      .then((res) => {
-        setIsLoading(false);
-        setUsers(res.data);
+    setIsLoading(true);
+    axios
+      .get(`${page}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+        },
       })
-      .catch((err) => console.log(err.message));
+      .then((res) => {
+        setLinks(res.data.links);
+        setPageDetails({ to: res.data.to, total: res.data.total });
+        setIsLoading(false);
+        setUsers(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        showToastMessage(err.message, "error");
+      });
+    api
+      .get("/respostas")
+      .then((res) => {
+        setRespostasLength(res.data.length);
+        setRespostasIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        showToastMessage(err.message, "error");
+      });
     api
       .get("/denuncias")
       .then((res) => {
@@ -50,7 +91,7 @@ const Dashboard = () => {
         console.log(err.message);
         showToastMessage(err.message, "error");
       });
-  }, []);
+  }, [page]);
   const filteredUsers = useMemo(() => {
     const check = users?.filter((user) =>
       user[searchType]?.toLowerCase().includes(search.trim().toLowerCase())
@@ -65,11 +106,11 @@ const Dashboard = () => {
           <Spinner />
         </div>
       ) : (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-w-[80%] min-h-full">
-          <div className="flex gap-5">
-            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-w-[80%] min-h-full ">
+          <div className="flex gap-5 flex-wrap">
+            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
               <div className="p-4 flex items-center">
-                <div className="p-3 rounded-full text-orange-500 dark:text-orange-100 bg-orange-100 dark:bg-orange-500 mr-4">
+                <div className="p-3 rounded-full text-orange-500 transition-all duration-500 dark:text-orange-100 bg-orange-100 dark:bg-orange-500 mr-4">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -79,19 +120,19 @@ const Dashboard = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total de usuarios
+                  <p className="mb-2 transition-all duration-500 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Total de Usuarios
                   </p>
-                  <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    {users?.length}
+                  <p className="text-lg font-semibold transition-all duration-500 text-gray-700 dark:text-gray-200">
+                    {pageDetails.total}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white dark:bg-gray-800">
+            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white  dark:bg-gray-800 transition-all duration-500">
               <div className="p-4 flex items-center">
-                <div className="p-3 rounded-full text-teal-500 dark:text-teal-100 bg-teal-100 dark:bg-teal-500 mr-4">
+                <div className="p-3 rounded-full text-teal-500 dark:text-teal-100 transition-all duration-500 bg-teal-100 dark:bg-teal-500 mr-4">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -105,23 +146,54 @@ const Dashboard = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total de denuncias
+                  <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-500">
+                    Total de Denuncias
                   </p>
                   {denunciasIsLoading ? (
                     <div className="flex items-center justify-center pr-5">
                       <Spinner />
                     </div>
                   ) : (
-                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200 transition-all duration-500">
                       {denuncias.length}
                     </p>
                   )}
                 </div>
               </div>
             </div>
+            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
+              <div className="p-4 flex items-center">
+                <div className="p-3 rounded-full text-green-500 transition-all duration-500 dark:text-green-100 bg-green-100 dark:bg-green-500 mr-4">
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-500">
+                    Total de Respostas
+                  </p>
+                  {respostasIsLoading ? (
+                    <div className="flex items-center justify-center pr-5">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200 transition-all duration-500">
+                      {respostasLength}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-light dark:bg-gray-900">
+          <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-light dark:bg-gray-900 transition-all duration-500">
             <div className="flex gap-4 items-center">
               <Dropdown
                 label="Pesquise por"
@@ -238,8 +310,8 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-light dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 transition-all duration-500">
+            <thead className="text-xs text-gray-700 uppercase bg-light dark:bg-gray-700 dark:text-gray-400 transition-all duration-500">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Nome
@@ -299,12 +371,12 @@ const Dashboard = () => {
                         key={user.id_usuario}
                       >
                         <tr
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          className="bg-white border-b dark:bg-gray-800 transition-all duration-500 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           key={user.id_usuario}
                         >
                           <th
                             scope="row"
-                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                            className="flex items-center px-6 py-4 transition-all duration-500 text-gray-900 whitespace-nowrap dark:text-white"
                           >
                             <img
                               className="w-10 h-10 rounded-full"
@@ -343,7 +415,7 @@ const Dashboard = () => {
                           </td>
                           <td className="px-6 py-4">
                             <PopoverHandler>
-                              <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
+                              <span className="font-medium transition-all duration-500 text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
                                 Visualizar Usuario
                               </span>
                             </PopoverHandler>
@@ -401,7 +473,7 @@ const Dashboard = () => {
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
                               }}
-                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              className="bg-gray-900 text-white dark:bg-gray-600 transition-all duration-500"
                               content="Clique em 'Perfil' para ir à uma nova pagina!"
                             >
                               <Link to={`/profile/${user.id_usuario}`}>
@@ -421,7 +493,7 @@ const Dashboard = () => {
                               </Link>
                             </TooltipMaterial>
                             <TooltipMaterial
-                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              className="bg-gray-900 text-white dark:bg-gray-600 transition-all duration-500"
                               animate={{
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
@@ -486,12 +558,12 @@ const Dashboard = () => {
                         key={user.id_usuario}
                       >
                         <tr
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                          className="bg-white border-b transition-all duration-500 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                           key={user.id_usuario}
                         >
                           <th
                             scope="row"
-                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white transition-all duration-500"
                           >
                             <img
                               className="w-10 h-10 rounded-full"
@@ -530,7 +602,7 @@ const Dashboard = () => {
                           </td>
                           <td className="px-6 py-4">
                             <PopoverHandler>
-                              <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">
+                              <span className="font-medium text-blue-600 transition-all duration-500 dark:text-blue-500 hover:underline hover:cursor-pointer">
                                 Visualizar Usuario
                               </span>
                             </PopoverHandler>
@@ -588,7 +660,7 @@ const Dashboard = () => {
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
                               }}
-                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              className="bg-gray-900 transition-all duration-500 text-white dark:bg-gray-600"
                               content="Clique em 'Perfil' para ir à uma nova pagina!"
                             >
                               <Link to={`/profile/${user.id_usuario}`}>
@@ -608,7 +680,7 @@ const Dashboard = () => {
                               </Link>
                             </TooltipMaterial>
                             <TooltipMaterial
-                              className="bg-gray-900 text-white dark:bg-gray-600"
+                              className="bg-gray-900 text-white transition-all duration-500 dark:bg-gray-600"
                               animate={{
                                 mount: { scale: 1, y: 0 },
                                 unmount: { scale: 0, y: 25 },
@@ -664,7 +736,45 @@ const Dashboard = () => {
                   })}
             </tbody>
           </table>
-          
+          <nav
+            className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
+            aria-label="Table navigation"
+          >
+            <span className="text-sm font-normal  pl-2 text-gray-500 transition-all duration-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
+              Mostrando{" "}
+              <span className="font-semibold text-gray-900 transition-all duration-500 dark:text-white">
+                {pageDetails.to}
+              </span>{" "}
+              de{" "}
+              <span className="font-semibold text-gray-900 transition-all duration-500 dark:text-white">
+                {pageDetails.total}
+              </span>
+            </span>
+            <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 pr-2">
+              {links.map((link, index) => (
+                <li key={index}>
+                  <span
+                    className={
+                      !link.active
+                        ? "flex items-center justify-center px-3 h-8 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 transition-all duration-500  dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+                        : "flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 transition-all duration-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                    }
+                    onClick={() => {
+                      !link.url
+                        ? setPage("http://127.0.0.1:8000/usuarios?page=1")
+                        : setPage(link.url);
+                    }}
+                  >
+                    {link.label === "&laquo; Previous"
+                      ? "Anterior"
+                      : link.label === "Next &raquo;"
+                      ? "Proximo"
+                      : link.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       )}
     </div>
