@@ -19,8 +19,7 @@ class UsuarioController extends Controller
     {
 
         $token = csrf_token();
-        $usuarios = User::all();
-        echo $token . "\n";
+        $usuarios = User::paginate();
         return $usuarios;
     }
 
