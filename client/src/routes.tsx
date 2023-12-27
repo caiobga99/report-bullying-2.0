@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import ProfileDemo from "./pages/ProfileDemo";
 import Notfound from "./pages/NotFound";
 import Denuncie from "./pages/Denuncie";
 import useUser from "./common/User";
@@ -51,7 +52,17 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
-
+      <Route
+        path="/profileDemo"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            type="logado"
+          >
+            <ProfileDemo />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/denuncie"
         element={
@@ -133,7 +144,18 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
-
+      <Route
+        path="/profileDemo/:id_usuario"
+        element={
+          <ProtectedRoute
+            token={localStorage.getItem("ACCESS_TOKEN")}
+            isAdmin={localStorage.getItem("admin") === "logado"}
+            type="admin"
+          >
+            <ProfileDemo />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Home />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="*" element={<Notfound />} />

@@ -33,3 +33,12 @@ export interface Resposta {
   id_usuario: string;
   updated_at?: string;
 }
+
+export interface Comentarios {
+  mensagem: string;
+  created_at?: string;
+  id_denuncia: string;
+  id_resposta?: string;
+  id_usuario: string;
+  updated_at?: string;
+}

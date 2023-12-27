@@ -103,7 +103,13 @@ const Register = () => {
                 placeholder={field.placeholder}
                 registerInput={register(field.name, {
                   required: field.isRequired,
-                  minLength: field.name === "ra" ? 0 : undefined,
+                  minLength: field.name === "ra" ? 9 : undefined,
+                  maxLength:
+                    field.name === "nome" || field.name === "email"
+                      ? 30
+                      : field.name === "ra"
+                      ? 20
+                      : undefined,
                   validate: (value: string) => {
                     if (field.name === "confirmar-senha") {
                       return value === watchPassword;

@@ -90,17 +90,26 @@ export default function FormInput({
           />
         </>
       )}
-
       {typeError === "required" && (
         <div className="text-red-500 text-sm italic">
           Preencha o campo {id} corretamente!
+        </div>
+      )}
+      {typeError === "maxLength" && id !== "ra" && (
+        <div className="text-red-500 text-sm italic">
+          Nome pode ter no maximo 30 caracteres!
+        </div>
+      )}
+      {typeError === "maxLength" && id === "ra" && (
+        <div className="text-red-500 text-sm italic">
+          O limite maximo de caracteres é de 20!
         </div>
       )}
       {typeError === "validate" && id === "email" && (
         <div className="text-red-500 text-sm italic">Email invalido!</div>
       )}
       {typeError === "validate" && id === "confirmar-senha" ? (
-        <div className="text-red-500 text-sm italic">Senhas não conferem</div>
+        <div className="text-red-500 text-sm italic">Senhas não conferem.</div>
       ) : null}
       {typeError === "validate" && id === "imagem" ? (
         <div className="text-red-500 text-sm italic">
@@ -110,7 +119,7 @@ export default function FormInput({
       ) : null}
       {typeError === "minLength" && id === "ra" ? (
         <div className="text-red-500 text-sm italic">
-          RA precisa ter no minimo 9 caracteres
+          RA precisa ter no minimo 9 caracteres!
         </div>
       ) : null}
     </div>

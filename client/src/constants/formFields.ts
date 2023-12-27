@@ -173,4 +173,18 @@ const reportFields: FormFields[] = [
   },
 ];
 
-export { loginFields, signupFields, reportFields, updateFields };
+const commentFields: FormFields = [
+  {
+    labelText: "Comentario",
+    labelFor: "Comentario",
+    id: "comentario",
+    name: "comentario",
+    type: "text",
+    autoComplete: "Comentario",
+    isRequired: true,
+    placeholder: "Comentario",
+    inputType: "textarea",
+  },
+];
+
+export { loginFields, signupFields, reportFields, updateFields, commentFields };
