@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RespostaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ComentarioController;
 use App\Mail\DenunciasCreated;
 use Illuminate\Support\Facades\Route;
 
@@ -55,8 +56,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::delete("/usuarios/{id_usuario}", [UsuarioController::class, "destroy"]);
     Route::get("/denuncia", [DenunciaController::class, "show"]);
     Route::post("/denuncias", [DenunciaController::class, "store"]);
+    Route::get("/comentario/{id_denuncia}/{id_usuario}", [ComentarioController::class, "show"]);
     Route::resource("respostas", RespostaController::class);
-
+    Route::resource("comentarios", ComentarioController::class);
     Route::middleware(["admin"])->group(function () {
         Route::get("/usuarios", [UsuarioController::class, "index"]);
 
