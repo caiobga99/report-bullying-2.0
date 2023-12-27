@@ -1,0 +1,91 @@
+import { Modal, Spinner, Button } from "flowbite-react";
+import api from "../../lib/api";
+import { commentFields } from "../../constants/formFields";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import FormInput from "../../components/FormInput";
+import showToastMessage from "../../utils/showToastMessage";
+
+interface ModalComponentProps {
+  openModal: boolean;
+  id_denuncia: string;
+  id_usuario: string;
+  setOpenModal: (value: boolean) => void;
+}
+interface FormData {
+  mensagem: string;
+  id_denuncia: string;
+}
+const ModalComponent = ({
+  openModal,
+  setOpenModal,
+  id_denuncia,
+  id_usuario,
+}: ModalComponentProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<FormData>();
+  const onSubmit = ({ mensagem }: FormData) => {
+    console.log(mensagem, id_usuario);
+    setIsLoading(true);
+    api
+      .post(`/comentarios/${id_denuncia}`, {
+        mensagem: mensagem,
+        id_usuario: id_usuario,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setIsLoading(false);
+        {
+          showToastMessage(res.data.message, "sucess");
+          setOpenCommentModal(0);
+          reset();
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        if (error.message === "Request failed with status code 500") {
+          showToastMessage("Ocorreu um erro ao editar o seu usuario!", "error");
+        }
+      });
+  };
+  return (
+    <Modal show={openModal} onClose={() => setOpenModal(false)} size="md" className="font-dm " popup>
+      <Modal.Header />
+      <Modal.Body>
+        {isLoading ? (
+            <Spinner />
+        ) : (
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Faça um comentario!
+            </h3>
+            {commentFields.map((field) => (
+              <FormInput
+                key={field.id}
+                labelText={field.labelText}
+                labelFor={field.labelFor}
+                id={field.id}
+                type={field.type}
+                isRequired={field.isRequired}
+                placeholder={field.placeholder}
+                registerInput={register(field.name, {
+                  required: field.isRequired,
+                })}
+                typeError={errors[field.name]?.type}
+              />
+            ))}
+            <div className="w-full">
+              <Button onClick={handleSubmit(onSubmit)}>Comentar!</Button>
+            </div>
+          </div>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+};
+export default ModalComponent;
