@@ -35,9 +35,12 @@ interface PageDetails {
 const Dashboard = () => {
   const [users, setUsers] = useState<User[] | null>(null);
   const [respostasLength, setRespostasLength] = useState<number>(0);
+  const [comentariosLength, setComentariosLength] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [denunciasIsLoading, setDenunciasIsLoading] = useState<boolean>(true);
   const [respostasIsLoading, setRespostasIsLoading] = useState<boolean>(true);
+  const [comentariosIsLoading, setComentariosIsLoading] =
+    useState<boolean>(true);
   const [show, setShow] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<string>(
@@ -82,6 +85,16 @@ const Dashboard = () => {
         showToastMessage(err.message, "error");
       });
     api
+      .get("/comentarios")
+      .then((res) => {
+        setComentariosLength(res.data.length);
+        setComentariosIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        showToastMessage(err.message, "error");
+      });
+    api
       .get("/denuncias")
       .then((res) => {
         setDenuncias(res.data);
@@ -107,8 +120,8 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-w-[80%] min-h-full ">
-          <div className="flex gap-5 flex-wrap">
-            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
+          <div className="flex gap-5 flex-wrap items-center justify-center">
+            <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
               <div className="p-4 flex items-center">
                 <div className="p-3 rounded-full text-orange-500 transition-all duration-500 dark:text-orange-100 bg-orange-100 dark:bg-orange-500 mr-4">
                   <svg
@@ -130,7 +143,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden bg-white  dark:bg-gray-800 transition-all duration-500">
+            <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden bg-white  dark:bg-gray-800 transition-all duration-500">
               <div className="p-4 flex items-center">
                 <div className="p-3 rounded-full text-teal-500 dark:text-teal-100 transition-all duration-500 bg-teal-100 dark:bg-teal-500 mr-4">
                   <svg
@@ -161,7 +174,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="min-w-0 rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
+            <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
               <div className="p-4 flex items-center">
                 <div className="p-3 rounded-full text-green-500 transition-all duration-500 dark:text-green-100 bg-green-100 dark:bg-green-500 mr-4">
                   <svg
@@ -187,6 +200,37 @@ const Dashboard = () => {
                   ) : (
                     <p className="text-lg font-semibold text-gray-700 dark:text-gray-200 transition-all duration-500">
                       {respostasLength}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
+              <div className="p-4 flex items-center">
+                <div className="p-3 rounded-full text-gray-500 transition-all duration-500 dark:text-gray-100 bg-gray-100 dark:bg-gray-500 mr-4">
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-500">
+                    Total de Comentarios
+                  </p>
+                  {comentariosIsLoading ? (
+                    <div className="flex items-center justify-center pr-5">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <p className="text-lg font-semibold text-gray-700 dark:text-gray-200 transition-all duration-500">
+                      {comentariosLength}
                     </p>
                   )}
                 </div>
