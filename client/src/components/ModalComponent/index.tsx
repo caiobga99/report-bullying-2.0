@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Resposta } from "../../utils/protocols";
 
 interface ModalComponentProps {
-  openModal: boolean;
+  openModal: number;
   id_denuncia: string;
   id_usuario: string;
   titulo: string;
