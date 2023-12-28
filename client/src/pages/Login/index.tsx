@@ -47,6 +47,7 @@ const Login = () => {
     api.post(`/login`, data).then((res) => {
       setUser(res.data.user);
       setToken(res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       switch (res.data.message) {
         case "Usuario Logado com Sucesso!":
           setIsLogged(true);

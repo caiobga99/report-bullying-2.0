@@ -66,6 +66,7 @@ export default function Navbar() {
     api.post("/logout").then((res) => {
       localStorage.removeItem("usuario_anonimo");
       localStorage.removeItem("admin");
+      localStorage.removeItem("user");
       if (!lembrarMe) {
         localStorage.removeItem("ACCESS_TOKEN");
       }
