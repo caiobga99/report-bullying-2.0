@@ -7,6 +7,7 @@ use App\Models\Denuncia;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DenunciaController extends Controller
 {
@@ -15,8 +16,24 @@ class DenunciaController extends Controller
      */
     public function index(Denuncia $denuncia)
     {
-        $denuncia = Denuncia::all()->sortBy("created_at");
-        // orderBy('created_at', 'ASC')->get()
+
+        // $denunciasComComentarios = Denuncia::select('denuncias.*')
+        //     ->addSelect(DB::raw('JSON_ARRAYAGG(JSON_OBJECT("id_comentario", comentarios.id_comentario, "id_usuario", comentarios.id_usuario, "mensagem", comentarios.mensagem, "created_at", comentarios.created_at, "updated_at", comentarios.updated_at)) AS comentarios_relacionados'))
+        //     ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia')
+        //     ->groupBy('denuncias.id_denuncia', 'denuncias.titulo', 'denuncias.mensagem', 'denuncias.id_usuario', 'denuncias.created_at', 'denuncias.updated_at', 'denuncias.email', 'denuncias.nome', 'denuncias.RA')
+        //     ->get();
+
+        // $denunciasFormatadas = $denunciasComComentarios->map(function ($denuncia) {
+        //     $denuncia['comentarios_relacionados'] = json_decode($denuncia['comentarios_relacionados'], true);
+        //     return [
+        //         'denuncia' => $denuncia,
+        //     ];
+        // })->toArray();
+
+        // $denuncia = Denuncia::all()->sortBy("created_at")
+        //     ->orderBy('created_at', 'ASC')
+        //     ->get();
+        $denuncia = Denuncia::all();
         return $denuncia;
     }
 
@@ -65,14 +82,41 @@ class DenunciaController extends Controller
     public function show()
     {
         $id = Auth::id();
-        $denuncia = Denuncia::all()->where('id_usuario', $id)->sortByDesc("created_at")->values();
-        return $denuncia;
+        $denunciasComComentarios = Denuncia::select('denuncias.*')
+            ->addSelect(DB::raw('JSON_ARRAYAGG(JSON_OBJECT("id_comentario", comentarios.id_comentario, "id_usuario", comentarios.id_usuario, "mensagem", comentarios.mensagem, "nome", comentarios.nome, "image", comentarios.image, "created_at", comentarios.created_at, "updated_at", comentarios.updated_at)) AS comentarios_relacionados'))
+            ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia')
+            ->where('denuncias.id_usuario', $id)
+            ->groupBy('denuncias.id_denuncia', 'denuncias.titulo', 'denuncias.mensagem', 'denuncias.id_usuario', 'denuncias.created_at', 'denuncias.updated_at', 'denuncias.email', 'denuncias.nome', 'denuncias.RA')
+            ->get();
+        $denunciasFormatadas = $denunciasComComentarios->map(function ($denuncia) {
+            $denuncia['comentarios_relacionados'] = json_decode($denuncia['comentarios_relacionados'], true);
+            return [
+                'denuncia' => $denuncia,
+            ];
+        })->toArray();
+        return $denunciasFormatadas;
     }
 
     public function getDenunciaById(string $id_usuario)
     {
-        $denuncia = Denuncia::all()->where('id_usuario', $id_usuario)->sortByDesc("created_at")->values();
-        return $denuncia;
+        if ($id_usuario == null) {
+            $id = Auth::id();
+        } else {
+            $id = $id_usuario;
+        }
+        $denunciasComComentarios = Denuncia::select('denuncias.*')
+        ->addSelect(DB::raw('JSON_ARRAYAGG(JSON_OBJECT("id_comentario", comentarios.id_comentario, "id_usuario", comentarios.id_usuario, "mensagem", comentarios.mensagem, "nome", comentarios.nome, "image", comentarios.image, "created_at", comentarios.created_at, "updated_at", comentarios.updated_at)) AS comentarios_relacionados'))
+        ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia')
+        ->where('denuncias.id_usuario', $id)
+        ->groupBy('denuncias.id_denuncia', 'denuncias.titulo', 'denuncias.mensagem', 'denuncias.id_usuario', 'denuncias.created_at', 'denuncias.updated_at', 'denuncias.email', 'denuncias.nome', 'denuncias.RA')
+        ->get();
+    $denunciasFormatadas = $denunciasComComentarios->map(function ($denuncia) {
+        $denuncia['comentarios_relacionados'] = json_decode($denuncia['comentarios_relacionados'], true);
+        return [
+            'denuncia' => $denuncia,
+        ];
+    })->toArray();
+    return $denunciasFormatadas;
     }
 
 
