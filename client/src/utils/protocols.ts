@@ -8,6 +8,7 @@ export interface Denuncias {
   nome: string;
   titulo: string;
   updated_at: string;
+  comentarios_relacionados?: Comentarios[];
 }
 
 export interface User {
@@ -41,4 +42,8 @@ export interface Comentarios {
   id_resposta?: string;
   id_usuario: string;
   updated_at?: string;
+}
+
+export interface Data {
+  denuncias?: Denuncias[];
 }
