@@ -177,8 +177,8 @@ const commentFields: FormFields = [
   {
     labelText: "Comentario",
     labelFor: "Comentario",
-    id: "comentario",
-    name: "comentario",
+    id: "mensagem",
+    name: "mensagem",
     type: "text",
     autoComplete: "Comentario",
     isRequired: true,
