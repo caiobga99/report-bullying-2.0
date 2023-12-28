@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('comentarios', function (Blueprint $table) {
             $table->uuid("id_comentario")->primary();
             $table->longText("mensagem");
+            $table->string("nome", 45);
+            $table->string('image');
             $table->foreignIdFor(User::class, "id_usuario")->nullable();
             $table->foreignIdFor(Denuncia::class, "id_denuncia");
             $table->timestamps();
