@@ -4,13 +4,13 @@ import api from "../../lib/api";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Denuncias, User } from "../../utils/protocols";
+import { Data, User, Denuncia } from "../../utils/protocols";
 import showToastMessage from "../../utils/showToastMessage";
 import UserCard from "../../components/UserCard";
 import { useTema } from "../../common/Tema";
 const TimeLine = () => {
   const { id_usuario } = useParams();
-  const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
@@ -28,7 +28,7 @@ const TimeLine = () => {
               "Este usuario não realizou nenhuma denuncia ainda!",
               "info"
             );
-          setDenuncias(response.data);
+          setData(response.data);
         })
         .catch((err) => {
           setIsLoading(false);
@@ -42,16 +42,16 @@ const TimeLine = () => {
             showToastMessage("Nenhuma denuncia foi realizada ainda!", "info");
           }
           setIsLoading(false);
-          setDenuncias(response.data);
+          setData(response.data);
         })
         .catch((err) => console.log(err.message));
     } else {
       const denuncias_anonimas: string | null =
         localStorage.getItem("denuncias_anonimas");
       if (!denuncias_anonimas) {
-        setDenuncias([]);
+        setData([]);
       } else {
-        setDenuncias(JSON.parse(denuncias_anonimas));
+        setData(JSON.parse(denuncias_anonimas));
       }
       setIsLoading(false);
     }
@@ -135,7 +135,7 @@ const TimeLine = () => {
                 ).toString()}
                 email={user?.email}
                 nome={user?.nome}
-                quantidade_denuncias={denuncias.length}
+                quantidade_denuncias={data.length}
                 ra={user?.RA}
                 theme={pegarTema}
                 tipo_usuario={
@@ -155,26 +155,26 @@ const TimeLine = () => {
             {!isLoading ? (
               <>
                 <div className="relative wrap overflow-hidden p-10 h-full">
-                  {denuncias.length <= 0 ? (
+                  {data.length <= 0 ? (
                     <div className="flex items-end justify-center text-xl">
                       Nenhuma Denuncia Foi Realizada Ainda!
                     </div>
                   ) : (
                     <></>
                   )}
-                  {denuncias.length !== 0 && (
+                  {data.length !== 0 && (
                     <>
                       <div className="border-2-2 border-yellow-555 absolute h-full  right-1/2 border-solid border-2 border-borderColor rounded"></div>
                       <div className="border-2-2 border-yellow-555 absolute h-full  right-1/2 border-solid border-2 border-borderColor rounded"></div>
                     </>
                   )}
-                  {denuncias.map((value: Denuncias, index: number) => (
+                  {data.map(({ denuncia }: Denuncia, index: number) => (
                     <TimeLineComponent
                       key={index}
-                      content={value.mensagem}
-                      title={value.titulo}
+                      content={denuncia.mensagem}
+                      title={denuncia.titulo}
                       date={format(
-                        new Date(value.created_at),
+                        new Date(denuncia.created_at),
                         "dd/MM/yyyy"
                       ).toString()}
                       position={index % 2 != 0 ? "right" : "left"}
@@ -182,7 +182,7 @@ const TimeLine = () => {
                     />
                   ))}
                 </div>
-                {denuncias.length !== 0 && (
+                {data.length !== 0 && (
                   <>
                     <div className="mx-auto -mt-20 md:-mt-20"></div>
                     <img
