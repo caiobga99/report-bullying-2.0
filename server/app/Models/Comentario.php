@@ -13,7 +13,7 @@ class Comentario extends Model
 
     protected $table = "comentarios";
     protected $primaryKey = "id_comentario";
-    protected $fillable = ["id_comentario", "mensagem", "id_usuario", "id_denuncia"];
+    protected $fillable = ["id_comentario", "mensagem", "id_usuario", "id_denuncia", "nome", "image"];
 
     public function usuarios()
     {

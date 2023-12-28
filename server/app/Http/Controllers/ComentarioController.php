@@ -31,11 +31,13 @@ class ComentarioController extends Controller
     public function store(Request $request)
     {
         $request["id_usuario"] = Auth::id();
+        $request["nome"] = Auth::user()->nome;
+        $request["image"] = Auth::user()->image;
         $comentario = Comentario::create($request->all());
         return response()->json([
             "status" => "success",
             "message" => "Comentario criado com Sucesso!",
-            "denuncia" => $comentario,
+            "comentario" => $comentario,
         ]);
     }
 
@@ -47,7 +49,7 @@ class ComentarioController extends Controller
         if (Auth::user()->tipo_usuario != 1) {
             $id_usuario = Auth::id();
         }
-        $comentario = Comentario::where(["id_denuncia" => $id_denuncia, "id_usuario" => $id_usuario])->sortByDesc("created_at")->values();
+        $comentario = Comentario::where(["id_denuncia" => $id_denuncia, "id_usuario" => $id_usuario])->get();
         return $comentario;
     }
 
