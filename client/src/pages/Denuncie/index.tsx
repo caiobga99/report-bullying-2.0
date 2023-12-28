@@ -58,7 +58,9 @@ const Denuncie: React.FC = () => {
               // const respostasLocalStorage: string | null =
               //   localStorage.getItem("respostas_anonimas");
               if (!denunciasLocalStorage) {
-                const arrDenuncias: Denuncias[] = [res.data.denuncia];
+                const arrDenuncias: Denuncias[] = [
+                  { denuncia: res.data.denuncia },
+                ];
                 const arrRespostas: object[] = [res.data.resposta.denuncia];
                 localStorage.setItem(
                   "denuncias_anonimas",
@@ -77,7 +79,7 @@ const Denuncie: React.FC = () => {
                 const arrRespostas: object[] = JSON.parse(
                   denunciasLocalStorage
                 );
-                arrDenuncias.push(res.data.denuncia);
+                arrDenuncias.push({ denuncia: res.data.denuncia });
                 arrRespostas.push(res.data.resposta.denuncia);
                 localStorage.setItem(
                   "denuncias_anonimas",
