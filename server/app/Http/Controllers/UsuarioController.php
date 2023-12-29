@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -18,8 +19,17 @@ class UsuarioController extends Controller
     public function index()
     {
 
-        $token = csrf_token();
-        $usuarios = User::paginate();
+        $usuarios = User::withCount(['denuncias', 'denuncias as total_comentarios' => function ($query) {
+            $query->select(DB::raw('coalesce(count(comentarios.id_comentario), 0) as total_comentarios'))
+                ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia');
+        }])
+            ->select('id_usuario', 'email', 'nome', 'RA', 'tipo_usuario', 'image', 'created_at', 'updated_at')
+            ->paginate();
+        // isso faz o retorno dos usuarios, com a quantidade de denuncias/comentarios realizados
+        // Removendo o campo 'denuncias' do resultado
+        // $usuarios->each(function ($usuario) {
+        //     unset($usuario->denuncias);
+        // });
         return $usuarios;
     }
 
