@@ -6,7 +6,7 @@ import FormInput from "../../components/FormInput";
 import showToastMessage from "../../utils/showToastMessage";
 
 interface ModalComponentProps {
-  openModal: number;
+  openModal: boolean;
   id_denuncia: string;
   id_usuario: string;
   setOpenModal: (value: number) => void;
@@ -38,7 +38,7 @@ const ModalComponent = ({
       .then((res) => {
         {
           showToastMessage(res.data.message, "sucess");
-          setOpenModal(false);
+          setOpenModal(0);
           reset();
         }
       })
@@ -52,7 +52,7 @@ const ModalComponent = ({
   return (
     <Modal
       show={openModal}
-      onClose={() => setOpenModal(false)}
+      onClose={() => setOpenModal(0)}
       size="md"
       className="font-dm "
       popup

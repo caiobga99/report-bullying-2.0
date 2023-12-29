@@ -173,7 +173,7 @@ const reportFields: FormFields[] = [
   },
 ];
 
-const commentFields: FormFields = [
+const commentFields: FormFields[] = [
   {
     labelText: "Comentario",
     labelFor: "Comentario",

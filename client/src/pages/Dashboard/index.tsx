@@ -69,6 +69,17 @@ const Dashboard = () => {
         setPageDetails({ to: res.data.to, total: res.data.total });
         setIsLoading(false);
         setUsers(res.data.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        showToastMessage(err.message, "error");
+      });
+    api
+      .get("/denuncias")
+      .then((res) => {
+        setDenuncias(res.data);
+        setDenunciasIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
@@ -89,16 +100,6 @@ const Dashboard = () => {
       .then((res) => {
         setComentariosLength(res.data.length);
         setComentariosIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.message);
-        showToastMessage(err.message, "error");
-      });
-    api
-      .get("/denuncias")
-      .then((res) => {
-        setDenuncias(res.data);
-        setDenunciasIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
@@ -494,10 +495,9 @@ const Dashboard = () => {
                               <ListItemPrefix>
                                 <CalendarDaysIcon width={20} height={20} />
                               </ListItemPrefix>
-                              {format(
-                                new Date(user.created_at),
-                                "dd/MM/yyyy"
-                              ).toString()}
+                              {user!.total_comentarios === 1
+                                ? `${user!.total_comentarios} Comentario`
+                                : `${user!.total_comentarios} Comentarios`}
                             </ListItem>{" "}
                             <ListItem
                               className="hover:bg-white hover:text-gray-600 hover:cursor-default"
@@ -510,7 +510,9 @@ const Dashboard = () => {
                                   fill="none"
                                 />
                               </ListItemPrefix>
-                              {user.id_usuario}
+                              {user!.total_denuncias === 1
+                                ? `${user!.total_denuncias} Denuncia`
+                                : `${user!.total_denuncias} Denuncias`}
                             </ListItem>
                             <TooltipMaterial
                               animate={{
@@ -549,6 +551,7 @@ const Dashboard = () => {
                                   color="blue"
                                   className="hover:bg-blue-300 hover:text-black"
                                 >
+                                <ListItemPrefix>
                                   <svg
                                     id="Timeline"
                                     width="24"
@@ -582,6 +585,7 @@ const Dashboard = () => {
                                       />
                                     </g>
                                   </svg>
+                                  </ListItemPrefix>
                                   TimeLine
                                 </ListItem>
                               </Link>
@@ -781,7 +785,7 @@ const Dashboard = () => {
             </tbody>
           </table>
           <nav
-            className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
+            className="flex items-center flex-wrap md:flex-row justify-center md:justify-between lg:justify-between pt-4 "
             aria-label="Table navigation"
           >
             <span className="text-sm font-normal  pl-2 text-gray-500 transition-all duration-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">
@@ -794,7 +798,7 @@ const Dashboard = () => {
                 {pageDetails.total}
               </span>
             </span>
-            <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 pr-2">
+            <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8 pr-2 pb-10">
               {links.map((link, index) => (
                 <li key={index}>
                   <span

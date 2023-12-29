@@ -193,7 +193,7 @@ const Profile = () => {
           : "bg-light text-black py-8 min-h-screen font-dm transition-all duration-500"
       }
     >
-      <div className="container mx-auto flex flex-col items-start md:flex-row ">
+      <div className="container mx-auto flex flex-col items-start md:flex-row">
         <div className="flex flex-col w-full sticky md:top-36 lg:w-1/3 px-8">
           {isLoading || isLoadingUser ? (
             <>
@@ -395,8 +395,8 @@ const Profile = () => {
           <div
             className={
               isLoading
-                ? `container mx-auto py-4 flex flex-wrap gap-4 items-center justify-center min-h-screen min-w-full ${
-                    pegarTema === "dark" ? "bg-dark" : "bg-light"
+                ? `container mx-auto py-4 flex flex-wrap transition-all duration-500 gap-4 items-center justify-center min-h-screen  min-w-full ${
+                    pegarTema === "dark" ? " bg-dark " : " bg-light"
                   }`
                 : pegarTema === "light"
                 ? " container mx-auto py-4 flex flex-wrap gap-4 min-w-full min-h-screen items-center flex-col justify-center transition-all duration-500 bg-light"
@@ -404,11 +404,7 @@ const Profile = () => {
             }
           >
             {isLoading || isLoadingUser ? (
-              <div
-                className={`flex items-center justify-center ${
-                  pegarTema === "dark" && "bg-dark w-screen h-screen"
-                }`}
-              >
+              <div className="flex items-center transition-all dark:bg-dark duration-500 justify-center h-full">
                 <Spinner />
               </div>
             ) : data.length <= 0 ? (
@@ -435,7 +431,7 @@ const Profile = () => {
                         />
                         <div>
                           <p className="text-gray-800 font-semibold">
-                            {user.nome}
+                            {user?.nome}
                           </p>
                           <p className="text-gray-500 text-sm">
                             Criada em{" "}
@@ -474,14 +470,20 @@ const Profile = () => {
                       id_denuncia={denuncia.id_denuncia}
                       id_usuario={denuncia.id_usuario}
                     />
+                    {/* <!-- Tittle --> */}
+                    {/* <div className="text-center mb-[0.3rem]">
+                      <p className="text-gray-900 font-semibold">
+                        {denuncia.titulo}
+                      </p>
+                    </div> */}
                     {/* <!-- Message --> */}
-                    <div className="mb-4">
+                    <div className="mb-4 ml-[0.5rem]">
                       <p className="text-gray-800">{denuncia.mensagem}</p>
                     </div>
                     {/* <!-- Image --> */}
 
                     {/* <!-- Like and Comment Section --> */}
-                    {user.id_usuario !== "Anonimo" && (
+                    {user?.id_usuario !== "Anonimo" && (
                       <>
                         <div className="flex items-center justify-between text-gray-500">
                           <div className="flex items-center space-x-2">
@@ -574,8 +576,15 @@ const Profile = () => {
                                         className="w-6 h-6 rounded-full"
                                       />
                                       <div>
-                                        <p className="text-gray-800 font-semibold">
+                                        <p className="text-gray-800 font-semibold flex items-center  gap-2">
                                           {comentario.nome}
+                                          <p className="text-gray-800 font-normal">
+                                            {" ~ "}
+                                            {format(
+                                              new Date(comentario!.created_at),
+                                              "dd/MM/yyyy"
+                                            ).toString()}
+                                          </p>
                                         </p>
                                         <p className="text-gray-500 text-sm ">
                                           {comentario.mensagem}

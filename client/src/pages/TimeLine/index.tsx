@@ -109,7 +109,7 @@ const TimeLine = () => {
               >
                 <Link to={`/profile/${id_usuario}`}>
                   <span className="bg-transparent mr-auto  hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
-                    Navegue para a pagina de Perfil!
+                    Ir para Perfil!
                   </span>
                 </Link>
               </Tooltip>
