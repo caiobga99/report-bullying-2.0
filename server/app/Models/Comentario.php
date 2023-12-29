@@ -15,12 +15,13 @@ class Comentario extends Model
     protected $primaryKey = "id_comentario";
     protected $fillable = ["id_comentario", "mensagem", "id_usuario", "id_denuncia", "nome", "image"];
 
-    public function usuarios()
+    public function usuario()
     {
-        return $this->hasMany(User::class, "id_usuario");
+        return $this->belongsTo(User::class, 'id_usuario');
     }
-    public function denuncias()
+
+    public function denuncia()
     {
-        return $this->hasMany(Denuncia::class, "id_usuario");
+        return $this->belongsTo(Denuncia::class, 'id_denuncia');
     }
 }

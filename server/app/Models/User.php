@@ -31,4 +31,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Denuncia::class, "id_usuario");
     }
+    protected $appends = ['total_denuncias', 'total_comentarios'];
+
+    public function getTotalDenunciasAttribute()
+    {
+        return Denuncia::where('id_usuario', $this->id_usuario)->count();
+    }
+
+    public function getTotalComentariosAttribute()
+    {
+        return Comentario::whereIn('id_denuncia', $this->denuncias->pluck('id_denuncia'))->count();
+    }
 }

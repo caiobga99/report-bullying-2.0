@@ -16,6 +16,11 @@ class Denuncia extends Model
     protected $fillable = ["id_denuncia", "titulo", "mensagem", "nome", "email", "RA", "id_usuario"];
     public function usuario()
     {
-        return $this->hasMany(User::class, "id_usuario");
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'id_denuncia');
     }
 }
