@@ -1,16 +1,16 @@
-interface FormFiedls {
+interface FormFields {
   labelText: string;
   labelFor: string;
   id: string;
   name: string;
   type: string;
   autoComplete: string;
-  isRequired: true;
+  isRequired: boolean;
   placeholder: string;
   inputType?: string;
 }
 
-const loginFields: FormFiedls[] = [
+const loginFields: FormFields[] = [
   {
     labelText: "Email addressstring",
     labelFor: "email-address",
@@ -33,7 +33,7 @@ const loginFields: FormFiedls[] = [
   },
 ];
 
-const signupFields: FormFiedls[] = [
+const signupFields: FormFields[] = [
   {
     labelText: "Nome",
     labelFor: "Nome",
@@ -84,9 +84,72 @@ const signupFields: FormFiedls[] = [
     isRequired: true,
     placeholder: "Confirmar Senha",
   },
+  {
+    labelText: "Imagem de Perfil",
+    labelFor: "imagem-perfil",
+    id: "imagem",
+    name: "imagem",
+    type: "file",
+    autoComplete: "imagem-perfil",
+    isRequired: false,
+    placeholder: "Imagem de Perfil",
+  },
 ];
 
-const reportFields: FormFiedls[] = [
+const updateFields: FormFields[] = [
+  {
+    labelText: "Nome",
+    labelFor: "Nome",
+    id: "nome",
+    name: "nome",
+    type: "text",
+    autoComplete: "Nome",
+    isRequired: true,
+    placeholder: "Nome",
+  },
+  {
+    labelText: "RA",
+    labelFor: "RA",
+    id: "ra",
+    name: "ra",
+    type: "text",
+    autoComplete: "RA",
+    isRequired: true,
+    placeholder: "RA",
+  },
+  {
+    labelText: "senha",
+    labelFor: "senha",
+    id: "senha",
+    name: "senha",
+    type: "password",
+    autoComplete: "current-password",
+    isRequired: true,
+    placeholder: "Senha",
+  },
+  {
+    labelText: "Confirmar Senha",
+    labelFor: "confirmar-senha",
+    id: "confirmar-senha",
+    name: "confirmar-senha",
+    type: "password",
+    autoComplete: "confirmar-senha",
+    isRequired: true,
+    placeholder: "Confirmar Senha",
+  },
+  {
+    labelText: "Imagem de Perfil",
+    labelFor: "imagem-perfil",
+    id: "imagem",
+    name: "imagem",
+    type: "file",
+    autoComplete: "imagem-perfil",
+    isRequired: false,
+    placeholder: "Imagem de Perfil",
+  },
+];
+
+const reportFields: FormFields[] = [
   {
     labelText: "Titulo",
     labelFor: "Titulo",
@@ -110,4 +173,18 @@ const reportFields: FormFiedls[] = [
   },
 ];
 
-export { loginFields, signupFields, reportFields };
+const commentFields: FormFields[] = [
+  {
+    labelText: "Comentario",
+    labelFor: "Comentario",
+    id: "mensagem",
+    name: "mensagem",
+    type: "text",
+    autoComplete: "Comentario",
+    isRequired: true,
+    placeholder: "Comentario",
+    inputType: "textarea",
+  },
+];
+
+export { loginFields, signupFields, reportFields, updateFields, commentFields };

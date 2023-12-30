@@ -1,27 +1,21 @@
 import { Modal, Spinner } from "flowbite-react";
 import api from "../../lib/api";
 import { useState, useEffect } from "react";
-interface Resposta {
-  conselho: string;
-  created_at?: string;
-  id_denuncia: string;
-  id_resposta?: string;
-  id_usuario: string;
-  updated_at?: string;
-}
+import { Resposta } from "../../utils/protocols";
+
 interface ModalComponentProps {
   openModal: boolean;
-  setOpenModal: (value: boolean) => void;
   id_denuncia: string;
   id_usuario: string;
   titulo: string;
+  close: (value: number) => void;
 }
 const ModalComponent = ({
   openModal,
   id_denuncia,
   id_usuario,
   titulo,
-  setOpenModal,
+  close,
 }: ModalComponentProps) => {
   const [resposta, setResposta] = useState<Resposta | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -48,12 +42,7 @@ const ModalComponent = ({
     }
   }, [id_denuncia, id_usuario, openModal]);
   return (
-    <Modal
-      show={openModal}
-      onClose={() => setOpenModal(false)}
-      className="font-dm "
-      
-    >
+    <Modal show={openModal} onClose={() => close(0)} className="font-dm ">
       <Modal.Header>{titulo}</Modal.Header>
       <Modal.Body>
         {isLoading ? (

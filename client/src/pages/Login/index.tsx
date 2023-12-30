@@ -22,7 +22,6 @@ const Login = () => {
   };
   const {
     setIsLogged,
-    isLogged,
     setViewReport,
     setIsAnonymous,
     setIsAdmin,
@@ -30,7 +29,6 @@ const Login = () => {
     setUser,
   } = useUser() as {
     setIsLogged: (value: boolean) => void;
-    isLogged: boolean;
     isAdmin: boolean;
     setViewReport: (value: boolean) => void;
     setIsAnonymous: (value: boolean) => void;
@@ -39,9 +37,6 @@ const Login = () => {
     setUser: (value: object) => void;
   };
 
-  if (isLogged) {
-    navigate("/");
-  }
   const {
     register,
     formState: { errors },
@@ -52,6 +47,7 @@ const Login = () => {
     api.post(`/login`, data).then((res) => {
       setUser(res.data.user);
       setToken(res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       switch (res.data.message) {
         case "Usuario Logado com Sucesso!":
           setIsLogged(true);
@@ -72,7 +68,7 @@ const Login = () => {
           setViewReport(true);
           setIsAdmin(true);
           setIsLogged(true);
-          navigate("/");
+          navigate("/dashboard");
           break;
 
         default:
@@ -86,8 +82,8 @@ const Login = () => {
     <div
       className={
         pegarTema === "light"
-          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light"
-          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500"
+          ? "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-all duration-500 bg-light font-dm"
+          : "min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark transition-all duration-500 font-dm"
       }
     >
       <div className="max-w-md w-full space-y-8 ">

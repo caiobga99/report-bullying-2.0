@@ -35,7 +35,7 @@ const Home: React.FC = () => {
       <div className="h-[50%] w-[100%] flex items-end lg:justify-center">
         <img
           src={imgFamilia}
-          alt=""
+          alt="Imagem de uma Familia"
           className="w-full  sm:h-[90%] lg:w-[90%] xl:w-[50%] 2xl:w-[50%]"
         />
       </div>

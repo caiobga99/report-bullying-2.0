@@ -1,7 +1,7 @@
 interface FormActionProps {
   onClick: () => void;
   type?: string;
-  action: "button" | "submit";
+  action?: "button" | "submit";
   text: string;
   disabled?: boolean;
 }

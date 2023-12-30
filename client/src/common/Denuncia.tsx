@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";
+import { Denuncias } from "../utils/protocols";
 
 interface DenunciaContextType {
-  denuncia?: object[];
-  setDenuncias: (value: object) => void;
+  denuncias?: Denuncias[];
+  setDenuncias: (value: Denuncias[]) => void;
   respostas?: object[];
-  setRespostas: (value: object) => void;
+  setRespostas: (value: object[]) => void;
 }
 
 export const DenunciaContext = createContext<DenunciaContextType | undefined>(
@@ -12,8 +13,8 @@ export const DenunciaContext = createContext<DenunciaContextType | undefined>(
 );
 
 export const DenunciaProvider = ({ children }: any) => {
-  const [denuncias, setDenuncias] = useState([]);
-  const [respostas, setRespostas] = useState([]);
+  const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
+  const [respostas, setRespostas] = useState<object[]>([]);
   return (
     <DenunciaContext.Provider
       value={{
