@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 // import ReportCard from "../../components/ReportCard";
 import { Spinner, Tooltip, Modal, Button } from "flowbite-react";
-import { format } from "date-fns";
+import { format, isToday, formatDistanceToNow, isThisYear } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import showToastMessage from "../../utils/showToastMessage";
 import { Data, User, Denuncia } from "../../utils/protocols";
 import { useTema } from "../../common/Tema";
@@ -580,10 +581,45 @@ const Profile = () => {
                                           {comentario.nome}
                                           <p className="text-gray-800 font-normal">
                                             {" ~ "}
-                                            {format(
-                                              new Date(comentario!.created_at),
-                                              "dd/MM/yyyy"
-                                            ).toString()}
+                                            {/* {isToday(new Date(comentario!.created_at)) ?formatDistanceToNow(new Date(comentario!.created_at), {addSuffix: true}) : isThisYear(new Date(comentario!.created_at) ? formatDistanceToNow(new Date(comentario!.created_at), {addSuffix: true, includeSeconds: true}) : formatDistanceToNow(new Date(comentario!.created_at, {addSuffix: true, includeSeconds: true, includeMonth: true})} */}
+                                            {isToday(
+                                              new Date(comentario!.created_at)
+                                            )
+                                              ? formatDistanceToNow(
+                                                  new Date(
+                                                    comentario!.created_at
+                                                  ),
+                                                  {
+                                                    addSuffix: true,
+                                                    locale: ptBR,
+                                                  }
+                                                )
+                                              : isThisYear(
+                                                  new Date(
+                                                    comentario!.created_at
+                                                  )
+                                                )
+                                              ? formatDistanceToNow(
+                                                  new Date(
+                                                    comentario!.created_at
+                                                  ),
+                                                  {
+                                                    addSuffix: true,
+                                                    includeSeconds: true,
+                                                    locale: ptBR,
+                                                  }
+                                                )
+                                              : formatDistanceToNow(
+                                                  new Date(
+                                                    comentario!.created_at
+                                                  ),
+                                                  {
+                                                    addSuffix: true,
+                                                    includeSeconds: true,
+                                                    includeMonth: true,
+                                                    locale: ptBR,
+                                                  }
+                                                )}
                                           </p>
                                         </p>
                                         <p className="text-gray-500 text-sm ">
