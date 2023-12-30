@@ -16,20 +16,35 @@ class UsuarioController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $usuarios = User::withCount(['denuncias', 'denuncias as total_comentarios' => function ($query) {
+        $query = User::withCount(['denuncias', 'denuncias as total_comentarios' => function ($query) {
             $query->select(DB::raw('coalesce(count(comentarios.id_comentario), 0) as total_comentarios'))
                 ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia');
-        }])
-            ->select('id_usuario', 'email', 'nome', 'RA', 'tipo_usuario', 'image', 'created_at', 'updated_at')
-            ->paginate();
+        }])->select('id_usuario', 'email', 'nome', 'RA', 'tipo_usuario', 'image', 'created_at', 'updated_at');
+        $totalUsers = $query->count();
+        // Verifica se há um termo de busca enviado na requisição
+        if ($request->has('searchTerm')) {
+            $searchTerm = $request->input('searchTerm');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('email', 'LIKE', "%$searchTerm%")
+                    ->orWhere('nome', 'LIKE', "%$searchTerm%")
+                    ->orWhere('RA', 'LIKE', "%$searchTerm%")
+                    ->orWhere('id_usuario', $searchTerm);
+            });
+        }
+
+        $usuarios = $query->paginate(10);
         // isso faz o retorno dos usuarios, com a quantidade de denuncias/comentarios realizados
         // Removendo o campo 'denuncias' do resultado
         // $usuarios->each(function ($usuario) {
         //     unset($usuario->denuncias);
         // });
+        return response()->json([
+            "total_usuarios" => $totalUsers,
+            "users" => $usuarios
+        ]);
         return $usuarios;
     }
 
