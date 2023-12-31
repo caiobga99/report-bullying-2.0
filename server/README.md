@@ -15,6 +15,10 @@ php artisan migrate
 
 php artisan db:seed --class=UserSeeder
 
+Habilitar link do storage para poder acessar as imagens pelo front-end
+
+php artisan storage:link
+
 php artisan serve --host 10.112.240.210 --port 8000
 
 php artisan serve --host 10.112.240.174 --port 8081
