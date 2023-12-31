@@ -10,6 +10,7 @@ interface ModalComponentProps {
   id_denuncia: string;
   id_usuario: string;
   setOpenModal: (value: number) => void;
+  adicionarComentarioNaDenuncia: (idDenuncia: string, comentario) => void;
 }
 interface FormData {
   mensagem: string;
@@ -20,6 +21,7 @@ const ModalComponent = ({
   setOpenModal,
   id_denuncia,
   id_usuario,
+  adicionarComentarioNaDenuncia,
 }: ModalComponentProps) => {
   const {
     register,
@@ -28,7 +30,6 @@ const ModalComponent = ({
     reset,
   } = useForm<FormData>();
   const onSubmit = ({ mensagem }: FormData) => {
-    console.log(id_denuncia);
     api
       .post("/comentarios", {
         id_usuario: id_usuario,
@@ -39,6 +40,7 @@ const ModalComponent = ({
         {
           showToastMessage(res.data.message, "sucess");
           setOpenModal(0);
+          adicionarComentarioNaDenuncia(id_denuncia, res.data.comentario);
           reset();
         }
       })

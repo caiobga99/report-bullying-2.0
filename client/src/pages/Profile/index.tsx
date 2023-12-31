@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-// import ReportCard from "../../components/ReportCard";
 import { Spinner, Tooltip, Modal, Button } from "flowbite-react";
 import { format, isToday, formatDistanceToNow, isThisYear } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -29,6 +28,7 @@ const Profile = () => {
   const { id_usuario } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<Data[]>([]);
+  // const [teste, setTeste] = useState<Data[]>([]);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -66,7 +66,6 @@ const Profile = () => {
       api
         .get(`/denuncia/${id_usuario}`)
         .then((response) => {
-          console.log(response.data);
           const denunciasAnonimas = JSON.parse(
             localStorage.getItem("denuncias_anonimas")
           );
@@ -97,7 +96,6 @@ const Profile = () => {
             .get(url)
             .then((response) => {
               setData(response.data);
-              console.log(response.data);
               setIsLoading(false);
               response.data <= 0 &&
                 showToastMessage(
@@ -148,7 +146,6 @@ const Profile = () => {
     api
       .post(`/usuarios/${user?.id_usuario}?_method=PATCH`, formData)
       .then((res) => {
-        console.log(res.data);
         {
           showToastMessage(res.data.message, "sucess");
           setUser(res.data.user);
@@ -185,6 +182,25 @@ const Profile = () => {
       }
     });
   };
+
+  const adicionarComentarioNaDenuncia = (idDenuncia, novoComentario) => {
+    const dataAtualizada = data.map((item) => {
+      if (item.denuncia.id_denuncia === idDenuncia) {
+        const comentarios_relacionados =
+          [...item.denuncia.comentarios_relacionados, novoComentario] || [];
+
+        comentarios_relacionados[0].id_comentario === null &&
+          comentarios_relacionados.shift();
+
+        const denuncia = { ...item.denuncia, comentarios_relacionados };
+        return {
+          denuncia,
+        };
+      }
+      return item;
+    });
+    setData(dataAtualizada);
+  };
   const watchPassword = watch("senha");
   return (
     <div
@@ -211,8 +227,8 @@ const Profile = () => {
                     alt="User Image"
                     className="w-32 h-32 rounded-full mb-4 shrink-0 "
                   />
-                  <h1 className="text-xl font-bold ">{user?.nome}</h1>
-                  <p className="text-gray-700">{user?.email}</p>
+                  <h1 className="text-xl font-bold break-all	">{user?.nome}</h1>
+                  <p className="text-gray-700 break-all	">{user?.email}</p>
                   <div className="mt-6 flex flex-wrap gap-4 justify-center">
                     {user?.RA !== "Anonimo" && (
                       <>
@@ -354,6 +370,7 @@ const Profile = () => {
                     </li>
 
                     <li className="mb-2">Denuncias: {data.length}</li>
+                    
                     <li className="mb-2">
                       Tipo:{" "}
                       {user?.nome === "Anonimo"
@@ -392,7 +409,7 @@ const Profile = () => {
           )}
         </div>
 
-        <div className="ml-0 md:ml-12 lg:w-2/3 sticky ">
+        <div className="ml-0 md:ml-12 lg:w-2/3 sticky w-full">
           <div
             className={
               isLoading
@@ -410,14 +427,14 @@ const Profile = () => {
               </div>
             ) : data.length <= 0 ? (
               <div className="flex items-center justify-center w-full h-24">
-                <p className=" text-xl">
+                <p className="text-xl">
                   Nenhuma Denuncia foi Realizada ainda! 😄
                 </p>
               </div>
             ) : (
               data.map(({ denuncia }: Denuncia, index: number) => (
                 <div
-                  className="flex items-center  flex-col w-[80%]"
+                  className="flex items-center flex-col w-full lg:w-[80%]"
                   key={index}
                 >
                   <div className="bg-white p-8 rounded-lg shadow-md w-full">
@@ -470,6 +487,9 @@ const Profile = () => {
                       setOpenModal={setOpenCommentModal}
                       id_denuncia={denuncia.id_denuncia}
                       id_usuario={denuncia.id_usuario}
+                      adicionarComentarioNaDenuncia={
+                        adicionarComentarioNaDenuncia
+                      }
                     />
                     {/* <!-- Tittle --> */}
                     {/* <div className="text-center mb-[0.3rem]">
@@ -536,7 +556,8 @@ const Profile = () => {
                             <span>
                               {denuncia.comentarios_relacionados !== undefined
                                 ? denuncia.comentarios_relacionados[0]
-                                    .id_comentario === null
+                                    .id_comentario === null &&
+                                  denuncia.comentarios_relacionados.length <= 2
                                   ? 0
                                   : denuncia.comentarios_relacionados.length
                                 : "0"}{" "}
@@ -579,7 +600,7 @@ const Profile = () => {
                                       <div>
                                         <p className="text-gray-800 font-semibold flex items-center  gap-2">
                                           {comentario.nome}
-                                          <p className="text-gray-800 font-normal">
+                                          <span className="text-gray-800 font-normal">
                                             {" ~ "}
                                             {/* {isToday(new Date(comentario!.created_at)) ?formatDistanceToNow(new Date(comentario!.created_at), {addSuffix: true}) : isThisYear(new Date(comentario!.created_at) ? formatDistanceToNow(new Date(comentario!.created_at), {addSuffix: true, includeSeconds: true}) : formatDistanceToNow(new Date(comentario!.created_at, {addSuffix: true, includeSeconds: true, includeMonth: true})} */}
                                             {isToday(
@@ -620,7 +641,7 @@ const Profile = () => {
                                                     locale: ptBR,
                                                   }
                                                 )}
-                                          </p>
+                                          </span>
                                         </p>
                                         <p className="text-gray-500 text-sm ">
                                           {comentario.mensagem}
