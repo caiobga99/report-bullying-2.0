@@ -45,7 +45,6 @@ class UsuarioController extends Controller
             "total_usuarios" => $totalUsers,
             "users" => $usuarios
         ]);
-        return $usuarios;
     }
 
 
