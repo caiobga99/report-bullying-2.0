@@ -4,6 +4,18 @@ import { Denuncias, User } from "../../utils/protocols";
 import { Spinner } from "flowbite-react";
 import { Dropdown, Alert, Tooltip } from "flowbite-react";
 import {
+  BarChart,
+  Bar,
+  Rectangle,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as TooltipChart,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+import {
   IdentificationIcon,
   CalendarDaysIcon,
   UserCircleIcon,
@@ -39,6 +51,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [denunciasIsLoading, setDenunciasIsLoading] = useState<boolean>(true);
   const [respostasIsLoading, setRespostasIsLoading] = useState<boolean>(true);
+  const [detailsIsLoading, setDetailsIsLoading] = useState<boolean>(true);
   const [usersLength, setUsersLength] = useState<number>(0);
   const [comentariosIsLoading, setComentariosIsLoading] =
     useState<boolean>(true);
@@ -50,10 +63,12 @@ const Dashboard = () => {
   );
   const [denuncias, setDenuncias] = useState<Denuncias[]>([]);
   const [usersIsLoading, setUsersIsLoading] = useState<boolean>(true);
+  const [details, setDetails] = useState([]);
   const [pageDetails, setPageDetails] = useState<PageDetails>({
     total: 0,
     to: 0,
   });
+
   const [links, setLinks] = useState<Links[]>([]);
 
   const fetchUsers = useCallback(() => {
@@ -64,12 +79,16 @@ const Dashboard = () => {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setShow(false);
         setUsersIsLoading(false);
         setLinks(res.data.users.links);
         setPageDetails({ to: res.data.users.to, total: res.data.users.total });
         setIsLoading(false);
         setUsers(res.data.users.data);
+        setDetails(res.data.details);
+        console.log(res.data.details);
+        setDetailsIsLoading(false);
         setUsersLength(res.data.total_usuarios);
 
         if (res.data.users.data.length <= 0) {
@@ -124,7 +143,7 @@ const Dashboard = () => {
   }, [fetchUsers, searchQuery]);
   return (
     <div className="container min-h-screen min-w-full flex justify-center items-center bg-light dark:bg-gray-900 transition-all duration-500 font-dm">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-w-[80%] min-h-full ">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg min-w-[90%] min-h-full ">
         <div className="flex gap-5 flex-wrap items-center justify-center">
           <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
             <div className="p-4 flex items-center">
@@ -156,7 +175,7 @@ const Dashboard = () => {
 
           <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden bg-white  dark:bg-gray-800 transition-all duration-500">
             <div className="p-4 flex items-center">
-              <div className="p-3 rounded-full text-teal-500 dark:text-teal-100 transition-all duration-500 bg-teal-100 dark:bg-teal-500 mr-4">
+              <div className="p-3 rounded-full text-teal-500 dark:text-teal-100 transition-all duration-500 bg-teal-100 dark:bg-[#8884D8] mr-4">
                 <svg
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -187,7 +206,7 @@ const Dashboard = () => {
           </div>
           <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
             <div className="p-4 flex items-center">
-              <div className="p-3 rounded-full text-green-500 transition-all duration-500 dark:text-green-100 bg-green-100 dark:bg-green-500 mr-4">
+              <div className="p-3 rounded-full text-gray-500 transition-all duration-500 dark:text-gray-100 bg-gray-100 dark:bg-gray-500 mr-4">
                 <svg
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -218,7 +237,7 @@ const Dashboard = () => {
           </div>
           <div className="min-w-0 w-[80%] lg:w-max md:w-max sm:w-max  rounded-lg shadow-xs overflow-hidden  bg-white dark:bg-gray-800 transition-all duration-500">
             <div className="p-4 flex items-center">
-              <div className="p-3 rounded-full text-gray-500 transition-all duration-500 dark:text-gray-100 bg-gray-100 dark:bg-gray-500 mr-4">
+              <div className="p-3 rounded-full text-green-500 transition-all duration-500 dark:text-green-100 bg-green-100 dark:bg-green-500 mr-4">
                 <svg
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -247,6 +266,45 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="h-[45vh] w-full mt-8">
+          <ResponsiveContainer
+            width={"100%"}
+            height={300}
+            className={detailsIsLoading && "flex items-center justify-center"}
+          >
+            {detailsIsLoading ? (
+              <Spinner />
+            ) : (
+              <BarChart
+                width={500}
+                height={300}
+                data={details}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <TooltipChart />
+                <Legend />
+                <Bar
+                  dataKey="Denuncias"
+                  fill="#8884d8"
+                  activeBar={<Rectangle fill="pink" stroke="blue" />}
+                />
+                <Bar
+                  dataKey="Comentarios"
+                  fill="#82ca9d"
+                  activeBar={<Rectangle fill="gold" stroke="purple" />}
+                />
+              </BarChart>
+            )}
+          </ResponsiveContainer>
         </div>
         <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-light dark:bg-gray-900 transition-all duration-500">
           <div className="flex gap-4 items-center">
