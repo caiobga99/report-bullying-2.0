@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Denuncia;
+use App\Models\Comentario;
 use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,31 +21,65 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
 
-        $query = User::withCount(['denuncias', 'denuncias as total_comentarios' => function ($query) {
-            $query->select(DB::raw('coalesce(count(comentarios.id_comentario), 0) as total_comentarios'))
-                ->leftJoin('comentarios', 'denuncias.id_denuncia', '=', 'comentarios.id_denuncia');
-        }])->select('id_usuario', 'email', 'nome', 'RA', 'tipo_usuario', 'image', 'created_at', 'updated_at');
+        $query = User::withCount(["denuncias", "denuncias as total_comentarios" => function ($query) {
+            $query->select(DB::raw("coalesce(count(comentarios.id_comentario), 0) as total_comentarios"))
+                ->leftJoin("comentarios", "denuncias.id_denuncia", "=", "comentarios.id_denuncia");
+        }])->select("id_usuario", "email", "nome", "RA", "tipo_usuario", "image", "created_at", "updated_at");
         $totalUsers = $query->count();
+        $mesesDoAno = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        $comentariosPorMes = Comentario::select(DB::raw("MONTHNAME(created_at) as name, COUNT(*) as Comentarios"))
+            ->groupBy("name")
+            ->orderBy(DB::raw("MONTH(created_at)"))
+            ->get()
+            ->toArray();
+        $denunciasPorMes = Denuncia::select(DB::raw("MONTHNAME(created_at) as name, COUNT(*) as Denuncias"))
+            ->groupBy("name")
+            ->orderBy(DB::raw("MONTH(created_at)"))
+            ->get()
+            ->toArray();
+        //array com todos os meses e preencher com 0 caso não haja dados no banco
+        $mergedData = [];
+        foreach ($mesesDoAno as $mes) {
+            $comentario = array_filter($comentariosPorMes, function ($item) use ($mes) {
+                return $item["name"] === $mes;
+            });
+
+            $denuncia = array_filter($denunciasPorMes, function ($item) use ($mes) {
+                return $item["name"] === $mes;
+            });
+
+            $mergedData[] = [
+                "name" => $mes,
+                "Comentarios" => count($comentario) > 0 ? $comentario[0]["Comentarios"] : 0,
+                "Denuncias" => count($denuncia) > 0 ? $denuncia[0]["Denuncias"] : 0,
+            ];
+        }
+
+
         // Verifica se há um termo de busca enviado na requisição
-        if ($request->has('searchTerm')) {
-            $searchTerm = $request->input('searchTerm');
+        if ($request->has("searchTerm")) {
+            $searchTerm = $request->input("searchTerm");
             $query->where(function ($query) use ($searchTerm) {
-                $query->where('email', 'LIKE', "%$searchTerm%")
-                    ->orWhere('nome', 'LIKE', "%$searchTerm%")
-                    ->orWhere('RA', 'LIKE', "%$searchTerm%")
-                    ->orWhere('id_usuario', $searchTerm);
+                $query->where("email", "LIKE", "%$searchTerm%")
+                    ->orWhere("nome", "LIKE", "%$searchTerm%")
+                    ->orWhere("RA", "LIKE", "%$searchTerm%")
+                    ->orWhere("id_usuario", $searchTerm);
             });
         }
 
         $usuarios = $query->paginate(10);
         // isso faz o retorno dos usuarios, com a quantidade de denuncias/comentarios realizados
-        // Removendo o campo 'denuncias' do resultado
+        // Removendo o campo "denuncias" do resultado
         // $usuarios->each(function ($usuario) {
         //     unset($usuario->denuncias);
         // });
         return response()->json([
             "total_usuarios" => $totalUsers,
-            "users" => $usuarios
+            "users" => $usuarios,
+            "details" => $mergedData,
         ]);
     }
 
@@ -62,10 +98,10 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         //$request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:6',
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        //     "name" => "required",
+        //     "email" => "required|email|unique:users",
+        //     "password" => "required|min:6",
+        //     "image" => "required|image|mimes:jpeg,png,jpg,gif,svg"
         // ]);
         if (Auth::check() && Auth::user()->tipo_usuario != 1) {
             return "esta logado e nao e admin";
@@ -81,12 +117,12 @@ class UsuarioController extends Controller
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
         if ($request->hasFile("image")) {
-            $data["image"] = $request->file('image')->store('image_profile', 'public');
+            $data["image"] = $request->file("image")->store("image_profile", "public");
         } else {
             $data["image"] = "image_profile/logo.svg";
         }
         $user = User::create($data);
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->createToken("main")->plainTextToken;
         if ($email == "adm@adm.com") {
             app("App\Http\Controllers\LoginController")->authenticate($request);
             return response()->json([
@@ -119,7 +155,7 @@ class UsuarioController extends Controller
         $token = csrf_token();
         echo $token . "\n";
         $id = Auth::id();
-        $usuario = User::all()->where('id_usuario', $id)->values();
+        $usuario = User::all()->where("id_usuario", $id)->values();
         return $usuario;
     }
 
@@ -141,13 +177,13 @@ class UsuarioController extends Controller
         $passwordHash = Hash::make($password);
         $data["password"] = $passwordHash;
         if ($request->hasFile("image")) {
-            $data["image"] = $request->file('image')->store('image_profile', 'public');
+            $data["image"] = $request->file("image")->store("image_profile", "public");
             // $deletedImage = $request->input("deletedImage");
             // if ($deletedImage !== "image_profile/logo.svg" || $deletedImage !== "image_profile/anonimo.png") {
             //     Storage::delete($request->input("deletedImage"));
             // }
         }
-        User::where('id_usuario', $id_usuario)->update($data);
+        User::where("id_usuario", $id_usuario)->update($data);
         $user = User::findOrFail($id_usuario);
         return response()->json([
             "status" => "success",
@@ -205,7 +241,7 @@ class UsuarioController extends Controller
     // }
     public function getUserById(string $is_usuario)
     {
-        $usuario = User::all()->where('id_usuario', $is_usuario)->values();
+        $usuario = User::all()->where("id_usuario", $is_usuario)->values();
         return $usuario;
     }
 }
