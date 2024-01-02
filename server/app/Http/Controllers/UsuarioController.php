@@ -26,40 +26,45 @@ class UsuarioController extends Controller
                 ->leftJoin("comentarios", "denuncias.id_denuncia", "=", "comentarios.id_denuncia");
         }])->select("id_usuario", "email", "nome", "RA", "tipo_usuario", "image", "created_at", "updated_at");
         $totalUsers = $query->count();
+        
+        $anoAtual = date('Y');
+
         $mesesDoAno = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
         ];
-        $comentariosPorMes = Comentario::select(DB::raw("MONTHNAME(created_at) as name, COUNT(*) as Comentarios"))
-            ->groupBy("name")
-            ->orderBy(DB::raw("MONTH(created_at)"))
+
+        $comentariosPorMes = Comentario::select(DB::raw('MONTHNAME(created_at) as name, COUNT(*) as Comentarios'))
+            ->whereYear('created_at', $anoAtual)
+            ->groupBy('name')
+            ->orderBy(DB::raw('MONTH(created_at)'))
             ->get()
             ->toArray();
-        $denunciasPorMes = Denuncia::select(DB::raw("MONTHNAME(created_at) as name, COUNT(*) as Denuncias"))
-            ->groupBy("name")
-            ->orderBy(DB::raw("MONTH(created_at)"))
+
+        $denunciasPorMes = Denuncia::select(DB::raw('MONTHNAME(created_at) as name, COUNT(*) as Denuncias'))
+            ->whereYear('created_at', $anoAtual)
+            ->groupBy('name')
+            ->orderBy(DB::raw('MONTH(created_at)'))
             ->get()
             ->toArray();
-        //array com todos os meses e preencher com 0 caso não haja dados no banco
+
         $mergedData = [];
         foreach ($mesesDoAno as $mes) {
             $comentario = array_filter($comentariosPorMes, function ($item) use ($mes) {
-                return $item["name"] === $mes;
+                return $item['name'] === $mes;
             });
 
             $denuncia = array_filter($denunciasPorMes, function ($item) use ($mes) {
-                return $item["name"] === $mes;
+                return $item['name'] === $mes;
             });
 
             $mergedData[] = [
-                "name" => $mes,
-                "Comentarios" => count($comentario) > 0 ? $comentario[0]["Comentarios"] : 0,
-                "Denuncias" => count($denuncia) > 0 ? $denuncia[0]["Denuncias"] : 0,
+                'name' => $mes,
+                'Comentarios' => count($comentario) > 0 ? $comentario[0]['Comentarios'] : 0,
+                'Denuncias' => count($denuncia) > 0 ? $denuncia[0]['Denuncias'] : 0,
             ];
         }
 
-
-        // Verifica se há um termo de busca enviado na requisição
         if ($request->has("searchTerm")) {
             $searchTerm = $request->input("searchTerm");
             $query->where(function ($query) use ($searchTerm) {
