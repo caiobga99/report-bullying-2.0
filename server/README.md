@@ -9,7 +9,7 @@
 
 ## Run Server
 
-Adicionar variavel OPENAI_API_KEY e do banco de dados!
+Adicionar variavel OPENAI_API_KEY e do banco de dados no arquivo .env que precisa ser criado.
 
 php artisan migrate
 
