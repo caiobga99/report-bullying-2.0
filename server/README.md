@@ -9,7 +9,7 @@
 
 ## Run Server
 
-Adicionar variavel OPENAI_API_KEY e do banco de dados no arquivo .env que precisa ser criado.
+Adicionar variavel OPENAI_API_KEY e do banco de dados no arquivo .env que precisa ser criado
 
 php artisan migrate
 
@@ -22,6 +22,8 @@ php artisan storage:link
 php artisan serve --host 10.112.240.210 --port 8000
 
 php artisan serve --host 10.112.240.174 --port 8081
+
+Obs: Para usar o postman lembrar de integrar o Bearer Authentication
 
 ## About Laravel
 
